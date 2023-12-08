@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] float jump;
     [SerializeField] float speed;
+
+    [SerializeField] bool Keys;
     void Start()
     {
         jump = 3f;
@@ -19,6 +21,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(Keys)
         
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -26,6 +30,6 @@ public class PlayerController : MonoBehaviour
         Vector2 movement = new Vector2(horizontalInput, verticalInput) * speed * Time.deltaTime;
         transform.Translate(movement);
 
-            }
+    }
 }
         
