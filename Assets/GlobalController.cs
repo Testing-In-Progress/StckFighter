@@ -1,36 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Dynamic;
+
 
 public class GlobalController : MonoBehaviour
 {
     // controllerTypes
-    public wasd = {
-        up: "w",
-        down: "s",
-        left: "a",
-        right: "d",
-        jump: "space",
-        dash: "LShift"
-        attack: "LClick"
-    }
+    public ControllerType wasd;
 
-    public arrow = {
-        up: "Up",
-        down: "Down",
-        left: "Left",
-        right: "Right",
-        jump: "RControl",
-        dash: "RShift",
-        attack: "RCLick"
-    }
-    // exPlayer {name: "geo", stickmanName: "default", "controllerType": wasd}
-    public players = {};
+    public ControllerType arrow;
+    // exPlayer {stickmanName: "default", "controllerType": wasd}
+    public dynamic players;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        wasd = new ControllerType("w", "s", "a", "d", "space", "LShift", "LClick");
+        arrow = new ControllerType("up", "down", "left", "right", "rcontrol", "rshift", "rClick");
+        players = new ExpandoObject();
     }
 
     // Update is called once per frame
