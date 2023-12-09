@@ -10,12 +10,12 @@ public class MainMenuUIController : MonoBehaviour
     public Vector2 center;
     public string playType;
     public string map;
-    public GameObject statusText;
-    public string selectedPlayer
+    public TMPro.TextMeshProUGUI statusText; //(From "GameObject" to "TMPro.TextMeshProUGUI statusText"
+    public string selectedPlayer;
     public string selectedCharacter;
+    private int number1;
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start(){
         currentScreen = "TitleScreen";
         center = new Vector2(0,0);
 
@@ -26,6 +26,7 @@ public class MainMenuUIController : MonoBehaviour
 
         selectedPlayer = "";
         selectedCharacter = "";
+        number1 = 0;
     }
 
     public void handleButtonPress(string e) {
@@ -38,29 +39,34 @@ public class MainMenuUIController : MonoBehaviour
     public void changeScreen(string screen) {
         GameObject oldScreen = GameObject.Find(currentScreen);
         GameObject newScreen = GameObject.Find(screen);
-        oldScreen.GetComponent<RectTransform>().anchoredPosition = new Vector2(1000,0);
+        oldScreen.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1000, 0);
         newScreen.GetComponent<RectTransform>().anchoredPosition = center;
+
     }
 
     public void StartButton() {
         changeScreen("PlayTypeScreen");
+        number1 = 1;
     }
 
     public void LANButton() {
         playType = "LAN";
         changeScreen("MapSelectScreen");
+        number1 = 2;
     }
     public void LocalButton() {
         playType = "Local";
         changeScreen("MapSelectScreen");
+        number1 = 2;
     }
     public void Map1() {
-        map = "map1";
+        map = "Map1";
         changeScreen("PlayerSelectScreen");
+        number1 = 3;
     }
     public void RedStickMan() {
         if (selectedPlayer == "") {
-            statusText.text = "Please select a player first!"
+            statusText.text = "Please select a player first!";
         } else {
             selectedCharacter = "redstickman";
             statusText.text = selectedPlayer + " has selected " + selectedCharacter;
@@ -83,10 +89,10 @@ public class MainMenuUIController : MonoBehaviour
         selectedPlayer = "player2";
         statusText.text = "Now select a character!";
     }
-    public void StartGameButton() {
-        if (selectedCharacter != "" && selectedPlayer != "") {
+ //   public void StartGameButton() {
+ //       if (selectedCharacter != "" && selectedPlayer != "") {
             // set global controller things
             // move to game scene
-        }
-    }
+       // }
+  //  }
 }
