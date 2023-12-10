@@ -13,7 +13,11 @@ public class MainMenuUIController : MonoBehaviour
     public TMPro.TextMeshProUGUI statusText; //(From "GameObject" to "TMPro.TextMeshProUGUI statusText"
     public string selectedPlayer;
     public string selectedCharacter;
-    private int number1;
+    public string settings;
+
+    public bool Mute;
+    public bool FullScreen;
+   
     // Start is called before the first frame update
     void Start(){
         currentScreen = "TitleScreen";
@@ -26,7 +30,8 @@ public class MainMenuUIController : MonoBehaviour
 
         selectedPlayer = "";
         selectedCharacter = "";
-        number1 = 0;
+        Mute = true;
+        FullScreen = true;
     }
 
     public void handleButtonPress(string e) {
@@ -46,24 +51,34 @@ public class MainMenuUIController : MonoBehaviour
 
     public void StartButton() {
         changeScreen("PlayTypeScreen");
-        number1 = 1;
     }
 
     public void LANButton() {
         playType = "LAN";
         changeScreen("MapSelectScreen");
-        number1 = 2;
     }
     public void LocalButton() {
         playType = "Local";
         changeScreen("MapSelectScreen");
-        number1 = 2;
     }
     public void Map1() {
         map = "Map1";
         changeScreen("PlayerSelectScreen");
-        number1 = 3;
     }
+    public void SettingsButton() {
+        changeScreen("OptionsScreen");
+    }
+    public void MuteButton(){
+        Mute = !Mute;
+    }
+    public void FullScreenButton(){
+        FullScreen = !FullScreen;
+    }
+
+
+
+
+
     public void RedStickMan() {
         if (selectedPlayer == "") {
             statusText.text = "Please select a player first!";
