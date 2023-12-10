@@ -72,7 +72,7 @@ public class MainMenuUIController : MonoBehaviour
         Mute = !Mute;
     }
     public void FullScreenButton(){
-        FullScreen = !FullScreen;
+        Screen.fullScreen = !Screen.fullScreen;
     }
 
 
