@@ -26,6 +26,8 @@ public class MainMenuUIController : MonoBehaviour
     public TMPro.TextMeshProUGUI Player2Right;
     public TMPro.TextMeshProUGUI Player2Up;
     public TMPro.TextMeshProUGUI Player2Down;
+    private bool captureKeyInput = false;
+    private string keyInputType = "";
 
 
     public bool Mute;
@@ -149,14 +151,8 @@ public class MainMenuUIController : MonoBehaviour
         }
         else{
             StatusTextControl.text = "Press a Button";
-            if(selectedCharacterControl == "player1"){
-                if (Input.inputString.Length > 0){
-            // Get the last key pressed
-                    Player1Left.text = Input.inputString;
-                    Debug.Log("It should print" + Player1Left.text); 
-                }
-            }
-            
+            captureKeyInput = true;
+            keyInputType = "Left";
         }
     }
     public void RightSettingButton()
@@ -166,7 +162,10 @@ public class MainMenuUIController : MonoBehaviour
             StatusTextControl.text = "You have to select a Player First";
         }
         else{
-            StatusTextControl.text = "You have to select a the Right button";
+            StatusTextControl.text = "Press a Button";
+            captureKeyInput = true;
+            keyInputType = "Right";
+            
         }
     }
     public void UpSettingButton()
@@ -176,7 +175,9 @@ public class MainMenuUIController : MonoBehaviour
             StatusTextControl.text = "You have to select a Player First";
         }
         else{
-            StatusTextControl.text = "You have to select a the Up button";
+            StatusTextControl.text = "Press a Button";
+            captureKeyInput = true;
+            keyInputType = "Up";
         }
     }
     public void DownSettingButton()
@@ -186,9 +187,76 @@ public class MainMenuUIController : MonoBehaviour
             StatusTextControl.text = "You have to select a Player First";
         }
         else{
-            StatusTextControl.text = "You have to select a the Down button";
+            StatusTextControl.text = "Press a Button";
+            captureKeyInput = true;
+            keyInputType = "Down";
         }
     }
+
+    void Update()
+    {
+        if (captureKeyInput && Input.anyKeyDown)
+        {
+            if (selectedCharacterControl == "player1")
+            {
+                foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+                {
+                    if (Input.GetKeyDown(kcode))
+                    {
+                        if (keyInputType == "Left")
+                        {
+                            Player1Left.text = kcode.ToString();
+                            Debug.Log("Left key set to: " + kcode + " for Player1");
+                        }
+                        if(keyInputType == "Right"){
+                            Player1Right.text = kcode.ToString();
+                            Debug.Log("Right key set to: " + kcode + " for Player1");
+                        }
+                        if (keyInputType == "Up")
+                        {
+                            Player1Up.text = kcode.ToString();
+                            Debug.Log("Up key set to: " + kcode + " for Player1");
+                        }
+                        if(keyInputType == "Down"){
+                            Player1Down.text = kcode.ToString();
+                            Debug.Log("Down key set to: " + kcode + " for Player1");
+                        }
+                        captureKeyInput = false; // Stop capturing key input
+                        break;
+                    }
+                }
+            }
+            else{
+                foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+                {
+                    if (Input.GetKeyDown(kcode))
+                    {
+                        if (keyInputType == "Left")
+                        {
+                            Player2Left.text = kcode.ToString();
+                            Debug.Log("Left key set to: " + kcode + " for Player1");
+                        }
+                        if(keyInputType == "Right"){
+                            Player2Right.text = kcode.ToString();
+                            Debug.Log("Right key set to: " + kcode + " for Player1");
+                        }
+                        if (keyInputType == "Up")
+                        {
+                            Player2Up.text = kcode.ToString();
+                            Debug.Log("Up key set to: " + kcode + " for Player1");
+                        }
+                        if(keyInputType == "Down"){
+                            Player2Down.text = kcode.ToString();
+                            Debug.Log("Down key set to: " + kcode + " for Player1");
+                        }
+                        captureKeyInput = false; // Stop capturing key input
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
 
 
 
