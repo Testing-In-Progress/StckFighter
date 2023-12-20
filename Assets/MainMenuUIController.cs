@@ -29,6 +29,8 @@ public class MainMenuUIController : MonoBehaviour
     private bool captureKeyInput = false;
     private string keyInputType = "";
 
+    private Stack<string> screenHistory = new Stack<string>();
+
 
     public bool Mute;
     public bool FullScreen;
@@ -71,12 +73,17 @@ public class MainMenuUIController : MonoBehaviour
     }
 
     public void changeScreen(string screen) {
-        GameObject oldScreen = GameObject.Find(currentScreen);
-        GameObject newScreen = GameObject.Find(screen);
-        oldScreen.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1000, 0);
-        newScreen.GetComponent<RectTransform>().anchoredPosition = center;
-
+    if (currentScreen != screen) {
+        screenHistory.Push(currentScreen); // Push the current screen onto the stack
     }
+
+    GameObject oldScreen = GameObject.Find(currentScreen);
+    GameObject newScreen = GameObject.Find(screen);
+    oldScreen.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1000, 0);
+    newScreen.GetComponent<RectTransform>().anchoredPosition = center;
+    currentScreen = screen; // Update currentScreen
+}
+
 
     public void StartButton() {
         changeScreen("PlayTypeScreen");
@@ -192,6 +199,19 @@ public class MainMenuUIController : MonoBehaviour
             keyInputType = "Down";
         }
     }
+    public void Back()
+{
+    if (screenHistory.Count > 0)
+    {
+        string previousScreen = screenHistory.Pop(); // Pop the top screen off the stack
+        GameObject oldScreen = GameObject.Find(currentScreen);
+        GameObject newScreen = GameObject.Find(previousScreen);
+        oldScreen.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1000, 0);
+        newScreen.GetComponent<RectTransform>().anchoredPosition = center;
+        currentScreen = previousScreen; // Update currentScreen
+    }
+}
+
 
     void Update()
     {
