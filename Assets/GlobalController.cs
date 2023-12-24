@@ -10,8 +10,14 @@ public class GlobalController : MonoBehaviour
     public ControllerType wasd;
 
     public ControllerType arrow;
-    // exPlayer {stickmanName: "default", "controllerType": wasd}
+    // exPlayer {name: "default", "controllerType": wasd}
     public dynamic players;
+
+    // To keep it loaded thru scenes
+    void Awake() 
+    {
+        DontDestroyOnLoad(transform.gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()

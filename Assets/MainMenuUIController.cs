@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Dynamic;
+using static System.Linq.Enumerable;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using static GlobalController;
 
 public class MainMenuUIController : MonoBehaviour
 {
+    public GlobalController game;
     public string currentScreen;
     public Vector2 center;
     public string playType;
@@ -14,18 +18,14 @@ public class MainMenuUIController : MonoBehaviour
     public TMPro.TextMeshProUGUI statusText; //(From "GameObject" to "TMPro.TextMeshProUGUI statusText"
     public TMPro.TextMeshProUGUI StatusTextControl; //(From "GameObject" to "TMPro.TextMeshProUGUI statusText" 
     public string selectedPlayer;
-    public string selectedCharacter;
     public string selectedCharacterControl;
+    public int numPlayers;
+    public dynamic players;
     public string settings;
-    public TMPro.TextMeshProUGUI Player1Left;
-    public TMPro.TextMeshProUGUI Player1Right;
-    public TMPro.TextMeshProUGUI Player1Up;
-    public TMPro.TextMeshProUGUI Player1Down;
-
-    public TMPro.TextMeshProUGUI Player2Left;
-    public TMPro.TextMeshProUGUI Player2Right;
-    public TMPro.TextMeshProUGUI Player2Up;
-    public TMPro.TextMeshProUGUI Player2Down;
+    public TMPro.TextMeshProUGUI leftControlUI;
+    public TMPro.TextMeshProUGUI rightControlUI;
+    public TMPro.TextMeshProUGUI upControlUI;
+    public TMPro.TextMeshProUGUI downControlUI;
     private bool captureKeyInput = false;
     private string keyInputType = "";
 
@@ -37,6 +37,8 @@ public class MainMenuUIController : MonoBehaviour
     
     // Start is called before the first frame update
     void Start(){
+        game = GameObject.Find("GLOBALOBJECT").GetComponent<GlobalController>();
+
         currentScreen = "TitleScreen";
         center = new Vector2(0,0);
 
@@ -45,24 +47,53 @@ public class MainMenuUIController : MonoBehaviour
 
         statusText = GameObject.Find("StatusText").GetComponent<TMPro.TextMeshProUGUI>();
         StatusTextControl = GameObject.Find("StatusTextControl").GetComponent<TMPro.TextMeshProUGUI>();
-        //Controls Player 1
-        Player1Left = GameObject.Find("StatusTextControlLeft").GetComponent<TMPro.TextMeshProUGUI>();
-        Player1Right = GameObject.Find("StatusTextControlRight").GetComponent<TMPro.TextMeshProUGUI>();
-        Player1Up = GameObject.Find("StatusTextControlUp").GetComponent<TMPro.TextMeshProUGUI>();
-        Player1Down = GameObject.Find("StatusTextControlDown").GetComponent<TMPro.TextMeshProUGUI>();
-        //Controls Player 2
-        Player2Left = GameObject.Find("StatusTextControlLeft").GetComponent<TMPro.TextMeshProUGUI>();
-        Player2Right = GameObject.Find("StatusTextControlRight").GetComponent<TMPro.TextMeshProUGUI>();
-        Player2Up = GameObject.Find("StatusTextControlUp").GetComponent<TMPro.TextMeshProUGUI>();
-        Player2Down = GameObject.Find("StatusTextControlDown").GetComponent<TMPro.TextMeshProUGUI>();
+        // control ui's
+        leftControlUI = GameObject.Find("StatusTextControlLeft").GetComponent<TMPro.TextMeshProUGUI>();
+        rightControlUI = GameObject.Find("StatusTextControlRight").GetComponent<TMPro.TextMeshProUGUI>();
+        upControlUI = GameObject.Find("StatusTextControlUp").GetComponent<TMPro.TextMeshProUGUI>();
+        downControlUI = GameObject.Find("StatusTextControlDown").GetComponent<TMPro.TextMeshProUGUI>();
 
         selectedPlayer = "";
-        selectedCharacter = "";
         selectedCharacterControl = "";
+        // player stuff
+        numPlayers = 2;
+        players = new ExpandoObject();
+
+        // initializing players
+        foreach (var index in Range(1, numPlayers)) {
+            dynamic playerData = new ExpandoObject();
+            playerData.name = "player" + index.ToString();
+            playerData.character = "";
+            if (index == 1) {
+                playerData.controllerType = game.wasd;
+            } else if (index == 2) {
+                playerData.controllerType = game.arrow;
+            } else {
+                playerData.controllerType = "";
+            }
+            players["player" + index.ToString()] = playerData;
+        }
 
         Mute = true;
         FullScreen = true;
         
+    }
+
+    public void printPlayerData() {
+        foreach (var index in Range(1, numPlayers)) {
+            string playerName = "player" + index.ToString();
+            dynamic player = players[playerName];
+            Debug.Log("     " + player.name);
+            Debug.Log("     " + player.character);
+            Debug.Log("     " + player.controllerType);
+        }
+    }
+
+    public void updateControlsUI() {
+        leftControlUI.text = players[selectedCharacterControl].controllerType.left;
+        rightControlUI.text = players[selectedCharacterControl].controllerType.right;
+        upControlUI.text = players[selectedCharacterControl].controllerType.up;
+        downControlUI.text = players[selectedCharacterControl].controllerType.down;
     }
 
     public void handleButtonPress(string e) {
@@ -73,16 +104,16 @@ public class MainMenuUIController : MonoBehaviour
     }
 
     public void changeScreen(string screen) {
-    if (currentScreen != screen) {
-        screenHistory.Push(currentScreen); // Push the current screen onto the stack
-    }
+        if (currentScreen != screen) {
+            screenHistory.Push(currentScreen); // Push the current screen onto the stack
+        }
 
-    GameObject oldScreen = GameObject.Find(currentScreen);
-    GameObject newScreen = GameObject.Find(screen);
-    oldScreen.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1000, 0);
-    newScreen.GetComponent<RectTransform>().anchoredPosition = center;
-    currentScreen = screen; // Update currentScreen
-}
+        GameObject oldScreen = GameObject.Find(currentScreen);
+        GameObject newScreen = GameObject.Find(screen);
+        oldScreen.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1000, 0);
+        newScreen.GetComponent<RectTransform>().anchoredPosition = center;
+        currentScreen = screen; // Update currentScreen
+    }
 
 
     public void StartButton() {
@@ -113,13 +144,13 @@ public class MainMenuUIController : MonoBehaviour
     public void FullScreenButton(){
         Screen.fullScreen = !Screen.fullScreen;
     }
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
     public void RedStickMan() {
         if (selectedPlayer == "") {
             statusText.text = "Please select a player first!";
         } else {
-            selectedCharacter = "redstickman";
-            statusText.text = selectedPlayer + " has selected " + selectedCharacter;
+            players[selectedPlayer].character = "redstickman";
+            statusText.text = selectedPlayer + " has selected " + players[selectedPlayer].character;
         }
     }
 
@@ -127,8 +158,8 @@ public class MainMenuUIController : MonoBehaviour
         if (selectedPlayer == "") {
             statusText.text = "Please select a player first!";
         } else {
-            selectedCharacter = "bluestickman";
-            statusText.text = selectedPlayer + " has selected " + selectedCharacter;
+            players[selectedPlayer].character = "bluestickman";
+            statusText.text = selectedPlayer + " has selected " + players[selectedPlayer].character;
         }
     }
     public void Player1() {
@@ -144,11 +175,14 @@ public class MainMenuUIController : MonoBehaviour
     {
         StatusTextControl.text = "You have selected Player 1 settings!";
         selectedCharacterControl = "player1";
+        updateControlsUI();
+        
 
     }
     public void PlayerTwoSettingButton() {
         StatusTextControl.text = "You have selected Player 2 settings!";
         selectedCharacterControl = "player2";
+        updateControlsUI();
     }
     public void LeftSettingButton()
     {
@@ -156,7 +190,7 @@ public class MainMenuUIController : MonoBehaviour
         {
             StatusTextControl.text = "You have to select a Player First";
         }
-        else{
+        else {
             StatusTextControl.text = "Press a Button";
             captureKeyInput = true;
             keyInputType = "Left";
@@ -200,78 +234,49 @@ public class MainMenuUIController : MonoBehaviour
         }
     }
     public void Back()
-{
-    if (screenHistory.Count > 0)
     {
-        string previousScreen = screenHistory.Pop(); // Pop the top screen off the stack
-        GameObject oldScreen = GameObject.Find(currentScreen);
-        GameObject newScreen = GameObject.Find(previousScreen);
-        oldScreen.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1000, 0);
-        newScreen.GetComponent<RectTransform>().anchoredPosition = center;
-        currentScreen = previousScreen; // Update currentScreen
+        if (screenHistory.Count > 0)
+        {
+            string previousScreen = screenHistory.Pop(); // Pop the top screen off the stack
+            GameObject oldScreen = GameObject.Find(currentScreen);
+            GameObject newScreen = GameObject.Find(previousScreen);
+            oldScreen.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1000, 0);
+            newScreen.GetComponent<RectTransform>().anchoredPosition = center;
+            currentScreen = previousScreen; // Update currentScreen
+        }
     }
-}
 
 
     void Update()
     {
+        // only runs on controller page
         if (captureKeyInput && Input.anyKeyDown)
         {
-            if (selectedCharacterControl == "player1")
+            foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
             {
-                foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+                if (Input.GetKeyDown(kcode))
                 {
-                    if (Input.GetKeyDown(kcode))
+                    if (keyInputType == "Left")
                     {
-                        if (keyInputType == "Left")
-                        {
-                            Player1Left.text = kcode.ToString();
-                            Debug.Log("Left key set to: " + kcode + " for Player1");
-                        }
-                        if(keyInputType == "Right"){
-                            Player1Right.text = kcode.ToString();
-                            Debug.Log("Right key set to: " + kcode + " for Player1");
-                        }
-                        if (keyInputType == "Up")
-                        {
-                            Player1Up.text = kcode.ToString();
-                            Debug.Log("Up key set to: " + kcode + " for Player1");
-                        }
-                        if(keyInputType == "Down"){
-                            Player1Down.text = kcode.ToString();
-                            Debug.Log("Down key set to: " + kcode + " for Player1");
-                        }
-                        captureKeyInput = false; // Stop capturing key input
-                        break;
+                        players[selectedCharacterControl].controllerType.left = kcode.ToString();
+                        Debug.Log("Left key set to: " + kcode + " for " + selectedCharacterControl);
                     }
-                }
-            }
-            else{
-                foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
-                {
-                    if (Input.GetKeyDown(kcode))
+                    if(keyInputType == "Right"){
+                        players[selectedCharacterControl].controllerType.right = kcode.ToString();
+                        Debug.Log("Right key set to: " + kcode + " for " + selectedCharacterControl);
+                    }
+                    if (keyInputType == "Up")
                     {
-                        if (keyInputType == "Left")
-                        {
-                            Player2Left.text = kcode.ToString();
-                            Debug.Log("Left key set to: " + kcode + " for Player1");
-                        }
-                        if(keyInputType == "Right"){
-                            Player2Right.text = kcode.ToString();
-                            Debug.Log("Right key set to: " + kcode + " for Player1");
-                        }
-                        if (keyInputType == "Up")
-                        {
-                            Player2Up.text = kcode.ToString();
-                            Debug.Log("Up key set to: " + kcode + " for Player1");
-                        }
-                        if(keyInputType == "Down"){
-                            Player2Down.text = kcode.ToString();
-                            Debug.Log("Down key set to: " + kcode + " for Player1");
-                        }
-                        captureKeyInput = false; // Stop capturing key input
-                        break;
+                        players[selectedCharacterControl].controllerType.up = kcode.ToString();
+                        Debug.Log("Up key set to: " + kcode + " for " + selectedCharacterControl);
                     }
+                    if(keyInputType == "Down"){
+                        players[selectedCharacterControl].controllerType.down = kcode.ToString();
+                        Debug.Log("Down key set to: " + kcode + " for " + selectedCharacterControl);
+                    }
+                    captureKeyInput = false; // Stop capturing key input
+                    updateControlsUI();
+                    break;
                 }
             }
         }
