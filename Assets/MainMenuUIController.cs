@@ -6,7 +6,9 @@ using static System.Linq.Enumerable;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+
 using static GlobalController;
+using static PlayerData;
 
 public class MainMenuUIController : MonoBehaviour
 {
@@ -20,12 +22,15 @@ public class MainMenuUIController : MonoBehaviour
     public string selectedPlayer;
     public string selectedCharacterControl;
     public int numPlayers;
-    public dynamic players;
+    public List<PlayerData> players;
     public string settings;
     public TMPro.TextMeshProUGUI leftControlUI;
     public TMPro.TextMeshProUGUI rightControlUI;
     public TMPro.TextMeshProUGUI upControlUI;
     public TMPro.TextMeshProUGUI downControlUI;
+    public TMPro.TextMeshProUGUI jumpControlUI;
+    public TMPro.TextMeshProUGUI dashControlUI;
+    public TMPro.TextMeshProUGUI attackControlUI;
     private bool captureKeyInput = false;
     private string keyInputType = "";
 
@@ -53,25 +58,27 @@ public class MainMenuUIController : MonoBehaviour
         upControlUI = GameObject.Find("StatusTextControlUp").GetComponent<TMPro.TextMeshProUGUI>();
         downControlUI = GameObject.Find("StatusTextControlDown").GetComponent<TMPro.TextMeshProUGUI>();
 
+        jumpControlUI = GameObject.Find("StatusTextControlJump").GetComponent<TMPro.TextMeshProUGUI>();
+        dashControlUI = GameObject.Find("StatusTextControlDash").GetComponent<TMPro.TextMeshProUGUI>();
+        attackControlUI = GameObject.Find("StatusTextControlAttack").GetComponent<TMPro.TextMeshProUGUI>();
+
         selectedPlayer = "";
         selectedCharacterControl = "";
         // player stuff
         numPlayers = 2;
-        players = new ExpandoObject();
+        players = new List<PlayerData>();
 
         // initializing players
         foreach (var index in Range(1, numPlayers)) {
-            dynamic playerData = new ExpandoObject();
+            PlayerData playerData = new PlayerData();
             playerData.name = "player" + index.ToString();
             playerData.character = "";
             if (index == 1) {
                 playerData.controllerType = game.wasd;
             } else if (index == 2) {
                 playerData.controllerType = game.arrow;
-            } else {
-                playerData.controllerType = "";
             }
-            players["player" + index.ToString()] = playerData;
+            players.Add(playerData);
         }
 
         Mute = true;
@@ -79,21 +86,31 @@ public class MainMenuUIController : MonoBehaviour
         
     }
 
+    public int getPNum(string playerName) {
+        int pNum = Int32.Parse(playerName.Split("player")[1]) - 1;
+        return pNum;
+    }
+
     public void printPlayerData() {
-        foreach (var index in Range(1, numPlayers)) {
-            string playerName = "player" + index.ToString();
-            dynamic player = players[playerName];
-            Debug.Log("     " + player.name);
-            Debug.Log("     " + player.character);
-            Debug.Log("     " + player.controllerType);
+        int index = 1;
+        foreach (PlayerData player in players) {
+            Debug.Log("player" + index.ToString() + "\n" + 
+                      "     " + player.name + "\n" +
+                      "     " + player.character + "\n" +
+                      "     " + player.controllerType + "\n");
+            index++;
         }
     }
 
     public void updateControlsUI() {
-        leftControlUI.text = players[selectedCharacterControl].controllerType.left;
-        rightControlUI.text = players[selectedCharacterControl].controllerType.right;
-        upControlUI.text = players[selectedCharacterControl].controllerType.up;
-        downControlUI.text = players[selectedCharacterControl].controllerType.down;
+        leftControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.left;
+        rightControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.right;
+        upControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.up;
+        downControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.down;
+
+        jumpControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.jump;
+        dashControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.dash;
+        attackControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.attack;
     }
 
     public void handleButtonPress(string e) {
@@ -149,8 +166,8 @@ public class MainMenuUIController : MonoBehaviour
         if (selectedPlayer == "") {
             statusText.text = "Please select a player first!";
         } else {
-            players[selectedPlayer].character = "redstickman";
-            statusText.text = selectedPlayer + " has selected " + players[selectedPlayer].character;
+            players[getPNum(selectedPlayer)].character = "redstickman";
+            statusText.text = selectedPlayer + " has selected " + players[getPNum(selectedPlayer)].character;
         }
     }
 
@@ -158,8 +175,8 @@ public class MainMenuUIController : MonoBehaviour
         if (selectedPlayer == "") {
             statusText.text = "Please select a player first!";
         } else {
-            players[selectedPlayer].character = "bluestickman";
-            statusText.text = selectedPlayer + " has selected " + players[selectedPlayer].character;
+            players[getPNum(selectedPlayer)].character = "bluestickman";
+            statusText.text = selectedPlayer + " has selected " + players[getPNum(selectedPlayer)].character;
         }
     }
     public void Player1() {
@@ -233,6 +250,42 @@ public class MainMenuUIController : MonoBehaviour
             keyInputType = "Down";
         }
     }
+    public void JumpSettingButton()
+    {
+        if (selectedCharacterControl == "")
+        {
+            StatusTextControl.text = "You have to select a Player First";
+        }
+        else{
+            StatusTextControl.text = "Press a Button";
+            captureKeyInput = true;
+            keyInputType = "Jump";
+        }
+    }
+    public void DashSettingButton()
+    {
+        if (selectedCharacterControl == "")
+        {
+            StatusTextControl.text = "You have to select a Player First";
+        }
+        else{
+            StatusTextControl.text = "Press a Button";
+            captureKeyInput = true;
+            keyInputType = "Dash";
+        }
+    }
+    public void AttackSettingButton()
+    {
+        if (selectedCharacterControl == "")
+        {
+            StatusTextControl.text = "You have to select a Player First";
+        }
+        else{
+            StatusTextControl.text = "Press a Button";
+            captureKeyInput = true;
+            keyInputType = "Attack";
+        }
+    }
     public void Back()
     {
         if (screenHistory.Count > 0)
@@ -258,25 +311,48 @@ public class MainMenuUIController : MonoBehaviour
                 {
                     if (keyInputType == "Left")
                     {
-                        players[selectedCharacterControl].controllerType.left = kcode.ToString();
+                        players[getPNum(selectedCharacterControl)].controllerType.left = kcode.ToString();
                         Debug.Log("Left key set to: " + kcode + " for " + selectedCharacterControl);
                     }
                     if(keyInputType == "Right"){
-                        players[selectedCharacterControl].controllerType.right = kcode.ToString();
+                        players[getPNum(selectedCharacterControl)].controllerType.right = kcode.ToString();
                         Debug.Log("Right key set to: " + kcode + " for " + selectedCharacterControl);
                     }
                     if (keyInputType == "Up")
                     {
-                        players[selectedCharacterControl].controllerType.up = kcode.ToString();
+                        players[getPNum(selectedCharacterControl)].controllerType.up = kcode.ToString();
                         Debug.Log("Up key set to: " + kcode + " for " + selectedCharacterControl);
                     }
-                    if(keyInputType == "Down"){
-                        players[selectedCharacterControl].controllerType.down = kcode.ToString();
+                    if (keyInputType == "Down"){
+                        players[getPNum(selectedCharacterControl)].controllerType.down = kcode.ToString();
                         Debug.Log("Down key set to: " + kcode + " for " + selectedCharacterControl);
+                    }
+                    if (keyInputType == "Jump"){
+                        players[getPNum(selectedCharacterControl)].controllerType.jump = kcode.ToString();
+                        Debug.Log("Jump key set to: " + kcode + " for " + selectedCharacterControl);
+                    }
+                    if (keyInputType == "Dash"){
+                        players[getPNum(selectedCharacterControl)].controllerType.dash = kcode.ToString();
+                        Debug.Log("Dash key set to: " + kcode + " for " + selectedCharacterControl);
+                    }
+                    if (keyInputType == "Attack"){
+                        players[getPNum(selectedCharacterControl)].controllerType.attack = kcode.ToString();
+                        Debug.Log("Attack key set to: " + kcode + " for " + selectedCharacterControl);
                     }
                     captureKeyInput = false; // Stop capturing key input
                     updateControlsUI();
                     break;
+                }
+            }
+        }
+        if (Input.anyKeyDown) {
+            foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+            {
+                if (Input.GetKeyDown(kcode))
+                {
+                    if (kcode.ToString() == "O") {
+                        printPlayerData();
+                    }
                 }
             }
         }

@@ -23,4 +23,9 @@ public class ControllerType
     this.dash = dash;
     this.attack = attack;
   }
+
+  public override string ToString()
+  {
+    return "(" + this.up + ", " + this.down + ", " + this.left + ", " + this.right + ", " + this.jump + ", " + this.dash + ", " + this.attack  + ")";
+  }
 }

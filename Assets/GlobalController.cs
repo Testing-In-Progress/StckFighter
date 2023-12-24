@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Dynamic;
 
+using static PlayerData;
+
 
 public class GlobalController : MonoBehaviour
 {
@@ -11,7 +13,7 @@ public class GlobalController : MonoBehaviour
 
     public ControllerType arrow;
     // exPlayer {name: "default", "controllerType": wasd}
-    public dynamic players;
+    public List<PlayerData> players;
 
     // To keep it loaded thru scenes
     void Awake() 
@@ -22,9 +24,9 @@ public class GlobalController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        wasd = new ControllerType("w", "s", "a", "d", "space", "LShift", "LClick");
-        arrow = new ControllerType("up", "down", "left", "right", "rcontrol", "rshift", "rClick");
-        players = new ExpandoObject();
+        wasd = new ControllerType("W", "A", "S", "D", "Space", "LeftShift", "Mouse0");
+        arrow = new ControllerType("LeftArrow", "UpArrow", "LeftArrow", "RightArrow", "RightControl", "RightShift", "Mouse1");
+        players = new List<PlayerData>();
     }
 
     // Update is called once per frame
