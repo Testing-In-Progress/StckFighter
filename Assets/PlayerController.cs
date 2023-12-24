@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using static GlobalController;
+
 public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
-    
+    public GlobalController game;
     
     public static int playNum;
     
@@ -15,6 +17,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool Keys;
     void Start()
     {
+        game = GameObject.Find("GLOBALOBJECT").GetComponent<GlobalController>();
+        game.printData();
+
         jump = 3f;
         speed = 8f;
     }

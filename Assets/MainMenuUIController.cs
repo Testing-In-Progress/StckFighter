@@ -5,6 +5,7 @@ using System.Dynamic;
 using static System.Linq.Enumerable;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 using static GlobalController;
@@ -24,6 +25,8 @@ public class MainMenuUIController : MonoBehaviour
     public int numPlayers;
     public List<PlayerData> players;
     public string settings;
+    public bool selecting;
+    public GameObject startGameButton;
     public TMPro.TextMeshProUGUI leftControlUI;
     public TMPro.TextMeshProUGUI rightControlUI;
     public TMPro.TextMeshProUGUI upControlUI;
@@ -49,6 +52,9 @@ public class MainMenuUIController : MonoBehaviour
 
         playType = "";
         map = "";
+
+        selecting = false;
+        startGameButton = GameObject.Find("StartGame");
 
         statusText = GameObject.Find("StatusText").GetComponent<TMPro.TextMeshProUGUI>();
         StatusTextControl = GameObject.Find("StatusTextControl").GetComponent<TMPro.TextMeshProUGUI>();
@@ -81,8 +87,8 @@ public class MainMenuUIController : MonoBehaviour
             players.Add(playerData);
         }
 
-        Mute = true;
-        FullScreen = true;
+        Mute = false;
+        FullScreen = false;
         
     }
 
@@ -111,6 +117,16 @@ public class MainMenuUIController : MonoBehaviour
         jumpControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.jump;
         dashControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.dash;
         attackControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.attack;
+    }
+
+    public void updateStartButton() {
+        bool startable = true;
+        foreach (PlayerData player in players) {
+            if (player.character == "" || selecting) {
+                startable = false;
+            }
+        }
+        startGameButton.SetActive(startable);
     }
 
     public void handleButtonPress(string e) {
@@ -148,6 +164,8 @@ public class MainMenuUIController : MonoBehaviour
     public void Map1() {
         map = "Map1";
         changeScreen("PlayerSelectScreen");
+
+        updateStartButton();
     }
     public void SettingsButton() {
         changeScreen("OptionsScreen");
@@ -160,6 +178,7 @@ public class MainMenuUIController : MonoBehaviour
     }
     public void FullScreenButton(){
         Screen.fullScreen = !Screen.fullScreen;
+        FullScreen = Screen.fullScreen;
     }
 
     public void RedStickMan() {
@@ -169,6 +188,9 @@ public class MainMenuUIController : MonoBehaviour
             players[getPNum(selectedPlayer)].character = "redstickman";
             statusText.text = selectedPlayer + " has selected " + players[getPNum(selectedPlayer)].character;
         }
+
+        selecting = false;
+        updateStartButton();
     }
 
     public void BlueStickMan() {
@@ -178,14 +200,34 @@ public class MainMenuUIController : MonoBehaviour
             players[getPNum(selectedPlayer)].character = "bluestickman";
             statusText.text = selectedPlayer + " has selected " + players[getPNum(selectedPlayer)].character;
         }
+
+        selecting = false;
+        updateStartButton();
     }
     public void Player1() {
         selectedPlayer = "player1";
         statusText.text = "Now select a character!";
+
+        selecting = true;
+        updateStartButton();
     }
     public void Player2() {
         selectedPlayer = "player2";
         statusText.text = "Now select a character!";
+
+        selecting = true;
+        updateStartButton();
+    }
+
+    public void StartGame() {
+        SceneManager.LoadScene("SampleScene");
+        
+        // save to global
+        game.players = players;
+        game.map = map;
+        game.playType = playType;
+        game.mute = Mute;
+        game.fullScreen = FullScreen;
     }
     // This is Control Code Now
     public void PlayerOneSettingButton()
@@ -296,6 +338,8 @@ public class MainMenuUIController : MonoBehaviour
             oldScreen.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1000, 0);
             newScreen.GetComponent<RectTransform>().anchoredPosition = center;
             currentScreen = previousScreen; // Update currentScreen
+
+            selecting = false;
         }
     }
 
