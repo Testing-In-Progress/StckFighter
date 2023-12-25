@@ -21,6 +21,7 @@ public class GlobalController : MonoBehaviour
     public bool mute;
     // exFullScreen false
     public bool fullScreen;
+    public bool paused;
 
     // To keep it loaded thru scenes
     void Awake() 
@@ -38,6 +39,8 @@ public class GlobalController : MonoBehaviour
         playType = "";
         mute = false;
         fullScreen = false;
+
+        paused = false;
     }
 
     public void printData() {

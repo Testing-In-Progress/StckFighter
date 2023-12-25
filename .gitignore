@@ -3,4 +3,6 @@ Temp/
 UserSettings/
 Logs/
 .vs/
+Packages/
+Assembly-CSharp.csproj
 .vsconfig
