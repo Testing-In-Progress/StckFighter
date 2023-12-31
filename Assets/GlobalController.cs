@@ -26,7 +26,12 @@ public class GlobalController : MonoBehaviour
     // To keep it loaded thru scenes
     void Awake() 
     {
-        DontDestroyOnLoad(transform.gameObject);
+        if (gameObject.name == "GAMEOBJECT") {
+            DontDestroyOnLoad(transform.gameObject);
+            Debug.Log("Using GAMEOBJECT");
+        } else {
+            Debug.Log("Using non GAMEOBJECT");
+        }
     }
 
     // Start is called before the first frame update

@@ -1,38 +1,80 @@
 using System.Collections;
 using System.Collections.Generic;
+using static System.Linq.Enumerable;
+using System;
 using UnityEngine;
 
 using static GlobalController;
+using static PlayerData;
 
 public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
     public GlobalController game;
     
-    public static int playNum;
+    public string playerName;
+    public PlayerData playerData;
     
     [SerializeField] float jump;
-    [SerializeField] float speed;
-
-    [SerializeField] bool Keys;
+    public float xVelocity;
+    public float yVelocity;
+    public float xAccel;
+    public float yAccel;
+    public float xDrag;
+    public float yDrag;
     void Start()
     {
-        game = GameObject.Find("GLOBALOBJECT").GetComponent<GlobalController>();
-        game.printData();
+        if (GameObject.Find("GLOBALOBJECT")) {
+            game = GameObject.Find("GLOBALOBJECT").GetComponent<GlobalController>();
+        } else {
+            game = GameObject.Find("DEVOBJECT").GetComponent<GlobalController>();
+        }
+        game.printData(); // for debugging data pass-through
 
-        jump = 3f;
-        speed = 8f;
+        foreach (PlayerData playerDatae in game.players) {
+            if (playerDatae.name == playerName) {
+                playerData = playerDatae;
+            }
+        }
+
+        //xVelocity = 0;
+        //yVelocity = 0;
+        //xAccel = 0.01f;
+        //yAccel = 0.01f;
+        //xDrag = 2;
+        //yDrag = 2;
+    }
+    void processInput(string kcode) {
+        if (kcode == playerData.controllerType.up) {
+            yVelocity += yAccel;
+        }
+        if (kcode == playerData.controllerType.down) {
+            yVelocity -= yAccel;
+        }
+        if (kcode == playerData.controllerType.left) {
+            xVelocity -= xAccel;
+        }
+        if (kcode == playerData.controllerType.right) {
+            xVelocity += xAccel;
+        }
     }
     // Update is called once per frame
     void Update()
     {
-        
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        if (!game.paused && Input.anyKeyDown) {
+            foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+            {
+                if (Input.GetKeyDown(kcode))
+                {
+                    processInput(kcode.ToString());
+                }
+            }
+        }
 
-        Vector2 movement = new Vector2(horizontalInput, verticalInput) * speed * Time.deltaTime;
-        transform.Translate(movement);
+        transform.position = new Vector2(transform.position.x + xVelocity, transform.position.y + yVelocity);
 
+        xVelocity = xVelocity/xDrag;
+        yVelocity = yVelocity/yDrag;
     }
 }
         
