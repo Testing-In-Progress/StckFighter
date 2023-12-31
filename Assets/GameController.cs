@@ -5,12 +5,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 using static GlobalController;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
     public GlobalController game;
 
     public GameObject[] maps;
+    public GameObject map;
     public GameObject[] characters;
 
     GameObject getMap(string mapName) {
@@ -28,6 +30,19 @@ public class GameController : MonoBehaviour
             }
         }
         return new GameObject();
+    }
+    float getPosFromMap(int count, int index) {
+        Debug.Log("Posing");
+        float mapWidth = map.transform.Find("mainFloor").GetComponent<BoxCollider2D>().bounds.size.x;
+        Debug.Log(mapWidth);
+        float startingPoint = map.transform.position.x - (mapWidth/2);
+        Debug.Log(startingPoint);
+        float segmentSize = mapWidth/count;
+
+        Debug.Log(segmentSize);
+        float finalPos = startingPoint + segmentSize*index + segmentSize/2;
+        Debug.Log(finalPos);
+        return finalPos;
     }
 
     // Start is called before the first frame update
@@ -60,15 +75,28 @@ public class GameController : MonoBehaviour
         maps = Resources.LoadAll<GameObject>("Maps");
         characters = Resources.LoadAll<GameObject>("Characters");
         // Load the Map
-        GameObject map = Instantiate(getMap(game.map)); // load map stored in game.map
+        map = Instantiate(getMap(game.map)); // load map stored in game.map
         // Load characters and assign values
-        int index = 0;
+        int i = 0;
 
         foreach (PlayerData playerData in game.players) {
             GameObject newCharacter = Instantiate(getCharacter(playerData.character));
+            // Add Name Data
             PlayerController charaData = newCharacter.GetComponent<PlayerController>();
             charaData.playerName = playerData.name;
-            newCharacter.transform.position = new Vector2(getPosFromMap(game.players.Count, index), newCharacter.transform.position.y);
+            newCharacter.transform.position = new Vector2(getPosFromMap(game.players.Count, i), newCharacter.transform.position.y);
+
+            // Create NameTag
+            GameObject nameTag = new GameObject();
+            nameTag.name = "nameTag";
+            TextMeshPro textComponent = nameTag.AddComponent<TextMeshPro>();
+            textComponent.text = charaData.playerName;
+            textComponent.fontSize = 3;
+            nameTag.GetComponent<RectTransform>().sizeDelta = new Vector2(newCharacter.GetComponent<BoxCollider2D>().bounds.size.x, 0.2f);
+            nameTag.transform.position = new Vector2(0, 0 + (newCharacter.GetComponent<BoxCollider2D>().bounds.size.y/2.6f));
+            nameTag.transform.SetParent(newCharacter.transform, false);
+            
+            i++;
         }
 
     }

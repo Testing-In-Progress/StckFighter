@@ -158,7 +158,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &287655338480882697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +172,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   game: {fileID: 0}
-  jump: 0
-  speed: 0
-  Keys: 0
+  playerName: 
+  jump: 3
+  xVelocity: 0
+  yVelocity: 0
+  xAccel: 0.01
+  yAccel: 0.01
+  xDrag: 2
+  yDrag: 2

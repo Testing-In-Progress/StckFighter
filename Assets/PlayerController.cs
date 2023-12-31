@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public string playerName;
     public PlayerData playerData;
     
-    [SerializeField] float jump;
+    public float jump;
     public float xVelocity;
     public float yVelocity;
     public float xAccel;
@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        // jump = 3f;
         //xVelocity = 0;
         //yVelocity = 0;
         //xAccel = 0.01f;
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
         //yDrag = 2;
     }
     void processInput(string kcode) {
+        Debug.Log(kcode.ToString() + "\n" + playerData.controllerType.up);
         if (kcode == playerData.controllerType.up) {
             yVelocity += yAccel;
         }
@@ -61,10 +63,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!game.paused && Input.anyKeyDown) {
+        if (!game.paused && Input.anyKey) {
             foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
             {
-                if (Input.GetKeyDown(kcode))
+                if (Input.GetKey(kcode))
                 {
                     processInput(kcode.ToString());
                 }

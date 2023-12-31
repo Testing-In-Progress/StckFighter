@@ -37,8 +37,8 @@ public class GlobalController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        wasd = new ControllerType("W", "A", "S", "D", "Space", "LeftShift", "Mouse0");
-        arrow = new ControllerType("LeftArrow", "UpArrow", "LeftArrow", "RightArrow", "RightControl", "RightShift", "Mouse1");
+        wasd = new ControllerType("W", "S", "A", "D", "Space", "LeftShift", "Mouse0");
+        arrow = new ControllerType("UpArrow", "DownArrow", "LeftArrow", "RightArrow", "RightControl", "RightShift", "Mouse1");
         players = new List<PlayerData>();
         map = "";
         playType = "";
