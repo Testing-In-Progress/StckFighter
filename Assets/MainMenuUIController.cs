@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 using static GlobalController;
 using static PlayerData;
+using Unity.VisualScripting;
 
 public class MainMenuUIController : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class MainMenuUIController : MonoBehaviour
     public TMPro.TextMeshProUGUI statusText; //(From "GameObject" to "TMPro.TextMeshProUGUI statusText"
     public TMPro.TextMeshProUGUI StatusTextControl; //(From "GameObject" to "TMPro.TextMeshProUGUI statusText" 
     public string selectedPlayer;
+    public string oppositePlayer;
+
     public string selectedCharacterControl;
     public int numPlayers;
     public List<PlayerData> players;
@@ -36,6 +39,8 @@ public class MainMenuUIController : MonoBehaviour
     public TMPro.TextMeshProUGUI attackControlUI;
     private bool captureKeyInput = false;
     private string keyInputType = "";
+    private bool isRedStickManSelected = false;
+    private bool isBlueStickManSelected = false;
 
     private Stack<string> screenHistory = new Stack<string>();
 
@@ -185,36 +190,55 @@ public class MainMenuUIController : MonoBehaviour
         if (selectedPlayer == "") {
             statusText.text = "Please select a player first!";
         } else {
-            players[getPNum(selectedPlayer)].character = "redstickman";
-            statusText.text = selectedPlayer + " has selected " + players[getPNum(selectedPlayer)].character;
+            if (isRedStickManSelected)
+            {                
+                statusText.text = "RedStickMan is already selected  by another player!";
+            } 
+            else
+            {
+                players[getPNum(selectedPlayer)].character = "redstickman";
+                statusText.text = selectedPlayer + " has selected " + players[getPNum(selectedPlayer)].character;
+                isRedStickManSelected = true;
+                isBlueStickManSelected = false;
+                selecting = false;
+                updateStartButton();
+
+            }
+            
         }
-
-        selecting = false;
-        updateStartButton();
     }
-
     public void BlueStickMan() {
         if (selectedPlayer == "") {
             statusText.text = "Please select a player first!";
         } else {
-            players[getPNum(selectedPlayer)].character = "bluestickman";
-            statusText.text = selectedPlayer + " has selected " + players[getPNum(selectedPlayer)].character;
+            if (isBlueStickManSelected)
+            {
+                statusText.text = "BlueStickMan is already selected by another player!";
+            }
+            else
+            {
+                players[getPNum(selectedPlayer)].character = "Bluestickman";
+                statusText.text = selectedPlayer + " has selected " + players[getPNum(selectedPlayer)].character;
+                isBlueStickManSelected = true;
+                isRedStickManSelected = false;
+                selecting = false;
+            }
         }
-
-        selecting = false;
         updateStartButton();
+
     }
     public void Player1() {
+        
         selectedPlayer = "player1";
+        oppositePlayer = "player2";
         statusText.text = "Now select a character!";
-
         selecting = true;
         updateStartButton();
     }
     public void Player2() {
         selectedPlayer = "player2";
+        oppositePlayer = "player1";
         statusText.text = "Now select a character!";
-
         selecting = true;
         updateStartButton();
     }
