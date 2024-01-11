@@ -173,10 +173,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game: {fileID: 0}
   playerName: 
-  jump: 3
+  jump: 6
   xVelocity: 0
   yVelocity: 0
-  xAccel: 0.01
-  yAccel: 0.01
+  xAccel: 0.2
+  yAccel: 0.07
   xDrag: 2
   yDrag: 2

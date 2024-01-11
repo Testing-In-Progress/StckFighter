@@ -80,9 +80,11 @@ public class GameController : MonoBehaviour
         int i = 0;
 
         foreach (PlayerData playerData in game.players) {
+            Debug.Log(playerData.character);
             GameObject newCharacter = Instantiate(getCharacter(playerData.character));
             // Add Name Data
             PlayerController charaData = newCharacter.GetComponent<PlayerController>();
+            Debug.Log(charaData);
             charaData.playerName = playerData.name;
             newCharacter.transform.position = new Vector2(getPosFromMap(game.players.Count, i), newCharacter.transform.position.y);
 

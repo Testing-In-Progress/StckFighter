@@ -249,7 +249,7 @@ public class MainMenuUIController : MonoBehaviour
             }
             else
             {
-                players[getPNum(selectedPlayer)].character = "Bluestickman";
+                players[getPNum(selectedPlayer)].character = "bluestickman";
                 statusText.text = selectedPlayer + " has selected " + players[getPNum(selectedPlayer)].character;
                 isBlueStickManSelected = true;
                 isRedStickManSelected = false;

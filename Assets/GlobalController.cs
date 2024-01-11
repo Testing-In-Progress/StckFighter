@@ -26,9 +26,9 @@ public class GlobalController : MonoBehaviour
     // To keep it loaded thru scenes
     void Awake() 
     {
-        if (gameObject.name == "GAMEOBJECT") {
+        if (gameObject.name == "GLOBALOBJECT") {
             DontDestroyOnLoad(transform.gameObject);
-            Debug.Log("Using GAMEOBJECT");
+            Debug.Log("Using GLOBALOBJECT");
         } else {
             Debug.Log("Using non GAMEOBJECT");
         }
