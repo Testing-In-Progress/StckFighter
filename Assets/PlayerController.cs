@@ -40,9 +40,9 @@ public class PlayerController : MonoBehaviour
         // jump = 3f;
         //xVelocity = 0;
         //yVelocity = 0;
-        //xAccel = 0.01f;
+        xAccel = 0.03f;
         //yAccel = 0.01f;
-        //xDrag = 2;
+        xDrag = 4;
         //yDrag = 2;
     }
     void processInput(string kcode) {

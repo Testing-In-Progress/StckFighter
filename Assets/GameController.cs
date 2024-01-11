@@ -89,14 +89,14 @@ public class GameController : MonoBehaviour
             newCharacter.transform.position = new Vector2(getPosFromMap(game.players.Count, i), newCharacter.transform.position.y);
 
             // Create NameTag
-            GameObject nameTag = new GameObject();
+            /** GameObject nameTag = new GameObject();
             nameTag.name = "nameTag";
             TextMeshPro textComponent = nameTag.AddComponent<TextMeshPro>();
             textComponent.text = charaData.playerName;
             textComponent.fontSize = 3;
             nameTag.GetComponent<RectTransform>().sizeDelta = new Vector2(newCharacter.GetComponent<BoxCollider2D>().bounds.size.x, 0.2f);
             nameTag.transform.position = new Vector2(0, 0 + (newCharacter.GetComponent<BoxCollider2D>().bounds.size.y/2.6f));
-            nameTag.transform.SetParent(newCharacter.transform, false);
+            nameTag.transform.SetParent(newCharacter.transform, false); */
             
             i++;
         }
@@ -111,6 +111,5 @@ public class GameController : MonoBehaviour
             Debug.Log("space key was pressed");
         }
     }
-
 
 }
