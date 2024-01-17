@@ -73,8 +73,8 @@ public class CameraController : MonoBehaviour
         Debug.Log(game.players);
         Debug.Log(game.map);
         foreach (PlayerData playerData in game.players) {
-            Debug.Log(GameObject.Find(playerData.character + "(Clone)"));
-            playerObjects.Append(GameObject.Find(playerData.character + "(Clone)"));
+            Debug.Log(GameObject.Find(playerData.name));
+            playerObjects.Append(GameObject.Find(playerData.name));
             Debug.Log(";dsafhsudflk vjadsnfhvlaksd fvkjbrdilufgabslknhkavsj ethan vu was here");
         }
     }

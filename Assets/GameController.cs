@@ -85,7 +85,8 @@ public class GameController : MonoBehaviour
             // Add Name Data
             PlayerController charaData = newCharacter.GetComponent<PlayerController>();
             Debug.Log(charaData);
-            charaData.playerName = playerData.name;
+            newCharacter.name = playerData.name;
+            charaData.charaName = playerData.character;
             newCharacter.transform.position = new Vector2(getPosFromMap(game.players.Count, i), newCharacter.transform.position.y);
 
             // Create NameTag

@@ -7,12 +7,15 @@ using UnityEngine;
 using static GlobalController;
 using static PlayerData;
 
+using static redstickman;
+using static bluestickman;
+
 public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
     public GlobalController game;
     
-    public string playerName;
+    public string charaName;
     public PlayerData playerData;
     
     public float jump;
@@ -22,6 +25,10 @@ public class PlayerController : MonoBehaviour
     public float yAccel;
     public float xDrag;
     public float yDrag;
+
+    public redstickman redstickman;
+    public bluestickman bluestickman;
+
     void Start()
     {
         if (GameObject.Find("GLOBALOBJECT")) {
@@ -31,8 +38,9 @@ public class PlayerController : MonoBehaviour
         }
         game.printData(); // for debugging data pass-through
 
+
         foreach (PlayerData playerDatae in game.players) {
-            if (playerDatae.name == playerName) {
+            if (playerDatae.name == gameObject.name) {
                 playerData = playerDatae;
             }
         }
@@ -58,6 +66,12 @@ public class PlayerController : MonoBehaviour
         }
         if (kcode == playerData.controllerType.right) {
             xVelocity += xAccel;
+        }
+        if (kcode == playerData.controllerType.jump) {
+            this.GetType().GetField(charaName).GetValue(this).Jump();
+        }
+        if (kcode == playerData.controllerType.attack) {
+            this.GetType().GetField(charaName).GetValue(this).Jump();
         }
     }
     // Update is called once per frame
