@@ -48,12 +48,12 @@ public class PlayerController : MonoBehaviour
         }
 
         // jump = 3f;
-        //xVelocity = 0;
-        //yVelocity = 0;
+        xVelocity = 0;
+        yVelocity = 0;
         xAccel = 0.03f;
-        //yAccel = 0.01f;
+        yAccel = 0.01f;
         xDrag = 4;
-        //yDrag = 2;
+        yDrag = 2;
     }
     void processInput(string kcode) {
         Debug.Log(kcode.ToString() + "\n" + playerData.controllerType.up);

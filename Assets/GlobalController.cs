@@ -45,7 +45,7 @@ public class GlobalController : MonoBehaviour
         redstickman.maxJumpHeight = 5;
         redstickman.movementSpeed = 3;
         redstickman.fallSpeed = 5;
-        redstickman.jumpSpeed = 0.1f;
+        redstickman.jumpSpeed = 0.05f;
         redstickman.Attack = () => {
             Debug.Log("redstickman has attacked");
         };
@@ -56,7 +56,7 @@ public class GlobalController : MonoBehaviour
         bluestickman.maxJumpHeight = 5;
         bluestickman.movementSpeed = 3;
         bluestickman.fallSpeed = 5;
-        bluestickman.jumpSpeed = 0.2f;
+        bluestickman.jumpSpeed = 0.07f;
         bluestickman.Attack = () => {
             Debug.Log("bluestickman has attacked");
         };
