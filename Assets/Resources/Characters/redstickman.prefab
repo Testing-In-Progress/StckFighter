@@ -172,11 +172,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   game: {fileID: 0}
-  playerName: 
-  jump: 6
+  charaName: 
+  jump: 0
   xVelocity: 0
   yVelocity: 0
-  xAccel: 0.2
-  yAccel: 0.07
-  xDrag: 2
-  yDrag: 2
+  xAccel: 0
+  yAccel: 0
+  xDrag: 0
+  yDrag: 0

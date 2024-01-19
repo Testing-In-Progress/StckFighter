@@ -91,8 +91,8 @@ public class PlayerController : MonoBehaviour
 
         transform.position = new Vector2(transform.position.x + xVelocity, transform.position.y + yVelocity);
 
-        xVelocity = xVelocity -= xDrag;
-        yVelocity = yVelocity -= yDrag;
+        xVelocity = xVelocity/xDrag;
+        yVelocity = yVelocity/yDrag;
     }
 }
         
