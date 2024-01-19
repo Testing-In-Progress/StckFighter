@@ -4,10 +4,13 @@ using UnityEngine;
 using System.Dynamic;
 
 using static PlayerData;
-
+using static CharacterBase;
 
 public class GlobalController : MonoBehaviour
 {
+    public CharacterBase redstickman;
+    public CharacterBase bluestickman;
+
     // controllerTypes
     public ControllerType wasd;
 
@@ -34,9 +37,36 @@ public class GlobalController : MonoBehaviour
         }
     }
 
+    void SetupCharacters() {
+        
+        // redstickman code
+        redstickman = new CharacterBase();
+        redstickman.minJumpHeight = 3;
+        redstickman.maxJumpHeight = 5;
+        redstickman.movementSpeed = 3;
+        redstickman.fallSpeed = 5;
+        redstickman.jumpSpeed = 0.1f;
+        redstickman.Attack = () => {
+            Debug.Log("redstickman has attacked");
+        };
+
+        // bluestickman code
+        bluestickman = new CharacterBase();
+        bluestickman.minJumpHeight = 3;
+        bluestickman.maxJumpHeight = 5;
+        bluestickman.movementSpeed = 3;
+        bluestickman.fallSpeed = 5;
+        bluestickman.jumpSpeed = 0.2f;
+        bluestickman.Attack = () => {
+            Debug.Log("bluestickman has attacked");
+        };
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        SetupCharacters();
+
         wasd = new ControllerType("W", "S", "A", "D", "Space", "LeftShift", "Mouse0");
         arrow = new ControllerType("UpArrow", "DownArrow", "LeftArrow", "RightArrow", "RightControl", "RightShift", "Mouse1");
         players = new List<PlayerData>();

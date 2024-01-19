@@ -5,12 +5,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 using static GlobalController;
+using static CharacterBase;
 using TMPro;
 
 public class GameController : MonoBehaviour
 {
     public GlobalController game;
-
+    public int redstickmanhealth;
+    public int bluestickmanhealth;
     public GameObject[] maps;
     public GameObject map;
     public GameObject[] characters;
@@ -84,7 +86,6 @@ public class GameController : MonoBehaviour
             GameObject newCharacter = Instantiate(getCharacter(playerData.character));
             // Add Name Data
             PlayerController charaData = newCharacter.GetComponent<PlayerController>();
-            Debug.Log(charaData);
             newCharacter.name = playerData.name;
             charaData.charaName = playerData.character;
             newCharacter.transform.position = new Vector2(getPosFromMap(game.players.Count, i), newCharacter.transform.position.y);

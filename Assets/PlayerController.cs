@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using static System.Linq.Enumerable;
 using System;
 using UnityEngine;
 
 using static GlobalController;
 using static PlayerData;
-
-using static redstickman;
-using static bluestickman;
+using static CharacterBase;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public GlobalController game;
     
     public string charaName;
+    public CharacterBase selectedCharacter;
     public PlayerData playerData;
     
     public float jump;
@@ -23,11 +23,8 @@ public class PlayerController : MonoBehaviour
     public float yVelocity;
     public float xAccel;
     public float yAccel;
-    public float xDrag;
+    public float xDrag; 
     public float yDrag;
-
-    public redstickman redstickman;
-    public bluestickman bluestickman;
 
     void Start()
     {
@@ -38,6 +35,11 @@ public class PlayerController : MonoBehaviour
         }
         game.printData(); // for debugging data pass-through
 
+        FieldInfo characterField = typeof(GlobalController).GetField(charaName);
+        Debug.Log(typeof(GlobalController));
+        Debug.Log(charaName);
+        Debug.Log(characterField);
+        selectedCharacter = (CharacterBase)characterField.GetValue(game);
 
         foreach (PlayerData playerDatae in game.players) {
             if (playerDatae.name == gameObject.name) {
@@ -56,7 +58,7 @@ public class PlayerController : MonoBehaviour
     void processInput(string kcode) {
         Debug.Log(kcode.ToString() + "\n" + playerData.controllerType.up);
         if (kcode == playerData.controllerType.up) {
-            yVelocity += yAccel;
+            // lookup
         }
         if (kcode == playerData.controllerType.down) {
             yVelocity -= yAccel;
@@ -68,10 +70,10 @@ public class PlayerController : MonoBehaviour
             xVelocity += xAccel;
         }
         if (kcode == playerData.controllerType.jump) {
-            this.GetType().GetField(charaName).GetValue(this).Jump();
+            yVelocity += selectedCharacter.jumpSpeed;
         }
         if (kcode == playerData.controllerType.attack) {
-            this.GetType().GetField(charaName).GetValue(this).Jump();
+            selectedCharacter.Attack();
         }
     }
     // Update is called once per frame
@@ -89,8 +91,8 @@ public class PlayerController : MonoBehaviour
 
         transform.position = new Vector2(transform.position.x + xVelocity, transform.position.y + yVelocity);
 
-        xVelocity = xVelocity/xDrag;
-        yVelocity = yVelocity/yDrag;
+        xVelocity = xVelocity -= xDrag;
+        yVelocity = yVelocity -= yDrag;
     }
 }
         

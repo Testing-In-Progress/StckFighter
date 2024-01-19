@@ -17,9 +17,8 @@ public class CameraController : MonoBehaviour
 
     public float minDistance = 5f;
     public float maxDistance = 15f;
-    
-    public float zoomSpeed = 5f;
 
+    public float zoomSpeed = 5f;
 
     public Vector2 getCameraBounds() {
         float startBound = -minDistance;
