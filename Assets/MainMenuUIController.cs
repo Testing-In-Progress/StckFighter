@@ -50,6 +50,8 @@ public class MainMenuUIController : MonoBehaviour
 
     public ControllerType arrowreset;
 
+    public GameObject characterSelectObject;
+    public List<GameObject> characterSelectObjectArray;
 
     public bool Mute;
     public bool FullScreen;
@@ -85,6 +87,9 @@ public class MainMenuUIController : MonoBehaviour
         arrowreset = new ControllerType("UpArrow", "DownArrow", "LeftArrow", "RightArrow", "RightControl", "RightShift", "Mouse1");
         Debug.Log(wasdreset.right.ToString());
         Debug.Log(arrowreset.up.ToString());
+
+        characterSelectObject = Resources.Load<GameObject>("UI/characterSelect");
+        characterSelectObjectArray = new List<GameObject>();
 
         // player stuff
         numPlayers = 2;
@@ -143,8 +148,7 @@ public class MainMenuUIController : MonoBehaviour
             playerControllerStore1[4] = jumpControlUI.text;
             playerControllerStore1[5] = dashControlUI.text;
             playerControllerStore1[6] = attackControlUI.text;
-}
-        else{
+        } else{
             playerControllerStore2[0] = leftControlUI.text;
             playerControllerStore2[1] = rightControlUI.text;
             playerControllerStore2[2] = upControlUI.text;
@@ -154,7 +158,7 @@ public class MainMenuUIController : MonoBehaviour
             playerControllerStore2[6] = attackControlUI.text;
 
         }
-}
+    }
 
     public void updateStartButton() {
         bool startable = true;
@@ -166,11 +170,29 @@ public class MainMenuUIController : MonoBehaviour
         startGameButton.SetActive(startable);
     }
 
+    public void addCharcterSelect() {
+        GameObject newSelectObject = Instantiate(characterSelectObject);
+        characterSelectObjectArray.Add(newSelectObject);
+        int i = 0;
+        foreach (GameObject selUI in characterSelectObjectArray) {
+            //selUI.transform.position = ; to finish
+        }
+        newCharacter.transform.position = characterSelectObjectArray;
+    }
+
     public void handleButtonPress(string e) {
         Debug.Log(e);
         Type thisType = this.GetType();
-        MethodInfo theMethod = thisType.GetMethod(e);
-        theMethod.Invoke(this, null);
+        MethodInfo theMethod;
+
+        if (e.Any(x => Char.IsWhiteSpace(x))) {
+            theMethod = thisType.GetMethod(e.Split(' ')[0]);
+            string data = e.Split(' ')[1];
+            theMethod.Invoke(this, new object[] { data });
+        } else {
+            theMethod = thisType.GetMethod(e);
+            theMethod.Invoke(this, null);
+        }
     }
 
     public void changeScreen(string screen) {
@@ -221,46 +243,11 @@ public class MainMenuUIController : MonoBehaviour
     public void PlayerSelectRightUp(){
         
     }
-    public void RedStickMan() {
-        if (selectedPlayer == "") {
-            statusText.text = "Please select a player first!";
-        } else {
-            if (isRedStickManSelected)
-            {                
-                statusText.text = "RedStickMan is already selected  by another player!";
-            } 
-            else
-            {
-                players[getPNum(selectedPlayer)].character = "redstickman";
-                statusText.text = selectedPlayer + " has selected " + players[getPNum(selectedPlayer)].character;
-                isRedStickManSelected = true;
-                isBlueStickManSelected = false;
-                selecting = false;
-                updateStartButton();
-
-            }
-            
-        }
+    public void UpArrow(string number) {
+        Debug.Log("moveing character selectino up for player" + number);
     }
-    public void BlueStickMan() {
-        if (selectedPlayer == "") {
-            statusText.text = "Please select a player first!";
-        } else {
-            if (isBlueStickManSelected)
-            {
-                statusText.text = "BlueStickMan is already selected by another player!";
-            }
-            else
-            {
-                players[getPNum(selectedPlayer)].character = "bluestickman";
-                statusText.text = selectedPlayer + " has selected " + players[getPNum(selectedPlayer)].character;
-                isBlueStickManSelected = true;
-                isRedStickManSelected = false;
-                selecting = false;
-            }
-        }
-        updateStartButton();
-
+    public void DownArrow(string number) {
+        Debug.Log("moveing character selectino down for player" + number);
     }
     public void Player1() {
         
@@ -327,33 +314,33 @@ public class MainMenuUIController : MonoBehaviour
 
 
     public void PlayerSettingResetButton() {
-    StatusTextControl.text = "You have clicked Reset.";
-    if(selectedCharacterControl == "") {
-        StatusTextControl.text = "You have to select a Player First";
-    } else {
-            
-            if (getPNum(selectedCharacterControl) == 0) {
-               
-                players[getPNum(selectedCharacterControl)].controllerType.up = wasdreset.up.ToString();
-                players[getPNum(selectedCharacterControl)].controllerType.down = wasdreset.down.ToString();
-                players[getPNum(selectedCharacterControl)].controllerType.left = wasdreset.left.ToString();
-                players[getPNum(selectedCharacterControl)].controllerType.right = wasdreset.right.ToString();
-                players[getPNum(selectedCharacterControl)].controllerType.jump = wasdreset.jump.ToString();
-                players[getPNum(selectedCharacterControl)].controllerType.dash = wasdreset.dash.ToString();
-                players[getPNum(selectedCharacterControl)].controllerType.attack = wasdreset.attack.ToString();
-            } else {
-                // Assigning properties from game.arrow to the selected player's controllerType
-                players[getPNum(selectedCharacterControl)].controllerType.up = arrowreset.up.ToString();
-                players[getPNum(selectedCharacterControl)].controllerType.down = arrowreset.down.ToString();
-                players[getPNum(selectedCharacterControl)].controllerType.left = arrowreset.left.ToString();
-                players[getPNum(selectedCharacterControl)].controllerType.right = arrowreset.right.ToString();
-                players[getPNum(selectedCharacterControl)].controllerType.jump = arrowreset.jump.ToString();
-                players[getPNum(selectedCharacterControl)].controllerType.dash = arrowreset.dash.ToString();
-                players[getPNum(selectedCharacterControl)].controllerType.attack = arrowreset.attack.ToString();
+        StatusTextControl.text = "You have clicked Reset.";
+        if(selectedCharacterControl == "") {
+            StatusTextControl.text = "You have to select a Player First";
+        } else {
+                
+                if (getPNum(selectedCharacterControl) == 0) {
+                
+                    players[getPNum(selectedCharacterControl)].controllerType.up = wasdreset.up.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.down = wasdreset.down.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.left = wasdreset.left.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.right = wasdreset.right.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.jump = wasdreset.jump.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.dash = wasdreset.dash.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.attack = wasdreset.attack.ToString();
+                } else {
+                    // Assigning properties from game.arrow to the selected player's controllerType
+                    players[getPNum(selectedCharacterControl)].controllerType.up = arrowreset.up.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.down = arrowreset.down.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.left = arrowreset.left.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.right = arrowreset.right.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.jump = arrowreset.jump.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.dash = arrowreset.dash.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.attack = arrowreset.attack.ToString();
+            }
+                updateControlsUI();
         }
-            updateControlsUI();
     }
-}
 
 
     public void RightSettingButton()
