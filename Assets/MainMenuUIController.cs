@@ -218,6 +218,9 @@ public class MainMenuUIController : MonoBehaviour
         FullScreen = Screen.fullScreen;
     }
 
+    public void PlayerSelectRightUp(){
+        
+    }
     public void RedStickMan() {
         if (selectedPlayer == "") {
             statusText.text = "Please select a player first!";

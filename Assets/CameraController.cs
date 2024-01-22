@@ -97,6 +97,11 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (game == null || game.players == null)
+        {
+            Debug.LogError("Game or game.players is null");
+            return;
+        }
         if (playersLoaded == false) {
             foreach (PlayerData playerData in game.players) {
                 playersLoaded = true;
