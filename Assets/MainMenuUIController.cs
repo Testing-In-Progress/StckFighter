@@ -107,6 +107,8 @@ public class MainMenuUIController : MonoBehaviour
                 playerData.controllerType = game.arrow;
             }
             players.Add(playerData);
+            // update ui
+            addCharcterSelect();
         }
         Mute = false;
         FullScreen = false;
@@ -172,12 +174,24 @@ public class MainMenuUIController : MonoBehaviour
 
     public void addCharcterSelect() {
         GameObject newSelectObject = Instantiate(characterSelectObject);
+        Debug.Log("newSelectObject");
         characterSelectObjectArray.Add(newSelectObject);
         int i = 0;
         foreach (GameObject selUI in characterSelectObjectArray) {
-            //selUI.transform.position = ; to finish
+            GameObject pss = GameObject.Find("PlayerSelectScreen");
+            Debug.Log("Posing");
+            float mapWidth = pss.transform.Find("bg").transform.position.x;
+            Debug.Log(mapWidth);
+            float startingPoint = pss.transform.position.x - (mapWidth/2);
+            Debug.Log(startingPoint);
+            float segmentSize = mapWidth/i;
+
+            Debug.Log(segmentSize);
+            float finalPos = startingPoint + segmentSize*i + segmentSize/2;
+            Debug.Log(finalPos);
+            selUI.transform.position = new Vector2(finalPos, selUI.transform.position.y);
+            i++;
         }
-        newCharacter.transform.position = characterSelectObjectArray;
     }
 
     public void handleButtonPress(string e) {
