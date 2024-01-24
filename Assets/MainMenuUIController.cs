@@ -7,6 +7,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 using static GlobalController;
 using static PlayerData;
@@ -69,7 +70,7 @@ public class MainMenuUIController : MonoBehaviour
         selecting = false;
         startGameButton = GameObject.Find("StartGame");
 
-        statusText = GameObject.Find("StatusText").GetComponent<TMPro.TextMeshProUGUI>();
+        //statusText = GameObject.Find("StatusText").GetComponent<TMPro.TextMeshProUGUI>();
         StatusTextControl = GameObject.Find("StatusTextControl").GetComponent<TMPro.TextMeshProUGUI>();
         // control ui's
         leftControlUI = GameObject.Find("StatusTextControlLeft").GetComponent<TMPro.TextMeshProUGUI>();
@@ -110,6 +111,7 @@ public class MainMenuUIController : MonoBehaviour
             // update ui
             addCharcterSelect();
         }
+        Debug.Log(players);
         Mute = false;
         FullScreen = false;
     }
@@ -164,6 +166,7 @@ public class MainMenuUIController : MonoBehaviour
 
     public void updateStartButton() {
         bool startable = true;
+        Debug.Log(players);
         foreach (PlayerData player in players) {
             if (player.character == "" || selecting) {
                 startable = false;
@@ -178,18 +181,27 @@ public class MainMenuUIController : MonoBehaviour
         characterSelectObjectArray.Add(newSelectObject);
         int i = 0;
         foreach (GameObject selUI in characterSelectObjectArray) {
+            int currentIndex = i;
+
             GameObject pss = GameObject.Find("PlayerSelectScreen");
             Debug.Log("Posing");
-            float mapWidth = pss.transform.Find("bg").transform.position.x;
+            float mapWidth = pss.transform.Find("bg").GetComponent<RectTransform>().rect.width;
             Debug.Log(mapWidth);
             float startingPoint = pss.transform.position.x - (mapWidth/2);
             Debug.Log(startingPoint);
-            float segmentSize = mapWidth/i;
+            float segmentSize = mapWidth/numPlayers;
 
             Debug.Log(segmentSize);
             float finalPos = startingPoint + segmentSize*i + segmentSize/2;
             Debug.Log(finalPos);
-            selUI.transform.position = new Vector2(finalPos, selUI.transform.position.y);
+            selUI.transform.position = new Vector2(finalPos, pss.transform.position.y);
+            selUI.transform.parent = pss.transform;
+
+            selUI.name = "characterSelect" + (currentIndex + 1).ToString();
+            Debug.Log("UpArrow " + (currentIndex + 1).ToString());
+            selUI.transform.Find("uparrow").GetComponent<Button>().onClick.AddListener(delegate {handleButtonPress("UpArrow " + (currentIndex+1).ToString()); });
+            selUI.transform.Find("downarrow").GetComponent<Button>().onClick.AddListener(delegate {handleButtonPress("DownArrow " + (currentIndex+1).ToString()); });
+            selUI.transform.Find("numberholder").transform.Find("number").GetComponent<TextMeshProUGUI>().text = (currentIndex+1).ToString();
             i++;
         }
     }
@@ -259,9 +271,11 @@ public class MainMenuUIController : MonoBehaviour
     }
     public void UpArrow(string number) {
         Debug.Log("moveing character selectino up for player" + number);
+        Debug.Log(characterSelectObjectArray[Int32.Parse(number)-1].name);
     }
     public void DownArrow(string number) {
         Debug.Log("moveing character selectino down for player" + number);
+        Debug.Log(characterSelectObjectArray[Int32.Parse(number)-1].name);
     }
     public void Player1() {
         
