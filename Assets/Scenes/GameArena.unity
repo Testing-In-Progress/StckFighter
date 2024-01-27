@@ -229,8 +229,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   game: {fileID: 0}
-  playerObjects: []
   bounds: {x: 0, y: 0}
+  guider: 0
   minDistance: 5
   maxDistance: 15
   zoomSpeed: 5
