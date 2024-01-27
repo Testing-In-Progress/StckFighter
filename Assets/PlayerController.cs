@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     public float xDrag; 
     public float yDrag;
 
+    public int xDirection;
+
     void Start()
     {
         if (GameObject.Find("GLOBALOBJECT")) {
@@ -48,12 +50,14 @@ public class PlayerController : MonoBehaviour
         }
 
         // jump = 3f;
-        xVelocity = 0;
-        yVelocity = 0;
+        xVelocity = 0f;
+        yVelocity = 0f;
         xAccel = 0.03f;
         yAccel = 0.01f;
         xDrag = 4;
         yDrag = 2;
+
+        xDirection = 0;
     }
     void processInput(string kcode) {
         Debug.Log(kcode.ToString() + "\n" + playerData.controllerType.up);
@@ -61,23 +65,26 @@ public class PlayerController : MonoBehaviour
             // lookup
         }
         if (kcode == playerData.controllerType.down) {
-            yVelocity -= yAccel;
+
         }
+
         if (kcode == playerData.controllerType.left) {
-            xVelocity -= xAccel;
+            xVelocity = -xAccel;
         }
         if (kcode == playerData.controllerType.right) {
-            xVelocity += xAccel;
+            xVelocity = +xAccel;
         }
+
+
         if (kcode == playerData.controllerType.jump) {
-            yVelocity += selectedCharacter.jumpSpeed;
+
         }
         if (kcode == playerData.controllerType.attack) {
             selectedCharacter.Attack();
         }
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!game.paused && Input.anyKey) {
             foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
@@ -91,8 +98,7 @@ public class PlayerController : MonoBehaviour
 
         transform.position = new Vector2(transform.position.x + xVelocity, transform.position.y + yVelocity);
 
-        xVelocity = xVelocity/xDrag;
-        yVelocity = yVelocity/yDrag;
+
     }
 }
         
