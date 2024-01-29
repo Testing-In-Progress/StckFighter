@@ -20,6 +20,7 @@ public class MainMenuUIController : MonoBehaviour
     public Vector2 center;
     public string playType;
     public string map;
+    public GameObject[] characters;
     public TMPro.TextMeshProUGUI statusText; //(From "GameObject" to "TMPro.TextMeshProUGUI statusText"
     public TMPro.TextMeshProUGUI StatusTextControl; //(From "GameObject" to "TMPro.TextMeshProUGUI statusText" 
     public string selectedPlayer;
@@ -97,6 +98,10 @@ public class MainMenuUIController : MonoBehaviour
         players = new List<PlayerData>();
         playerControllerStore1 = new List<string>(new string[7]);
         playerControllerStore2 = new List<string>(new string[7]);
+
+        // grab all player models
+        characters = Resources.LoadAll<GameObject>("Characters");
+
         // initializing players
         foreach (var index in Range(1, numPlayers)) {
             PlayerData playerData = new PlayerData();
@@ -115,7 +120,15 @@ public class MainMenuUIController : MonoBehaviour
         Mute = false;
         FullScreen = false;
     }
-    
+
+    GameObject getCharacter(string characterName) {
+        foreach (GameObject character in characters) {
+            if (character.name == characterName) {
+                return character;
+            }
+        }
+        return new GameObject();
+    }
 
     public int getPNum(string playerName) {
         int pNum = Int32.Parse(playerName.Split("player")[1]) - 1;
@@ -152,7 +165,7 @@ public class MainMenuUIController : MonoBehaviour
             playerControllerStore1[4] = jumpControlUI.text;
             playerControllerStore1[5] = dashControlUI.text;
             playerControllerStore1[6] = attackControlUI.text;
-        } else{
+        } else {
             playerControllerStore2[0] = leftControlUI.text;
             playerControllerStore2[1] = rightControlUI.text;
             playerControllerStore2[2] = upControlUI.text;
@@ -179,6 +192,14 @@ public class MainMenuUIController : MonoBehaviour
         GameObject newSelectObject = Instantiate(characterSelectObject);
         Debug.Log("newSelectObject");
         characterSelectObjectArray.Add(newSelectObject);
+
+        List<string> charaNames = new List<string>();
+        foreach (GameObject character in characters) {
+            charaNames.Add(character.name);
+            Debug.Log(charaNames);
+            Debug.Log(character.name);
+        }
+
         int i = 0;
         foreach (GameObject selUI in characterSelectObjectArray) {
             int currentIndex = i;
@@ -202,6 +223,15 @@ public class MainMenuUIController : MonoBehaviour
             selUI.transform.Find("uparrow").GetComponent<Button>().onClick.AddListener(delegate {handleButtonPress("UpArrow " + (currentIndex+1).ToString()); });
             selUI.transform.Find("downarrow").GetComponent<Button>().onClick.AddListener(delegate {handleButtonPress("DownArrow " + (currentIndex+1).ToString()); });
             selUI.transform.Find("numberholder").transform.Find("number").GetComponent<TextMeshProUGUI>().text = (currentIndex+1).ToString();
+            
+            Debug.Log(currentIndex);
+            GameObject newCharacter = Instantiate(getCharacter(charaNames[0]));
+            newCharacter.transform.position = selUI.transform.position;
+            newCharacter.transform.parent = selUI.transform;
+            newCharacter.transform.localScale = new Vector2(100,100);
+            Destroy(newCharacter.GetComponent<PlayerController>());
+
+
             i++;
         }
     }
@@ -329,7 +359,7 @@ public class MainMenuUIController : MonoBehaviour
             keyInputType = "Left";
         }
     }
-    public string GetCurrentSettings(){
+    public string GetCurrentSettings() {
         players[getPNum(selectedCharacterControl)].controllerType = game.wasd;
             var controller = players[getPNum(selectedCharacterControl)].controllerType;
             string controllerSettings = $"Player {getPNum(selectedCharacterControl) + 1} Controller Settings:\n" +
@@ -338,7 +368,7 @@ public class MainMenuUIController : MonoBehaviour
                                         $"Jump: {controller.jump}, Dash: {controller.dash}, " +
                                         $"Attack: {controller.attack}";
         return controllerSettings;
-    } 
+    }
 
 
     public void PlayerSettingResetButton() {
