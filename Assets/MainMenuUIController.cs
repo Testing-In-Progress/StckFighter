@@ -224,12 +224,15 @@ public class MainMenuUIController : MonoBehaviour
             selUI.transform.Find("downarrow").GetComponent<Button>().onClick.AddListener(delegate {handleButtonPress("DownArrow " + (currentIndex+1).ToString()); });
             selUI.transform.Find("numberholder").transform.Find("number").GetComponent<TextMeshProUGUI>().text = (currentIndex+1).ToString();
             
-            Debug.Log(currentIndex);
-            GameObject newCharacter = Instantiate(getCharacter(charaNames[0]));
-            newCharacter.transform.position = selUI.transform.position;
-            newCharacter.transform.parent = selUI.transform;
-            newCharacter.transform.localScale = new Vector2(100,100);
-            Destroy(newCharacter.GetComponent<PlayerController>());
+            if (!selUI.transform.Find("selectedChara")) {
+                GameObject newCharacter = Instantiate(getCharacter(charaNames[0]));
+                newCharacter.transform.position = selUI.transform.position;
+                newCharacter.transform.parent = selUI.transform;
+                newCharacter.GetComponent<RectTransform>().localScale = new Vector2(newCharacter.GetComponent<RectTransform>().localScale.x*80, newCharacter.GetComponent<RectTransform>().localScale.y*80);
+                newCharacter.name = "selectedChara";
+                Destroy(newCharacter.GetComponent<PlayerController>());
+                Destroy(newCharacter.GetComponent<Rigidbody2D>());
+            }
 
 
             i++;
