@@ -51,10 +51,8 @@ public class MainMenuUIController : MonoBehaviour
     public ControllerType wasdreset;
 
     public ControllerType arrowreset;
-
     public GameObject characterSelectObject;
     public List<GameObject> characterSelectObjectArray;
-
     public bool Mute;
     public bool FullScreen;
 
@@ -309,7 +307,11 @@ public class MainMenuUIController : MonoBehaviour
         Debug.Log("moveing character selectino up for player" + number);
         Debug.Log(characterSelectObjectArray[Int32.Parse(number)-1].name);
 
-        
+        foreach (GameObject character in characters) {
+            if (character.name == characterSelectObjectArray[Int32.Parse(number)-1].name) {
+                return character;
+            }
+        }
 
         players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character = charaNames[0];
     }
