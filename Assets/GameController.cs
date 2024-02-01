@@ -50,6 +50,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         if (GameObject.Find("GLOBALOBJECT")) {
             game = GameObject.Find("GLOBALOBJECT").GetComponent<GlobalController>();
         } else {
@@ -60,6 +61,8 @@ public class GameController : MonoBehaviour
             game.playType = "Local";
             game.mute = false;
             game.fullScreen = Screen.fullScreen;
+
+        
             foreach (var index in Range(1, 2)) { // Default 2 players
                 PlayerData playerData = new PlayerData();
                 playerData.name = "player" + index.ToString();
@@ -80,6 +83,7 @@ public class GameController : MonoBehaviour
         map = Instantiate(getMap(game.map)); // load map stored in game.map
         // Load characters and assign values
         int i = 0;
+        int defualtHealth = 100;
 
         foreach (PlayerData playerData in game.players) {
             Debug.Log(playerData.character);
@@ -90,6 +94,13 @@ public class GameController : MonoBehaviour
             charaData.charaName = playerData.character;
             newCharacter.transform.position = new Vector2(getPosFromMap(game.players.Count, i), newCharacter.transform.position.y);
 
+            if (playerData.character == "redstickman") {
+            playerData.health = redstickmanhealth; // Assuming redstickmanhealth is set elsewhere
+        } else if (playerData.character == "bluestickman") {
+            playerData.health = bluestickmanhealth; // Assuming bluestickmanhealth is set elsewhere
+        } else {
+            playerData.health = defualtHealth; // Default health for any other character
+        }                           
             // Create NameTag
             /** GameObject nameTag = new GameObject();
             nameTag.name = "nameTag";

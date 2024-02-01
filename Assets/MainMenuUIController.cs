@@ -226,6 +226,9 @@ public class MainMenuUIController : MonoBehaviour
             
             if (!selUI.transform.Find("selectedChara")) {
                 GameObject newCharacter = Instantiate(getCharacter(charaNames[0]));
+
+                players[currentIndex].character = charaNames[0];
+
                 newCharacter.transform.position = selUI.transform.position;
                 newCharacter.transform.parent = selUI.transform;
                 newCharacter.GetComponent<RectTransform>().localScale = new Vector2(newCharacter.GetComponent<RectTransform>().localScale.x*80, newCharacter.GetComponent<RectTransform>().localScale.y*80);
@@ -305,6 +308,10 @@ public class MainMenuUIController : MonoBehaviour
     public void UpArrow(string number) {
         Debug.Log("moveing character selectino up for player" + number);
         Debug.Log(characterSelectObjectArray[Int32.Parse(number)-1].name);
+
+        
+
+        players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character = charaNames[0];
     }
     public void DownArrow(string number) {
         Debug.Log("moveing character selectino down for player" + number);
