@@ -72,12 +72,11 @@ public class PlayerController : MonoBehaviour
             xVelocity = -xAccel;
         }
         if (kcode == playerData.controllerType.right) {
-            xVelocity = +xAccel;
+            xVelocity += xAccel;
         }
 
-
         if (kcode == playerData.controllerType.jump) {
-
+            yVelocity += yAccel;
         }
         if (kcode == playerData.controllerType.attack) {
             selectedCharacter.Attack();
