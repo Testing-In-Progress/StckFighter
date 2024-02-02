@@ -37,18 +37,18 @@ public class Health : MonoBehaviour
 
     private void Update()
     {
-        //healthText.text = "Health: " + health.ToString("0.00") + "%";
+        healthText.text = "Health: " + health.ToString("0.00") + "%";
 
-        //Debug.Log(healthText.text);
-        //if (health > maxHealth) health = maxHealth;
+        Debug.Log(healthText.text);
+        if (health > maxHealth) health = maxHealth;
 
-        //lerpSpeed = 3f * Time.deltaTime;
-        //HealthBarFiller();
-        //ColorChanger();
+        lerpSpeed = 3f * Time.deltaTime;
+        HealthBarFiller();
+        ColorChanger();
 
-        //if (healthText == null) Debug.LogError("healthText is not assigned!");
-        //if (healthBar == null) Debug.LogError("healthBar is not assigned!");
-        //if (healthPoints == null) Debug.LogError("healthPoints array is not initialized!");
+        if (healthText == null) Debug.LogError("healthText is not assigned!");
+        if (healthBar == null) Debug.LogError("healthBar is not assigned!");
+        if (healthPoints == null) Debug.LogError("healthPoints array is not initialized!");
 
 
     }
