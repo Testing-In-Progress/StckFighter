@@ -83,7 +83,7 @@ public class GameController : MonoBehaviour
         map = Instantiate(getMap(game.map)); // load map stored in game.map
         // Load characters and assign values
         int i = 0;
-        int defualtHealth = 100;
+        int defaultHealth = 100;
 
         foreach (PlayerData playerData in game.players) {
             Debug.Log(playerData.character);
@@ -99,7 +99,7 @@ public class GameController : MonoBehaviour
         } else if (playerData.character == "bluestickman") {
             playerData.health = bluestickmanhealth; // Assuming bluestickmanhealth is set elsewhere
         } else {
-            playerData.health = defualtHealth; // Default health for any other character
+            playerData.health = defaultHealth; // Default health for any other character
         }                           
             // Create NameTag
             /** GameObject nameTag = new GameObject();
