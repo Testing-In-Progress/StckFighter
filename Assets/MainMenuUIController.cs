@@ -12,6 +12,8 @@ using TMPro;
 using static GlobalController;
 using static PlayerData;
 using Unity.VisualScripting;
+using System.Diagnostics.CodeAnalysis;
+using Unity.Burst.Intrinsics;
 
 public class MainMenuUIController : MonoBehaviour
 {
@@ -216,9 +218,13 @@ public class MainMenuUIController : MonoBehaviour
             selUI.transform.position = new Vector2(finalPos, pss.transform.position.y);
             selUI.transform.parent = pss.transform;
 
-            selUI.name = "characterSelect" + (currentIndex + 1).ToString();
+            selUI.name = players[i].name;
             Debug.Log("UpArrow " + (currentIndex + 1).ToString());
-            selUI.transform.Find("uparrow").GetComponent<Button>().onClick.AddListener(delegate {handleButtonPress("UpArrow " + (currentIndex+1).ToString()); });
+
+            selUI.transform.Find("uparrow").GetComponent<Button>().onClick.RemoveAllListeners();
+            selUI.transform.Find("downarrow").GetComponent<Button>().onClick.RemoveAllListeners();
+
+            selUI.transform.Find("uparrow").GetComponent<Button>().onClick.AddListener(delegate {handleButtonPress("UpArrow " + (currentIndex+1).ToString()); Debug.Log("THE UP ARROW HAS BEEN PRESSED, AND I AM GONG TO RUN THE HANDEBUTTONPREEESS UCINTOM"); });
             selUI.transform.Find("downarrow").GetComponent<Button>().onClick.AddListener(delegate {handleButtonPress("DownArrow " + (currentIndex+1).ToString()); });
             selUI.transform.Find("numberholder").transform.Find("number").GetComponent<TextMeshProUGUI>().text = (currentIndex+1).ToString();
             
@@ -304,20 +310,70 @@ public class MainMenuUIController : MonoBehaviour
         
     }
     public void UpArrow(string number) {
+        GameObject ourCharacterSelectObjectArray = characterSelectObjectArray[Int32.Parse(number)-1];
         Debug.Log("moveing character selectino up for player" + number);
-        Debug.Log(characterSelectObjectArray[Int32.Parse(number)-1].name);
+        Debug.Log(ourCharacterSelectObjectArray.name);
 
-        foreach (GameObject character in characters) {
-            if (character.name == characterSelectObjectArray[Int32.Parse(number)-1].name) {
-                return character;
-            }
+        Debug.Log(characters);
+        Debug.Log(players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character);
+        var index = Array.FindIndex(characters, character => character.name == players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character);
+        Debug.Log(index);
+        GameObject temp;
+        GameObject finalChara;
+
+        if((index-1) >= 0 && (index-1) < characters.Length) {
+            temp = characters[index-1];
+            finalChara = Instantiate(characters[index-1]);
+        } else {
+            temp = characters[characters.Length-1];
+            finalChara = Instantiate(characters[characters.Length-1]);
         }
+        // update screen 
+        GameObject oldChara = ourCharacterSelectObjectArray.transform.Find("selectedChara").gameObject;
+        
+        finalChara.transform.position = ourCharacterSelectObjectArray.transform.position;
+        finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
+        finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*80, finalChara.GetComponent<RectTransform>().localScale.y*80);
+        finalChara.name = "selectedChara";
+        Destroy(finalChara.GetComponent<PlayerController>());
+        Destroy(finalChara.GetComponent<Rigidbody2D>());
+        
+        Destroy(oldChara);
 
-        players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character = charaNames[0];
+        players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character = temp.name;
     }
     public void DownArrow(string number) {
+        GameObject ourCharacterSelectObjectArray = characterSelectObjectArray[Int32.Parse(number)-1];
         Debug.Log("moveing character selectino down for player" + number);
-        Debug.Log(characterSelectObjectArray[Int32.Parse(number)-1].name);
+        Debug.Log(ourCharacterSelectObjectArray.name);
+
+        Debug.Log(characters);
+        Debug.Log(players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character);
+        var index = Array.FindIndex(characters, character => character.name == players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character);
+        Debug.Log(index);
+        GameObject temp;
+        GameObject finalChara;
+
+        if((index+1) >= 0 && (index+1) < characters.Length) {
+            temp = characters[index+1];
+            finalChara = Instantiate(characters[index+1]);
+        } else {
+            temp = characters[0];
+            finalChara = Instantiate(characters[0]);
+        }
+        // update screen 
+        GameObject oldChara = ourCharacterSelectObjectArray.transform.Find("selectedChara").gameObject;
+        
+        finalChara.transform.position = ourCharacterSelectObjectArray.transform.position;
+        finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
+        finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*80, finalChara.GetComponent<RectTransform>().localScale.y*80);
+        finalChara.name = "selectedChara";
+        Destroy(finalChara.GetComponent<PlayerController>());
+        Destroy(finalChara.GetComponent<Rigidbody2D>());
+        
+        Destroy(oldChara);
+
+        players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character = temp.name;
     }
     public void Player1() {
         
