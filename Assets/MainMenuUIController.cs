@@ -341,6 +341,7 @@ public class MainMenuUIController : MonoBehaviour
         Destroy(oldChara);
 
         players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character = temp.name;
+        updateStartButton();
     }
     public void DownArrow(string number) {
         GameObject ourCharacterSelectObjectArray = characterSelectObjectArray[Int32.Parse(number)-1];
@@ -374,6 +375,7 @@ public class MainMenuUIController : MonoBehaviour
         Destroy(oldChara);
 
         players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character = temp.name;
+        updateStartButton();
     }
     public void Player1() {
         

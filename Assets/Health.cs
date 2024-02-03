@@ -37,7 +37,7 @@ public class Health : MonoBehaviour
 
     private void Update()
     {
-        healthText.text = "Health: " + health + "%";
+        healthText.text = "Health: " + health.ToString("0.00") + "%";
 
         Debug.Log(healthText.text);
         if (health > maxHealth) health = maxHealth;
