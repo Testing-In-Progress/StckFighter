@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public PlayerData playerData;
     
     public float jump;
+    public float walkSpeed;
     public float xVelocity;
     public float yVelocity;
 
@@ -30,7 +31,8 @@ public class PlayerController : MonoBehaviour
     public bool up;
     public bool down;
     public bool jumpX;
-
+    public bool crouch; 
+    public bool lookUp;
     void Start()
     {
         if (GameObject.Find("GLOBALOBJECT")) {
@@ -53,7 +55,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // jump = 3f;
-        xVelocity = 0.1f;
+        walkSpeed = 0.2f;
+        xVelocity = 0f;
         yVelocity = 0.1f;
         
         xDirection = 0;
@@ -64,6 +67,7 @@ public class PlayerController : MonoBehaviour
         up = false;
         down = false;
         jumpX = false;
+        crouch = false; 
     }
     void Update(){
         KeyCode leftCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.left);
@@ -122,16 +126,27 @@ public class PlayerController : MonoBehaviour
         }
 
         if (up == true && down == false){
-            // up is pressed, do nothing
+            crouch = false;
+            lookUp = true;
         }
         else if (up == false && down == true){
-            // down is pressed, do nothing
+            crouch = true;
+            lookUp = false;
         }
         else if (up == false && down == false){
-            // neither is pressed, do nothing
+            crouch = false;
+            lookUp = false;
         }
         else if (up == true && down == true){
-            // neither are pressed, do nothing
+            crouch = false;
+            lookUp = false;
+        }
+
+        if (crouch == true){
+            xVelocity = walkSpeed / 4;
+        }
+        else{
+            xVelocity = walkSpeed;
         }
 
         if (jumpX == true){
