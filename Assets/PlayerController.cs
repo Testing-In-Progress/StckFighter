@@ -91,12 +91,17 @@ public class PlayerController : MonoBehaviour
         else{
             eight = false;
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 52c626b5427d805d7f37a90a01335a2f109a6f14
         if (Input.GetKey(downCode)) {
             two = true;
         }
         else{
             two = false;
         }
+<<<<<<< HEAD
         if (Input.GetKey(jumpCode)) {
             four = true;
         }
@@ -104,6 +109,8 @@ public class PlayerController : MonoBehaviour
             four = false;
         }
         
+=======
+>>>>>>> 52c626b5427d805d7f37a90a01335a2f109a6f14
 
         // Defines inputs into movement
         if (four == true && six == false){
