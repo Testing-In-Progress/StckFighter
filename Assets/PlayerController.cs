@@ -21,9 +21,10 @@ public class PlayerController : MonoBehaviour
     public BoxCollider2D feet;
     public float jump;
     public float walkSpeed;
-    public float jumpHeight;
     public float xVelocity;
     public float yAccel;
+    public float maxHeight;
+    public float initialSpeedY;
     public float yVelocity;
 
     
@@ -62,10 +63,11 @@ public class PlayerController : MonoBehaviour
 
         // jump = 3f;
         walkSpeed = 0.2f;
-        jumpHeight = 20f;
+
         xVelocity = 0f;
-        yAccel = 3f;
-        
+        yAccel = 6f;
+        maxHeight = 60f;     
+
         xDirection = 0;
         yDirection = 0;
 
@@ -79,7 +81,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update(){
         yVelocity = characterRB.velocity.y;
-     
+        initialSpeedY = Mathf.Sqrt(2f * yAccel * maxHeight);
 
         KeyCode leftCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.left);
         KeyCode rightCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.right);
@@ -196,7 +198,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     public void jumpFunction(){
-        characterRB.velocity = new Vector2(characterRB.velocity.x, jumpHeight);
+        characterRB.velocity = new Vector2(characterRB.velocity.x, initialSpeedY);
     }
 }
         
