@@ -25,10 +25,11 @@ public class PlayerController : MonoBehaviour
     public int xDirection;
     public int yDirection;
 
-    public bool four;
-    public bool six;
-    public bool eight;
-    public bool two;
+    public bool left;
+    public bool right;
+    public bool up;
+    public bool down;
+    public bool jumpX;
 
     void Start()
     {
@@ -53,15 +54,16 @@ public class PlayerController : MonoBehaviour
 
         // jump = 3f;
         xVelocity = 0.1f;
-        yVelocity = 0f;
+        yVelocity = 0.1f;
         
         xDirection = 0;
         yDirection = 0;
 
-        four = false;
-        six = false;
-        eight = false;
-        two = false;
+        left = false;
+        right = false;
+        up = false;
+        down = false;
+        jumpX = false;
     }
     void Update(){
         KeyCode leftCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.left);
@@ -72,52 +74,71 @@ public class PlayerController : MonoBehaviour
 
         // To detect what direction or input the player is doing
         if (Input.GetKey(leftCode)) {
-            four = true;
-        }
-        else{
-            four = false;
+            left = true;
+        } else {
+            left = false;
         }
         
         if (Input.GetKey(rightCode)) {
-            six = true;
+            right = true;
         }
         else{
-            six = false;
+            right = false;
         }
 
         if (Input.GetKey(upCode)) {
-            eight = true;
+            up = true;
         }
         else{
-            eight = false;
+            up = false;
         }
 
         if (Input.GetKey(downCode)) {
-            two = true;
+            down = true;
         }
         else{
-            two = false;
+            down = false;
         }
         if (Input.GetKey(jumpCode)) {
-            four = true;
+            jumpX = true;
         }
         else{
-            four = false;
+            jumpX = false;
         }
         
 
         // Defines inputs into movement
-        if (four == true && six == false){
+        if (left == true && right == false){
             xDirection = -1;
         }
-        else if (four == false && six == true){
+        else if (left == false && right == true){
             xDirection = 1;
         }
-        else if (four == false && six == false){
+        else if (left == false && right == false){
             xDirection = 0;
         }
-        else if (four == true && six == true){
+        else if (left == true && right == true){
             xDirection = 0;
+        }
+
+        if (up == true && down == false){
+            // up is pressed, do nothing
+        }
+        else if (up == false && down == true){
+            // down is pressed, do nothing
+        }
+        else if (up == false && down == false){
+            // neither is pressed, do nothing
+        }
+        else if (up == true && down == true){
+            // neither are pressed, do nothing
+        }
+
+        if (jumpX == true){
+            yDirection = 1;
+        }
+        else if (jumpX == false){
+            yDirection = 0;
         }
         
     }
@@ -125,7 +146,7 @@ public class PlayerController : MonoBehaviour
     {
 
 
-        transform.position = new Vector2(transform.position.x + xDirection * xVelocity, transform.position.y + yVelocity);
+        transform.position = new Vector2(transform.position.x + xDirection * xVelocity, transform.position.y + yDirection * yVelocity);
 
 
     }
