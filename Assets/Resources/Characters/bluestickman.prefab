@@ -136,7 +136,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
 --- !u!50 &7632931193009452350
 Rigidbody2D:
@@ -180,13 +180,18 @@ MonoBehaviour:
   game: {fileID: 0}
   charaName: 
   jump: 0
+  walkSpeed: 0
   xVelocity: 0
   yVelocity: 0
-  xAccel: 0
-  yAccel: 0
-  xDrag: 0
-  yDrag: 0
   xDirection: 0
+  yDirection: 0
+  left: 0
+  right: 0
+  up: 0
+  down: 0
+  jumpX: 0
+  crouch: 0
+  lookUp: 0
 --- !u!222 &8236087668434708946
 CanvasRenderer:
   m_ObjectHideFlags: 0
