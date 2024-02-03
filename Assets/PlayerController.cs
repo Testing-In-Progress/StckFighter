@@ -25,6 +25,11 @@ public class PlayerController : MonoBehaviour
     public int xDirection;
     public int yDirection;
 
+    public bool four;
+    public bool six;
+    public bool eight;
+    public bool two;
+
     void Start()
     {
         if (GameObject.Find("GLOBALOBJECT")) {
@@ -47,10 +52,16 @@ public class PlayerController : MonoBehaviour
         }
 
         // jump = 3f;
-        xVelocity = 0f;
+        xVelocity = 0.1f;
         yVelocity = 0f;
         
         xDirection = 0;
+        yDirection = 0;
+
+        four = false;
+        six = false;
+        eight = false;
+        two = false;
     }
     void Update(){
         KeyCode leftCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.left);
@@ -58,91 +69,54 @@ public class PlayerController : MonoBehaviour
         KeyCode upCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.up);
         KeyCode downCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.down);
 
+        // To detect what direction or input the player is doing
+        if (Input.GetKey(leftCode)) {
+            four = true;
+        }
+        else{
+            four = false;
+        }
+        
+        if (Input.GetKey(rightCode)) {
+            six = true;
+        }
+        else{
+            six = false;
+        }
 
-        if (Input.GetKeyDown(leftCode)) {
+        if (Input.GetKey(upCode)) {
+            eight = true;
+        }
+        else{
+            eight = false;
+        }
+
+        if (Input.GetKey(downCode)) {
+            two = true;
+        }
+        else{
+            two = false;
+        }
+
+        // Defines inputs into movement
+        if (four == true && six == false){
             xDirection = -1;
         }
-        if (Input.GetKeyUp(leftCode)) {
-            xDirection = 0;
-        }
-
-
-        if (Input.GetKeyDown(rightCode)) {
+        else if (four == false && six == true){
             xDirection = 1;
         }
-        if (Input.GetKeyUp(rightCode)) {
+        else if (four == false && six == false){
             xDirection = 0;
         }
-
-
-        if (Input.GetKeyDown(upCode)) {
-
-        }
-        if (Input.GetKeyUp(upCode)) {
-
-        }
-
-
-        if (Input.GetKeyDown(downCode)) {
-
-        }
-        if (Input.GetKeyUp(downCode)) {
-
-        }
-    }
-   /* void processDownInput(string kcode) {
-       /* Debug.Log(kcode.ToString() + "\n" + playerData.controllerType.up);
-        if (kcode == playerData.controllerType.up) {
-            // lookup
-        }
-        if (kcode == playerData.controllerType.down) {
-
-        }
-
-        if (kcode == playerData.controllerType.left) {
+        else if (four == true && six == true){
             xDirection = 0;
-        }`
-        if (kcode == playerData.controllerType.right) {
-
-        }
-
-
-        if (kcode == playerData.controllerType.jump) {
-
-        }
-        if (kcode == playerData.controllerType.attack) {
-            selectedCharacter.Attack();
         }
     }
-    void processUpInput(string kcode) {
-        Debug.Log(kcode.ToString() + "\n" + playerData.controllerType.up);
-        if (kcode == playerData.controllerType.up) {
-            // lookup
-        }
-        if (kcode == playerData.controllerType.down) {
-
-        }
-
-        if (kcode == playerData.controllerType.left) {
-            xDirection = -1;
-        }
-        if (kcode == playerData.controllerType.right) {
-            xVelocity = +xAccel;
-        }
-
-        if (kcode == playerData.controllerType.jump) {
-            yVelocity += yAccel;
-        }
-        if (kcode == playerData.controllerType.attack) {
-            selectedCharacter.Attack();
-        }
-    } */
-    // Update is called once per frame
     void FixedUpdate()
     {
 
 
-        transform.position = new Vector2(transform.position.x + xDirection, transform.position.y + yVelocity);
+        transform.position = new Vector2(transform.position.x + xDirection * xVelocity, transform.position.y + yVelocity);
 
 
     }
