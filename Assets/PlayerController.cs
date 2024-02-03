@@ -17,12 +17,16 @@ public class PlayerController : MonoBehaviour
     public string charaName;
     public CharacterBase selectedCharacter;
     public PlayerData playerData;
-    
+    public Rigidbody2D characterRB;
+    public BoxCollider2D feet;
     public float jump;
     public float walkSpeed;
+    public float jumpHeight;
     public float xVelocity;
+    public float yAccel;
     public float yVelocity;
 
+    
     public int xDirection;
     public int yDirection;
 
@@ -33,6 +37,8 @@ public class PlayerController : MonoBehaviour
     public bool jumpX;
     public bool crouch; 
     public bool lookUp;
+    public bool onGround;
+    
     void Start()
     {
         if (GameObject.Find("GLOBALOBJECT")) {
@@ -56,8 +62,9 @@ public class PlayerController : MonoBehaviour
 
         // jump = 3f;
         walkSpeed = 0.2f;
+        jumpHeight = 20f;
         xVelocity = 0f;
-        yVelocity = 0.1f;
+        yAccel = 3f;
         
         xDirection = 0;
         yDirection = 0;
@@ -68,8 +75,12 @@ public class PlayerController : MonoBehaviour
         down = false;
         jumpX = false;
         crouch = false; 
+        onGround = false;
     }
     void Update(){
+        yVelocity = characterRB.velocity.y;
+     
+
         KeyCode leftCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.left);
         KeyCode rightCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.right);
         KeyCode upCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.up);
@@ -142,17 +153,18 @@ public class PlayerController : MonoBehaviour
             lookUp = false;
         }
 
-        if (crouch == true){
+        if (crouch == true && onGround == true){
             xVelocity = walkSpeed / 4;
         }
         else{
             xVelocity = walkSpeed;
         }
 
-        if (jumpX == true){
+        if (jumpX == true && onGround == true){
             yDirection = 1;
+            jumpFunction();
         }
-        else if (jumpX == false){
+        else{
             yDirection = 0;
         }
         
@@ -160,10 +172,31 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
 
+        characterRB.gravityScale = yAccel;
+        transform.position = new Vector2(transform.position.x + xDirection * xVelocity, transform.position.y);
 
-        transform.position = new Vector2(transform.position.x + xDirection * xVelocity, transform.position.y + yDirection * yVelocity);
 
+    }
+    public void OnTriggerEnter2D(Collider2D feet)
+    {
+        // Check if the collider is tagged as ground
+        if (feet.CompareTag("ground"))
+        {
+            onGround = true; 
+        }
+        
+    }
 
+    public void OnTriggerExit2D(Collider2D feet)
+    {
+        // Check if the collider is tagged as ground
+        if (feet.CompareTag("ground"))
+        {
+            onGround = false; 
+        }
+    }
+    public void jumpFunction(){
+        characterRB.velocity = new Vector2(characterRB.velocity.x, jumpHeight);
     }
 }
         
