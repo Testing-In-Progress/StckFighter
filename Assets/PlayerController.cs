@@ -21,12 +21,9 @@ public class PlayerController : MonoBehaviour
     public float jump;
     public float xVelocity;
     public float yVelocity;
-    public float xAccel;
-    public float yAccel;
-    public float xDrag; 
-    public float yDrag;
 
     public int xDirection;
+    public int yDirection;
 
     void Start()
     {
@@ -52,15 +49,49 @@ public class PlayerController : MonoBehaviour
         // jump = 3f;
         xVelocity = 0f;
         yVelocity = 0f;
-        xAccel = 0.03f;
-        yAccel = 0.01f;
-        xDrag = 4;
-        yDrag = 2;
-
+        
         xDirection = 0;
     }
-    void processInput(string kcode) {
-        Debug.Log(kcode.ToString() + "\n" + playerData.controllerType.up);
+    void Update(){
+        KeyCode leftCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.left);
+        KeyCode rightCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.right);
+        KeyCode upCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.up);
+        KeyCode downCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.down);
+
+
+        if (Input.GetKeyDown(leftCode)) {
+            xDirection = -1;
+        }
+        if (Input.GetKeyUp(leftCode)) {
+            xDirection = 0;
+        }
+
+
+        if (Input.GetKeyDown(rightCode)) {
+            xDirection = 1;
+        }
+        if (Input.GetKeyUp(rightCode)) {
+            xDirection = 0;
+        }
+
+
+        if (Input.GetKeyDown(upCode)) {
+
+        }
+        if (Input.GetKeyUp(upCode)) {
+
+        }
+
+
+        if (Input.GetKeyDown(downCode)) {
+
+        }
+        if (Input.GetKeyUp(downCode)) {
+
+        }
+    }
+   /* void processDownInput(string kcode) {
+       /* Debug.Log(kcode.ToString() + "\n" + playerData.controllerType.up);
         if (kcode == playerData.controllerType.up) {
             // lookup
         }
@@ -69,10 +100,10 @@ public class PlayerController : MonoBehaviour
         }
 
         if (kcode == playerData.controllerType.left) {
-            xVelocity = -xAccel;
-        }
+            xDirection = 0;
+        }`
         if (kcode == playerData.controllerType.right) {
-            xVelocity = +xAccel;
+
         }
 
 
@@ -83,20 +114,36 @@ public class PlayerController : MonoBehaviour
             selectedCharacter.Attack();
         }
     }
+    void processUpInput(string kcode) {
+        Debug.Log(kcode.ToString() + "\n" + playerData.controllerType.up);
+        if (kcode == playerData.controllerType.up) {
+            // lookup
+        }
+        if (kcode == playerData.controllerType.down) {
+
+        }
+
+        if (kcode == playerData.controllerType.left) {
+            xDirection = -1;
+        }
+        if (kcode == playerData.controllerType.right) {
+
+        }
+
+
+        if (kcode == playerData.controllerType.jump) {
+
+        }
+        if (kcode == playerData.controllerType.attack) {
+            selectedCharacter.Attack();
+        }
+    } */
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!game.paused && Input.anyKey) {
-            foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
-            {
-                if (Input.GetKey(kcode))
-                {
-                    processInput(kcode.ToString());
-                }
-            }
-        }
 
-        transform.position = new Vector2(transform.position.x + xVelocity, transform.position.y + yVelocity);
+
+        transform.position = new Vector2(transform.position.x + xDirection, transform.position.y + yVelocity);
 
 
     }
