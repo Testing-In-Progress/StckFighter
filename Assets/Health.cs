@@ -49,8 +49,8 @@ public class Health : MonoBehaviour
 
     void HealthBarFiller()
     {
-        Debug.Log("healthBar = " + healthBar);
-        Debug.Log("healthBar.fillAmount = " + healthBar.fillAmount);
+        //Debug.Log("healthBar = " + healthBar);
+        //Debug.Log("healthBar.fillAmount = " + healthBar.fillAmount);
 
 
         healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (health / maxHealth), lerpSpeed);

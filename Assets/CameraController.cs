@@ -126,10 +126,10 @@ public class CameraController : MonoBehaviour
             bounds = getCameraBounds();    // left        right
 
             float distance = Mathf.Clamp(Math.Abs(bounds.y-bounds.x), minDistance, maxDistance);
-            Debug.Log(distance);
+            //Debug.Log(distance);
 
             float newOrthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, distance-guider, Time.deltaTime * zoomSpeed);
-            Debug.Log(newOrthographicSize);
+            //Debug.Log(newOrthographicSize);
             GetComponent<Camera>().orthographicSize = newOrthographicSize;
             
             gameObject.transform.position = new Vector3( (bounds.x + bounds.y)/2, gameObject.transform.position.y, gameObject.transform.position.z);
