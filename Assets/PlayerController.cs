@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
     
     public int xDirection;
+    public int dashDirection;
     public int yDirection;
 
     public bool left;
@@ -40,12 +41,14 @@ public class PlayerController : MonoBehaviour
     public bool crouch; 
     public bool lookUp;
     public bool onGround;
+    public bool canMove;
 
     public bool dash;
     public bool canDash;
     public bool isDashing;
     public bool enemyPositionOnLeft;
     public bool sprint;
+    public bool shield;
     
     public float jumpBufferTime;
     void Start()
@@ -77,6 +80,7 @@ public class PlayerController : MonoBehaviour
         maxHeight = 60f;     
 
         xDirection = 0;
+        dashDirection = 0;
         yDirection = 0;
 
         left = false;
@@ -86,10 +90,12 @@ public class PlayerController : MonoBehaviour
         jump = false;
         crouch = false; 
         onGround = false;
+        canMove = true;
+
         dash = false;
         sprint = false;
+        shield = false;
 
-        
         canDash = true;
         isDashing = false;
 
@@ -146,11 +152,23 @@ public class PlayerController : MonoBehaviour
         else{
             jump = false;
         }
-        if (Input.GetKey(dashCode)) {
+        if (Input.GetKeyDown(dashCode)) {
             dash = true;
         }
         else{
             dash = false;
+        }
+        if (Input.GetKey(dashCode) && xDirection != 0){
+            sprint = true;
+            shield = false;
+        }
+        else if (Input.GetKey(dashCode) && xDirection == 0){
+            sprint = false;
+            shield = true;
+        }
+        else{
+            sprint = false;
+            shield = false;
         }
         
 
@@ -200,32 +218,9 @@ public class PlayerController : MonoBehaviour
             yDirection = 0;
         }
 
-        if (dash == true && canDash == true && isDashing == false && onGround == true && enemyPositionOnLeft == true && xDirection == -1){
+        if (dash == true && canDash == true && isDashing == false  && xDirection != 0){
 
         }
-        else if (dash == true && canDash == true && isDashing == false && onGround == true && enemyPositionOnLeft == false && xDirection == -1){
-
-        }
-        else if (dash == true && canDash == true && isDashing == false && onGround == true && enemyPositionOnLeft == true && xDirection == 1){
-
-        }
-        else if (dash == true && canDash == true && isDashing == false && onGround == true && enemyPositionOnLeft == false && xDirection == 1){
-
-        }
-        else if (dash == true && canDash == true && isDashing == false && onGround == false && enemyPositionOnLeft == true && xDirection == -1){
-
-        }
-        else if (dash == true && canDash == true && isDashing == false && onGround == false && enemyPositionOnLeft == false && xDirection == -1){
-
-        }
-        else if (dash == true && canDash == true && isDashing == false && onGround == false && enemyPositionOnLeft == true && xDirection == 1){
-
-        }
-        else if (dash == true && canDash == true && isDashing == false && onGround == false && enemyPositionOnLeft == false && xDirection == 1){
-
-        }
-
-        
     }
     void FixedUpdate()
     {
