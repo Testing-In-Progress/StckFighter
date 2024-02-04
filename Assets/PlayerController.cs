@@ -60,6 +60,14 @@ public class PlayerController : MonoBehaviour
         }
         game.printData(); // for debugging data pass-through
 
+        if (game.players.Count == 2) {
+            foreach(PlayerData player in game.players) {
+                if (player.name != gameObject.name) {
+                    opponent = GameObject.Find(player.name).transform;
+                }
+            }
+        }
+
         FieldInfo characterField = typeof(GlobalController).GetField(charaName);
         Debug.Log(typeof(GlobalController));
         Debug.Log(charaName);
