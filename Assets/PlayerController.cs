@@ -17,11 +17,17 @@ public class PlayerController : MonoBehaviour
     public string charaName;
     public CharacterBase selectedCharacter;
     public PlayerData playerData;
-    
+    public Rigidbody2D characterRB;
+    public BoxCollider2D feet;
     public float jump;
+    public float walkSpeed;
     public float xVelocity;
+    public float yAccel;
+    public float maxHeight;
+    public float initialSpeedY;
     public float yVelocity;
 
+    
     public int xDirection;
     public int yDirection;
 
@@ -30,7 +36,10 @@ public class PlayerController : MonoBehaviour
     public bool up;
     public bool down;
     public bool jumpX;
-
+    public bool crouch; 
+    public bool lookUp;
+    public bool onGround;
+    
     void Start()
     {
         if (GameObject.Find("GLOBALOBJECT")) {
@@ -53,9 +62,12 @@ public class PlayerController : MonoBehaviour
         }
 
         // jump = 3f;
-        xVelocity = 0.1f;
-        yVelocity = 0.1f;
-        
+        walkSpeed = 0.2f;
+
+        xVelocity = 0f;
+        yAccel = 6f;
+        maxHeight = 60f;     
+
         xDirection = 0;
         yDirection = 0;
 
@@ -64,8 +76,13 @@ public class PlayerController : MonoBehaviour
         up = false;
         down = false;
         jumpX = false;
+        crouch = false; 
+        onGround = false;
     }
     void Update(){
+        yVelocity = characterRB.velocity.y;
+        initialSpeedY = Mathf.Sqrt(2f * yAccel * maxHeight);
+
         KeyCode leftCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.left);
         KeyCode rightCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.right);
         KeyCode upCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.up);
@@ -122,22 +139,34 @@ public class PlayerController : MonoBehaviour
         }
 
         if (up == true && down == false){
-            // up is pressed, do nothing
+            crouch = false;
+            lookUp = true;
         }
         else if (up == false && down == true){
-            // down is pressed, do nothing
+            crouch = true;
+            lookUp = false;
         }
         else if (up == false && down == false){
-            // neither is pressed, do nothing
+            crouch = false;
+            lookUp = false;
         }
         else if (up == true && down == true){
-            // neither are pressed, do nothing
+            crouch = false;
+            lookUp = false;
         }
 
-        if (jumpX == true){
-            yDirection = 1;
+        if (crouch == true && onGround == true){
+            xVelocity = walkSpeed / 4;
         }
-        else if (jumpX == false){
+        else{
+            xVelocity = walkSpeed;
+        }
+
+        if (jumpX == true && onGround == true){
+            yDirection = 1;
+            jumpFunction();
+        }
+        else{
             yDirection = 0;
         }
         
@@ -145,10 +174,31 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
 
+        characterRB.gravityScale = yAccel;
+        transform.position = new Vector2(transform.position.x + xDirection * xVelocity, transform.position.y);
 
-        transform.position = new Vector2(transform.position.x + xDirection * xVelocity, transform.position.y + yDirection * yVelocity);
 
+    }
+    public void OnTriggerEnter2D(Collider2D feet)
+    {
+        // Check if the collider is tagged as ground
+        if (feet.CompareTag("ground"))
+        {
+            onGround = true; 
+        }
+        
+    }
 
+    public void OnTriggerExit2D(Collider2D feet)
+    {
+        // Check if the collider is tagged as ground
+        if (feet.CompareTag("ground"))
+        {
+            onGround = false; 
+        }
+    }
+    public void jumpFunction(){
+        characterRB.velocity = new Vector2(characterRB.velocity.x, initialSpeedY);
     }
 }
         
