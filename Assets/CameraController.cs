@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     public float guider;
 
     public float minDistance = 5f;
-    public float maxDistance = 6f;
+    public float maxDistance = 7f;
 
     public float zoomSpeed = 5f;
 

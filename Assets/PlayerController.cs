@@ -16,10 +16,11 @@ public class PlayerController : MonoBehaviour
     
     public string charaName;
     public CharacterBase selectedCharacter;
+    public Transform opponent;
     public PlayerData playerData;
     public Rigidbody2D characterRB;
     public BoxCollider2D feet;
-    public float jump;
+
     public float walkSpeed;
     public float xVelocity;
     public float yAccel;
@@ -29,17 +30,27 @@ public class PlayerController : MonoBehaviour
 
     
     public int xDirection;
+    public int dashDirection;
     public int yDirection;
 
     public bool left;
     public bool right;
     public bool up;
     public bool down;
-    public bool jumpX;
+    public bool jump;
     public bool crouch; 
     public bool lookUp;
     public bool onGround;
+    public bool canMove;
+
+    public bool dash;
+    public bool canDash;
+    public bool isDashing;
+    public bool enemyPositionOnLeft;
+    public bool sprint;
+    public bool shield;
     
+    public float jumpBufferTime;
     void Start()
     {
         if (GameObject.Find("GLOBALOBJECT")) {
@@ -69,17 +80,35 @@ public class PlayerController : MonoBehaviour
         maxHeight = 60f;     
 
         xDirection = 0;
+        dashDirection = 0;
         yDirection = 0;
 
         left = false;
         right = false;
         up = false;
         down = false;
-        jumpX = false;
+        jump = false;
         crouch = false; 
         onGround = false;
+        canMove = true;
+
+        dash = false;
+        sprint = false;
+        shield = false;
+
+        canDash = true;
+        isDashing = false;
+
+        jumpBufferTime = 0.5f;
     }
     void Update(){
+        if (opponent.position.x < transform.position.x){
+            enemyPositionOnLeft = true;
+        }
+        else{
+            enemyPositionOnLeft = false;
+        }
+        
         yVelocity = characterRB.velocity.y;
         initialSpeedY = Mathf.Sqrt(2f * yAccel * maxHeight);
 
@@ -88,6 +117,7 @@ public class PlayerController : MonoBehaviour
         KeyCode upCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.up);
         KeyCode downCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.down);
         KeyCode jumpCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.jump);
+        KeyCode dashCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.dash);
 
         // To detect what direction or input the player is doing
         if (Input.GetKey(leftCode)) {
@@ -117,10 +147,28 @@ public class PlayerController : MonoBehaviour
             down = false;
         }
         if (Input.GetKey(jumpCode)) {
-            jumpX = true;
+            jump = true;
         }
         else{
-            jumpX = false;
+            jump = false;
+        }
+        if (Input.GetKeyDown(dashCode)) {
+            dash = true;
+        }
+        else{
+            dash = false;
+        }
+        if (Input.GetKey(dashCode) && xDirection != 0){
+            sprint = true;
+            shield = false;
+        }
+        else if (Input.GetKey(dashCode) && xDirection == 0){
+            sprint = false;
+            shield = true;
+        }
+        else{
+            sprint = false;
+            shield = false;
         }
         
 
@@ -162,14 +210,17 @@ public class PlayerController : MonoBehaviour
             xVelocity = walkSpeed;
         }
 
-        if (jumpX == true && onGround == true){
+        if (jump == true && onGround == true){
             yDirection = 1;
             jumpFunction();
         }
         else{
             yDirection = 0;
         }
-        
+
+        if (dash == true && canDash == true && isDashing == false  && xDirection != 0){
+
+        }
     }
     void FixedUpdate()
     {
@@ -184,7 +235,7 @@ public class PlayerController : MonoBehaviour
         // Check if the collider is tagged as ground
         if (feet.CompareTag("ground"))
         {
-            onGround = true; 
+            Invoke("jumpBuffer", jumpBufferTime);
         }
         
     }
@@ -194,11 +245,31 @@ public class PlayerController : MonoBehaviour
         // Check if the collider is tagged as ground
         if (feet.CompareTag("ground"))
         {
-            onGround = false; 
+            onGround = false;
         }
+    }
+
+    public void jumpBuffer(){
+        onGround = true; 
     }
     public void jumpFunction(){
         characterRB.velocity = new Vector2(characterRB.velocity.x, initialSpeedY);
     }
+    public void groundForwardDash(){
+
+    }
+    public void groundBackDash(){
+
+    }
+    public void airForwardDash(){
+
+    }
+    public void airBackDash(){
+
+    }
+    public void refreshDashCooldown(){
+
+    }
+
 }
         
