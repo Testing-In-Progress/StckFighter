@@ -14,8 +14,6 @@ public class Health : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI healthText;
     public Image healthBar;
-    public Image[] healthPoints;
-
     float health, maxHealth = 100;
     float lerpSpeed;
 
@@ -30,37 +28,34 @@ public class Health : MonoBehaviour
     public GameObject[] characters;
 
 */
-    private void Start()
+    void Start()
     {
         health = maxHealth;
+        healthText.text = "Health: 100";
+        Debug.Log("health Start");
+        healthBar.fillAmount = 100;
     }
 
-    private void Update()
+    void Update()
     {
-        healthText.text = "Health: " + health.ToString("0.00") + "%";
+        healthText.text = "Health: " + health + "%";
 
-        Debug.Log(healthText.text);
         if (health > maxHealth) health = maxHealth;
 
         lerpSpeed = 3f * Time.deltaTime;
         HealthBarFiller();
         ColorChanger();
-
-        if (healthText == null) Debug.LogError("healthText is not assigned!");
-        if (healthBar == null) Debug.LogError("healthBar is not assigned!");
-        if (healthPoints == null) Debug.LogError("healthPoints array is not initialized!");
-
-
     }
 
     void HealthBarFiller()
     {
+        Debug.Log("healthBar = " + healthBar);
+        Debug.Log("healthBar.fillAmount = " + healthBar.fillAmount);
+
+
         healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (health / maxHealth), lerpSpeed);
 
-        for (int i = 0; i < healthPoints.Length; i++)
-        {
-            healthPoints[i].enabled = !DisplayHealthPoint(health, i);
-        }
+
     }
     void ColorChanger()
     {
@@ -76,12 +71,14 @@ public class Health : MonoBehaviour
 
     public void Damage(float damagePoints)
     {
+        Debug.Log("Damage is working");
         if (health > 0)
             health -= damagePoints;
 
     }
     public void Heal(float healingPoints)
     {
+        Debug.Log("Heal is working");
         if (health < maxHealth)
             health += healingPoints;
      
