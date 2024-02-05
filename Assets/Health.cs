@@ -14,7 +14,7 @@ public class Health : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI healthText;
     public Image healthBar;
-    float health, maxHealth = 100;
+    float health, maxHealth = 70;
     float lerpSpeed;
 
 /*
@@ -33,12 +33,24 @@ public class Health : MonoBehaviour
         health = maxHealth;
         healthText.text = "Health: 100";
         Debug.Log("health Start");
-        healthBar.fillAmount = 100;
+        healthBar.fillAmount = health;
+        
+        lerpSpeed = 1f;
+        HealthBarFiller();
+        ColorChanger();
     }
 
     void Update()
     {
-        healthText.text = "Health: " + health + "%";
+        if (healthText != null)
+        {
+            Debug.Log(healthText.text);
+        }
+        else
+        {
+            Debug.LogError("TextMeshProUGUI component not found or assigned.");
+        }
+        healthText.text = "Health: " + health.ToString() + "%";
 
         if (health > maxHealth) health = maxHealth;
 
@@ -64,10 +76,10 @@ public class Health : MonoBehaviour
         
     }
 
-    bool DisplayHealthPoint(float _health, int pointNumber)
+    /**bool DisplayHealthPoint(float _health, int pointNumber)
     {
         return ((pointNumber * 10) >= _health);
-    }
+    }*/
 
     public void Damage(float damagePoints)
     {
