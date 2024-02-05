@@ -235,7 +235,7 @@ public class MainMenuUIController : MonoBehaviour
 
                 newCharacter.transform.position = selUI.transform.position;
                 newCharacter.transform.parent = selUI.transform;
-                newCharacter.GetComponent<RectTransform>().localScale = new Vector2(newCharacter.GetComponent<RectTransform>().localScale.x*80, newCharacter.GetComponent<RectTransform>().localScale.y*80);
+                newCharacter.GetComponent<RectTransform>().localScale = new Vector2(newCharacter.GetComponent<RectTransform>().localScale.x*60, newCharacter.GetComponent<RectTransform>().localScale.y*60);
                 newCharacter.name = "selectedChara";
                 Destroy(newCharacter.GetComponent<PlayerController>());
                 Destroy(newCharacter.GetComponent<Rigidbody2D>());
@@ -333,7 +333,7 @@ public class MainMenuUIController : MonoBehaviour
         
         finalChara.transform.position = ourCharacterSelectObjectArray.transform.position;
         finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
-        finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*80, finalChara.GetComponent<RectTransform>().localScale.y*80);
+        finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60, finalChara.GetComponent<RectTransform>().localScale.y*60);
         finalChara.name = "selectedChara";
         Destroy(finalChara.GetComponent<PlayerController>());
         Destroy(finalChara.GetComponent<Rigidbody2D>());
@@ -367,7 +367,7 @@ public class MainMenuUIController : MonoBehaviour
         
         finalChara.transform.position = ourCharacterSelectObjectArray.transform.position;
         finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
-        finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*80, finalChara.GetComponent<RectTransform>().localScale.y*80);
+        finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60, finalChara.GetComponent<RectTransform>().localScale.y*60);
         finalChara.name = "selectedChara";
         Destroy(finalChara.GetComponent<PlayerController>());
         Destroy(finalChara.GetComponent<Rigidbody2D>());
