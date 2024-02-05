@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7991696531808247895}
   m_Layer: 0
   m_Name: redstickman
-  m_TagString: Untagged
+  m_TagString: ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -260,7 +260,6 @@ MonoBehaviour:
   opponent: {fileID: 2568059790158973162, guid: be6c2061168895240b35cec418c2b811, type: 3}
   characterRB: {fileID: 2703648274752094817}
   feet: {fileID: 2626126039976298166}
-  jump: 0
   walkSpeed: 0
   xVelocity: 0
   yAccel: 0
@@ -268,18 +267,24 @@ MonoBehaviour:
   initialSpeedY: 0
   yVelocity: 0
   xDirection: 0
-  yDirection: 0
+  dashDirection: 0
+  airDirection: 0
   left: 0
   right: 0
   up: 0
   down: 0
-  jumpX: 0
+  jump: 0
   crouch: 0
   lookUp: 0
   onGround: 0
+  canMove: 0
+  dash: 0
   canDash: 0
   isDashing: 0
   enemyPositionOnLeft: 0
+  sprint: 0
+  shield: 0
+  jumpBufferTime: 0
 --- !u!222 &8777591098013121357
 CanvasRenderer:
   m_ObjectHideFlags: 0

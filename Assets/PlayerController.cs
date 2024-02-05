@@ -31,7 +31,8 @@ public class PlayerController : MonoBehaviour
     
     public int xDirection;
     public int dashDirection;
-    public int yDirection;
+    public int airDirection;
+
 
     public bool left;
     public bool right;
@@ -46,11 +47,27 @@ public class PlayerController : MonoBehaviour
     public bool dash;
     public bool canDash;
     public bool isDashing;
+    public bool isAirDashing;
+    public bool hasAirDashed;
     public bool enemyPositionOnLeft;
     public bool sprint;
     public bool shield;
-    
+
+    public float backDashDistance;
+    public float forwardDashDistance;
+    public float backDashInitialSpeed;
+    public float forwardDashInitialSpeed;
+    public float backDashTime;
+    public float forwardDashTime;
+
+    public bool groundForwardDash;
+    public bool groundBackDash;
+    public bool airForwardDash;
+    public bool airBackDash;
+
     public float jumpBufferTime;
+    public float airDashDelayTime;
+    public float dashRefreshTime;
     void Start()
     {
         if (GameObject.Find("GLOBALOBJECT")) {
@@ -59,14 +76,6 @@ public class PlayerController : MonoBehaviour
             game = GameObject.Find("DEVOBJECT").GetComponent<GlobalController>();
         }
         game.printData(); // for debugging data pass-through
-
-        if (game.players.Count == 2) {
-            foreach(PlayerData player in game.players) {
-                if (player.name != gameObject.name) {
-                    opponent = GameObject.Find(player.name).transform;
-                }
-            }
-        }
 
         FieldInfo characterField = typeof(GlobalController).GetField(charaName);
         Debug.Log(typeof(GlobalController));
@@ -81,7 +90,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // jump = 3f;
-        walkSpeed = 0.2f;
+        walkSpeed = 6f;
 
         xVelocity = 0f;
         yAccel = 6f;
@@ -89,7 +98,8 @@ public class PlayerController : MonoBehaviour
 
         xDirection = 0;
         dashDirection = 0;
-        yDirection = 0;
+        airDirection = 0;
+    
 
         left = false;
         right = false;
@@ -106,8 +116,22 @@ public class PlayerController : MonoBehaviour
 
         canDash = true;
         isDashing = false;
+        isAirDashing = false;
+        hasAirDashed = false;
 
-        jumpBufferTime = 0.5f;
+        backDashInitialSpeed = 50f;
+        forwardDashInitialSpeed = 100f;
+        backDashDistance = 3f;
+        forwardDashDistance = 6f;
+        airDashDelayTime = 0.25f;
+
+        groundForwardDash = false;
+        groundBackDash = false;
+        airForwardDash = false;
+        airBackDash = false;
+
+        dashRefreshTime = 0.25f;
+        jumpBufferTime = 0.1f;
     }
     void Update(){
         if (opponent.position.x < transform.position.x){
@@ -119,6 +143,8 @@ public class PlayerController : MonoBehaviour
         
         yVelocity = characterRB.velocity.y;
         initialSpeedY = Mathf.Sqrt(2f * yAccel * maxHeight);
+        backDashTime = backDashDistance / backDashInitialSpeed;
+        forwardDashTime = forwardDashDistance / forwardDashInitialSpeed;
 
         KeyCode leftCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.left);
         KeyCode rightCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.right);
@@ -214,28 +240,66 @@ public class PlayerController : MonoBehaviour
         if (crouch == true && onGround == true){
             xVelocity = walkSpeed / 4;
         }
+        else if (sprint == true && onGround == true){
+            xVelocity = walkSpeed * 2;
+        }
         else{
             xVelocity = walkSpeed;
         }
 
         if (jump == true && onGround == true){
-            yDirection = 1;
             jumpFunction();
         }
-        else{
-            yDirection = 0;
-        }
 
-        if (dash == true && canDash == true && isDashing == false  && xDirection != 0){
-
+        if (dash == true && canDash == true && isDashing == false && xDirection != 0){
+            dashFunction();
         }
+        
     }
     void FixedUpdate()
     {
+   
+        if (isDashing == false && canMove == true){
+            characterRB.gravityScale = yAccel;
+            characterRB.velocity = new Vector2(xDirection * xVelocity, characterRB.velocity.y);
+        }
+        else if (isDashing == false && canMove == false){
+            characterRB.gravityScale = yAccel;
+        }
+        else{
+            characterRB.velocity = new Vector2(0, 0);
+            characterRB.gravityScale = 0f;
+        }
 
-        characterRB.gravityScale = yAccel;
-        transform.position = new Vector2(transform.position.x + xDirection * xVelocity, transform.position.y);
+        if (isDashing == true && groundForwardDash == true){
+            characterRB.velocity = new Vector2(dashDirection * forwardDashInitialSpeed, 0);
+            Invoke("stopDash", forwardDashTime);
 
+        }
+        else if (isDashing == true && groundBackDash == true){
+            characterRB.velocity = new Vector2(dashDirection * backDashInitialSpeed, 0);
+            Invoke("stopDash", backDashTime);
+        }
+        else if (isDashing == true && airForwardDash == true){
+            Invoke("airDashStart", airDashDelayTime);
+        }
+        else if (isDashing == true && airBackDash == true){
+            Invoke("airDashStart", airDashDelayTime);
+        }
+
+        if (isAirDashing == true && airForwardDash == true){
+            characterRB.velocity = new Vector2(dashDirection * forwardDashInitialSpeed, 0);
+            Invoke("stopDash", forwardDashTime);
+        }
+        else if (isAirDashing == true && airBackDash == true){
+            characterRB.velocity = new Vector2(dashDirection * backDashInitialSpeed, 0);
+            Invoke("stopDash", backDashTime);
+        }
+
+
+
+        
+        
 
     }
     public void OnTriggerEnter2D(Collider2D feet)
@@ -244,6 +308,12 @@ public class PlayerController : MonoBehaviour
         if (feet.CompareTag("ground"))
         {
             Invoke("jumpBuffer", jumpBufferTime);
+            canMove = true;
+            if (hasAirDashed == true){
+                canDash = true;
+                hasAirDashed = false;
+                isAirDashing = false;
+            }
         }
         
     }
@@ -254,6 +324,7 @@ public class PlayerController : MonoBehaviour
         if (feet.CompareTag("ground"))
         {
             onGround = false;
+            canMove = false;
         }
     }
 
@@ -263,20 +334,92 @@ public class PlayerController : MonoBehaviour
     public void jumpFunction(){
         characterRB.velocity = new Vector2(characterRB.velocity.x, initialSpeedY);
     }
-    public void groundForwardDash(){
+    public void dashFunction(){
+        canDash = false;
+        isDashing = true;
+        if (xDirection == -1 && onGround == true && enemyPositionOnLeft == true){
+            //forward ground
+            dashDirection = -1;
+            groundForwardDash = true;
+
+        }
+        else if (xDirection == 1 && onGround == true && enemyPositionOnLeft == false){
+            //forward ground
+            dashDirection = 1;
+            groundForwardDash = true;
+
+        }
+        else if (xDirection == 1 && onGround == true && enemyPositionOnLeft == true){
+            //backward ground
+            dashDirection = 1;
+            groundBackDash = true;
+        }
+        else if (xDirection == -1 && onGround == true && enemyPositionOnLeft == false){
+            //backward ground
+            dashDirection = -1;
+            groundBackDash = true;
+
+        }
+        else if (xDirection == -1 && onGround == false && enemyPositionOnLeft == true){
+            //forward air
+            dashDirection = -1;
+            airForwardDash = true;
+
+        }
+        else if (xDirection == 1 && onGround == false && enemyPositionOnLeft == false){
+            //forward air
+            dashDirection = 1;
+            airForwardDash = true;
+
+        }
+        else if (xDirection == 1 && onGround == false && enemyPositionOnLeft == true){
+            //backward air
+            dashDirection = 1;
+            airBackDash = true;
+
+        }
+        else if (xDirection == -1 && onGround == false && enemyPositionOnLeft == false){
+            //backward air
+            dashDirection = -1;
+            airBackDash = true;
+
+        }
+        
+        
 
     }
-    public void groundBackDash(){
+    public void stopDash(){
+        if (groundForwardDash == true){
+            groundForwardDash = false;
+            isDashing = false;
+            Invoke("refreshDashCooldown", dashRefreshTime);
+        }
+        else if (groundBackDash == true){
+            groundBackDash = false;
+            isDashing = false;
+            Invoke("refreshDashCooldown", dashRefreshTime);
+        }
+        else if (airBackDash == true){
+            airBackDash = false;
+            isDashing = false;
+            isAirDashing = false;
+            characterRB.velocity = new Vector2(dashDirection * xVelocity, characterRB.velocity.y);
+            hasAirDashed = true;
 
+        }
+        else if (airForwardDash == true){
+            airForwardDash = false;
+            isDashing = false;
+            isAirDashing = false;
+            characterRB.velocity = new Vector2(dashDirection * xVelocity, characterRB.velocity.y);
+            hasAirDashed = true;
+        }
     }
-    public void airForwardDash(){
-
-    }
-    public void airBackDash(){
-
+    public void airDashStart(){
+        isAirDashing = true;
     }
     public void refreshDashCooldown(){
-
+        canDash = true;
     }
 
 }

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5275843154997258913}
   m_Layer: 0
   m_Name: bluestickman
-  m_TagString: Untagged
+  m_TagString: ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,9 +180,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game: {fileID: 0}
   charaName: 
+  opponent: {fileID: 4234586300536212365, guid: 799f2f81f3eb6da42a298c439516da61, type: 3}
   characterRB: {fileID: 7632931193009452350}
   feet: {fileID: 2971860299101578022}
-  jump: 0
   walkSpeed: 0
   xVelocity: 0
   yAccel: 0
@@ -190,19 +190,24 @@ MonoBehaviour:
   initialSpeedY: 0
   yVelocity: 0
   xDirection: 0
-  yDirection: 0
+  dashDirection: 0
+  airDirection: 0
   left: 0
   right: 0
   up: 0
   down: 0
-  jumpX: 0
+  jump: 0
   crouch: 0
   lookUp: 0
   onGround: 0
-  opponent: {fileID: 4234586300536212365, guid: 799f2f81f3eb6da42a298c439516da61, type: 3}
+  canMove: 0
+  dash: 0
   canDash: 0
   isDashing: 0
-  enemyPosition: 0
+  enemyPositionOnLeft: 0
+  sprint: 0
+  shield: 0
+  jumpBufferTime: 0
 --- !u!222 &8236087668434708946
 CanvasRenderer:
   m_ObjectHideFlags: 0
