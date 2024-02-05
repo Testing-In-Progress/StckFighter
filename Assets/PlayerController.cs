@@ -248,7 +248,10 @@ public class PlayerController : MonoBehaviour
         if (crouch == true && onGround == true){
             xVelocity = walkSpeed / 4;
         }
-        else if (sprint == true && onGround == true){
+        else if (sprint == true && onGround == true && enemyPositionOnLeft == true && left == true){
+            xVelocity = walkSpeed * 2;
+        }
+        else if (sprint == true && onGround == true && enemyPositionOnLeft == false && right == true){
             xVelocity = walkSpeed * 2;
         }
         else{

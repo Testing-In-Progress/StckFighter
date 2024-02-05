@@ -7,6 +7,7 @@ TagManager:
   - gothru
   - ground
   - feet
+  - player
   layers:
   - Default
   - TransparentFX

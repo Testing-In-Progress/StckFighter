@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7991696531808247895}
   m_Layer: 0
   m_Name: redstickman
-  m_TagString: ground
+  m_TagString: player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -281,10 +281,24 @@ MonoBehaviour:
   dash: 0
   canDash: 0
   isDashing: 0
+  isAirDashing: 0
+  hasAirDashed: 0
   enemyPositionOnLeft: 0
   sprint: 0
   shield: 0
+  backDashDistance: 0
+  forwardDashDistance: 0
+  backDashInitialSpeed: 0
+  forwardDashInitialSpeed: 0
+  backDashTime: 0
+  forwardDashTime: 0
+  groundForwardDash: 0
+  groundBackDash: 0
+  airForwardDash: 0
+  airBackDash: 0
   jumpBufferTime: 0
+  airDashDelayTime: 0
+  dashRefreshTime: 0
 --- !u!222 &8777591098013121357
 CanvasRenderer:
   m_ObjectHideFlags: 0
