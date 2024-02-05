@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public BoxCollider2D feet;
 
     public float walkSpeed;
+    public float crouchSpeed;
+    public float sprintMultiplier;
     public float xVelocity;
     public float yAccel;
     public float maxHeight;
@@ -99,6 +101,8 @@ public class PlayerController : MonoBehaviour
 
         // jump = 3f;
         walkSpeed = 6f;
+        crouchSpeed = 0f;
+        sprintMultiplier = 3f;
 
         xVelocity = 0f;
         yAccel = 6f;
@@ -232,27 +236,22 @@ public class PlayerController : MonoBehaviour
             crouch = false;
             lookUp = true;
         }
-        else if (up == false && down == true){
+        else if (up == false && down == true && onGround){
             crouch = true;
             lookUp = false;
         }
-        else if (up == false && down == false){
+        else{
             crouch = false;
             lookUp = false;
         }
-        else if (up == true && down == true){
-            crouch = false;
-            lookUp = false;
-        }
-
         if (crouch == true && onGround == true){
-            xVelocity = walkSpeed / 4;
+            xVelocity = crouchSpeed;
         }
         else if (sprint == true && onGround == true && enemyPositionOnLeft == true && left == true){
-            xVelocity = walkSpeed * 2;
+            xVelocity = walkSpeed * sprintMultiplier;
         }
         else if (sprint == true && onGround == true && enemyPositionOnLeft == false && right == true){
-            xVelocity = walkSpeed * 2;
+            xVelocity = walkSpeed * sprintMultiplier;
         }
         else{
             xVelocity = walkSpeed;
@@ -264,6 +263,16 @@ public class PlayerController : MonoBehaviour
 
         if (dash == true && canDash == true && isDashing == false && xDirection != 0){
             dashFunction();
+        }
+
+        if (left == true && enemyPositionOnLeft == false){
+            shield = true;
+        }
+        else if (right == true && enemyPositionOnLeft == true){
+            shield = true;
+        }
+        else{
+            shield = false;
         }
         
     }
