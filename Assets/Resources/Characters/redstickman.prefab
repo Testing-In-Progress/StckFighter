@@ -296,7 +296,9 @@ MonoBehaviour:
   opponent: {fileID: 2568059790158973162, guid: be6c2061168895240b35cec418c2b811, type: 3}
   characterRB: {fileID: 2703648274752094817}
   feet: {fileID: 2626126039976298166}
-  walkSpeed: 1
+  walkSpeed: 0
+  crouchSpeed: 0
+  sprintMultiplier: 0
   xVelocity: 0
   yAccel: 0
   maxHeight: 0

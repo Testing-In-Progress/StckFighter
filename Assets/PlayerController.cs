@@ -373,6 +373,7 @@ public class PlayerController : MonoBehaviour
             //backward ground
             dashDirection = 1;
             groundBackDash = true;
+            canMove = false;
         }
         else if (xDirection == -1 && onGround == true && enemyPositionOnLeft == false){
             //backward ground
@@ -440,6 +441,7 @@ public class PlayerController : MonoBehaviour
     }
     public void refreshDashCooldown(){
         canDash = true;
+        canMove = true;
     }
 
 }
