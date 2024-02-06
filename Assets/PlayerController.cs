@@ -208,10 +208,6 @@ public class PlayerController : MonoBehaviour
             sprint = true;
             shield = false;
         }
-        else if (Input.GetKey(dashCode) && xDirection == 0){
-            sprint = false;
-            shield = true;
-        }
         else{
             sprint = false;
             shield = false;
@@ -269,6 +265,10 @@ public class PlayerController : MonoBehaviour
             shield = true;
         }
         else if (right == true && enemyPositionOnLeft == true){
+            shield = true;
+        }
+        else if (Input.GetKey(dashCode) && xDirection == 0){
+            sprint = false;
             shield = true;
         }
         else{
