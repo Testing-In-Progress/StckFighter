@@ -17,6 +17,18 @@ public class GameController : MonoBehaviour
     public GameObject map;
     public GameObject[] characters;
 
+    public Canvas canvas1;
+    public Canvas canvas2;
+
+    public GameObject Healthpreset1;
+    public GameObject Healthpreset2;
+
+
+  /*  public TMPro.TextMeshProUGUI healthText;
+    public Image healthBar;*/
+    float health, maxHealth = 100;
+    float lerpSpeed;
+
     GameObject getMap(string mapName) {
         foreach (GameObject map in maps) {
             if (map.name == mapName) {
@@ -50,6 +62,20 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Load the prefab from the Resources folder
+        GameObject healthPrefab = Resources.Load<GameObject>("UI/Healthpreset");
+
+        // Instantiate the prefabs
+        GameObject Healthpreset1 = Instantiate(healthPrefab, new Vector3(-5.8f, 3f, 90f), Quaternion.identity);
+        //GameObject Healthpreset2 = Instantiate(healthPrefab, new Vector3(5.8f, 3f, 90f), Quaternion.identity);
+        // Now, modify the localScale of the instantiated objects' Transform components
+        
+        canvas1 = Healthpreset1.GetComponent<Canvas>();
+        canvas1.renderMode = RenderMode.WorldSpace;
+        canvas1.GetComponent<RectTransform>().localScale = new Vector3(0.1f, 0.1f, 0.1f);
+    /*    canvas2 = Healthpreset2.GetComponent<Canvas>();
+        canvas2.renderMode = RenderMode.WorldSpace;
+        canvas2.GetComponent<RectTransform>().localScale = new Vector3(0.1f, 0.1f, 0.1f);*/
 
         if (GameObject.Find("GLOBALOBJECT")) {
             game = GameObject.Find("GLOBALOBJECT").GetComponent<GlobalController>();
@@ -111,15 +137,44 @@ public class GameController : MonoBehaviour
             nameTag.transform.position = new Vector2(0, 0 + (newCharacter.GetComponent<BoxCollider2D>().bounds.size.y/2.6f));
             nameTag.transform.SetParent(newCharacter.transform, false); */
             
-
-
-
-            
+            health = defaultHealth;
+            maxHealth = health;
             i++;
         } 
 
     }
+    /*void HealthBarFiller()
+    {
+        //Debug.Log("healthBar = " + healthBar);
+        //Debug.Log("healthBar.fillAmount = " + healthBar.fillAmount);
 
+
+        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (health / maxHealth), lerpSpeed);
+
+
+    }
+    void ColorChanger()
+    {
+        Color healthColor = Color.Lerp(Color.red, Color.green, (health / maxHealth));
+        healthBar.color = healthColor;
+        
+    }
+
+
+    public void Damage(float damagePoints)
+    {
+        Debug.Log("Damage is working");
+        if (health > 0)
+            health -= damagePoints;
+
+    }
+    public void Heal(float healingPoints)
+    {
+        Debug.Log("Heal is working");
+        if (health < maxHealth)
+            health += healingPoints;
+     
+    }*/
     // Update is called once per frame
     void Update()
     {

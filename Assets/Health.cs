@@ -14,7 +14,7 @@ public class Health : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI healthText;
     public Image healthBar;
-    float health, maxHealth = 70;
+    float health, maxHealth = 100;
     float lerpSpeed;
 
 /*
