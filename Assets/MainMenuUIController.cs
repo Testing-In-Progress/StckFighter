@@ -23,6 +23,7 @@ public class MainMenuUIController : MonoBehaviour
     public string playType;
     public string map;
     public GameObject[] characters;
+    public Sprite[] characterBackgrounds;
     public TMPro.TextMeshProUGUI statusText; //(From "GameObject" to "TMPro.TextMeshProUGUI statusText"
     public TMPro.TextMeshProUGUI StatusTextControl; //(From "GameObject" to "TMPro.TextMeshProUGUI statusText" 
     public string selectedPlayer;
@@ -55,6 +56,7 @@ public class MainMenuUIController : MonoBehaviour
     public ControllerType arrowreset;
     public GameObject characterSelectObject;
     public List<GameObject> characterSelectObjectArray;
+
     public bool Mute;
     public bool FullScreen;
 
@@ -102,6 +104,9 @@ public class MainMenuUIController : MonoBehaviour
         // grab all player models
         characters = Resources.LoadAll<GameObject>("Characters");
 
+        // grab all character background images
+        characterBackgrounds = Resources.LoadAll<Sprite>("CharacterBackgrounds");
+
         // initializing players
         foreach (var index in Range(1, numPlayers)) {
             PlayerData playerData = new PlayerData();
@@ -121,6 +126,18 @@ public class MainMenuUIController : MonoBehaviour
         FullScreen = false;
     }
 
+    Color32 hex(string hexcode, byte opacity = 0xFF) {
+        string finalHex = hexcode;
+        if (hexcode.Length > 0 && hexcode[0] == '#') {
+            finalHex = hexcode.Substring(1,6);
+        }
+        byte red = System.Convert.ToByte(int.Parse(finalHex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber));
+        byte green = System.Convert.ToByte(int.Parse(finalHex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber));
+        byte blue = System.Convert.ToByte(int.Parse(finalHex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber));
+        Color32 finalColor = new Color32( red , green , blue , opacity );
+        return finalColor;
+    }
+
     GameObject getCharacter(string characterName) {
         foreach (GameObject character in characters) {
             if (character.name == characterName) {
@@ -128,6 +145,19 @@ public class MainMenuUIController : MonoBehaviour
             }
         }
         return new GameObject();
+    }
+
+    Sprite getCharacterBackground(string characterName) {
+        foreach (Sprite characterBackground in characterBackgrounds) {
+            if (characterBackground.name == characterName) {
+                return characterBackground;
+            }
+        }
+        Texture2D emptyTexture = new Texture2D(1, 1);
+        emptyTexture.SetPixel(0, 0, Color.clear); // Set the pixel to transparent
+        emptyTexture.Apply();
+        Sprite emptySprite = Sprite.Create(emptyTexture, new Rect(0, 0, emptyTexture.width, emptyTexture.height), Vector2.zero);
+        return emptySprite;
     }
 
     public int getPNum(string playerName) {
@@ -181,10 +211,11 @@ public class MainMenuUIController : MonoBehaviour
         bool startable = true;
         Debug.Log(players);
         foreach (PlayerData player in players) {
-            if (player.character == "" || selecting) {
+            if (player.selected == false) {
                 startable = false;
             }
         }
+        startGameButton.transform.SetSiblingIndex(startGameButton.transform.parent.transform.childCount);
         startGameButton.SetActive(startable);
     }
 
@@ -223,9 +254,12 @@ public class MainMenuUIController : MonoBehaviour
 
             selUI.transform.Find("uparrow").GetComponent<Button>().onClick.RemoveAllListeners();
             selUI.transform.Find("downarrow").GetComponent<Button>().onClick.RemoveAllListeners();
+            selUI.transform.Find("numberholder").GetComponent<Button>().onClick.RemoveAllListeners();
 
-            selUI.transform.Find("uparrow").GetComponent<Button>().onClick.AddListener(delegate {handleButtonPress("UpArrow " + (currentIndex+1).ToString()); Debug.Log("THE UP ARROW HAS BEEN PRESSED, AND I AM GONG TO RUN THE HANDEBUTTONPREEESS UCINTOM"); });
+            selUI.transform.Find("uparrow").GetComponent<Button>().onClick.AddListener(delegate {handleButtonPress("UpArrow " + (currentIndex+1).ToString());});
             selUI.transform.Find("downarrow").GetComponent<Button>().onClick.AddListener(delegate {handleButtonPress("DownArrow " + (currentIndex+1).ToString()); });
+            selUI.transform.Find("numberholder").GetComponent<Button>().onClick.AddListener(delegate {handleButtonPress("SelectButton " + (currentIndex+1).ToString()); });
+            
             selUI.transform.Find("numberholder").transform.Find("number").GetComponent<TextMeshProUGUI>().text = (currentIndex+1).ToString();
             
             if (!selUI.transform.Find("selectedChara")) {
@@ -240,6 +274,8 @@ public class MainMenuUIController : MonoBehaviour
                 Destroy(newCharacter.GetComponent<PlayerController>());
                 Destroy(newCharacter.GetComponent<Rigidbody2D>());
             }
+
+            selUI.GetComponent<Image>().sprite = getCharacterBackground(charaNames[0]);
 
 
             i++;
@@ -335,12 +371,19 @@ public class MainMenuUIController : MonoBehaviour
         finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
         finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60, finalChara.GetComponent<RectTransform>().localScale.y*60);
         finalChara.name = "selectedChara";
+
+        ourCharacterSelectObjectArray.GetComponent<Image>().sprite = getCharacterBackground(temp.name);
+
         Destroy(finalChara.GetComponent<PlayerController>());
         Destroy(finalChara.GetComponent<Rigidbody2D>());
         
         Destroy(oldChara);
 
         players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character = temp.name;
+
+        players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].selected = false;
+        ourCharacterSelectObjectArray.transform.Find("numberholder").GetComponent<Image>().color = hex("#EC4545");
+
         updateStartButton();
     }
     public void DownArrow(string number) {
@@ -369,12 +412,34 @@ public class MainMenuUIController : MonoBehaviour
         finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
         finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60, finalChara.GetComponent<RectTransform>().localScale.y*60);
         finalChara.name = "selectedChara";
+
+        ourCharacterSelectObjectArray.GetComponent<Image>().sprite = getCharacterBackground(temp.name);
+
         Destroy(finalChara.GetComponent<PlayerController>());
         Destroy(finalChara.GetComponent<Rigidbody2D>());
         
         Destroy(oldChara);
 
         players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character = temp.name;
+
+        players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].selected = false;
+        ourCharacterSelectObjectArray.transform.Find("numberholder").GetComponent<Image>().color = hex("#EC4545");
+
+        updateStartButton();
+    }
+    public void SelectButton(string number) {
+        GameObject ourCharacterSelectObjectArray = characterSelectObjectArray[Int32.Parse(number)-1];
+
+        PlayerData currentPlayer = players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)];
+        Image selectedButtonImage = ourCharacterSelectObjectArray.transform.Find("numberholder").GetComponent<Image>();
+        
+        currentPlayer.selected = !currentPlayer.selected;
+        if (currentPlayer.selected) {
+            selectedButtonImage.color = hex("#2CBA31");
+        } else {
+            selectedButtonImage.color = hex("#EC4545");
+        }
+
         updateStartButton();
     }
     public void Player1() {

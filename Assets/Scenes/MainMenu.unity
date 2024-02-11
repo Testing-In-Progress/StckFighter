@@ -941,7 +941,7 @@ GameObject:
   - component: {fileID: 194655806}
   - component: {fileID: 194655808}
   - component: {fileID: 194655807}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6128,7 +6128,7 @@ GameObject:
   - component: {fileID: 1781091800}
   - component: {fileID: 1781091799}
   - component: {fileID: 1781091798}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: StartGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
