@@ -348,6 +348,10 @@ MonoBehaviour:
   maps: []
   map: {fileID: 0}
   characters: []
+  canvas1: {fileID: 0}
+  canvas2: {fileID: 0}
+  Healthpreset1: {fileID: 0}
+  Healthpreset2: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

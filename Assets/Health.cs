@@ -32,7 +32,7 @@ public class Health : MonoBehaviour
     {
         health = maxHealth;
         healthText.text = "Health: 100";
-        Debug.Log("health Start");
+        //Debug.Log("health Start");
         healthBar.fillAmount = health;
         
         lerpSpeed = 1f;

@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
     public GameObject Healthpreset2;
 
 
+
   /*  public TMPro.TextMeshProUGUI healthText;
     public Image healthBar;*/
     float health, maxHealth = 100;
@@ -63,19 +64,32 @@ public class GameController : MonoBehaviour
     void Start()
     {
         // Load the prefab from the Resources folder
-        GameObject healthPrefab = Resources.Load<GameObject>("UI/Healthpreset");
+        GameObject healthPrefab = Resources.Load<GameObject>("UI/Health");
 
-        // Instantiate the prefabs
-        GameObject Healthpreset1 = Instantiate(healthPrefab, new Vector3(-5.8f, 3f, 90f), Quaternion.identity);
-        //GameObject Healthpreset2 = Instantiate(healthPrefab, new Vector3(5.8f, 3f, 90f), Quaternion.identity);
-        // Now, modify the localScale of the instantiated objects' Transform components
         
-        canvas1 = Healthpreset1.GetComponent<Canvas>();
-        canvas1.renderMode = RenderMode.WorldSpace;
-        canvas1.GetComponent<RectTransform>().localScale = new Vector3(0.1f, 0.1f, 0.1f);
-    /*    canvas2 = Healthpreset2.GetComponent<Canvas>();
-        canvas2.renderMode = RenderMode.WorldSpace;
-        canvas2.GetComponent<RectTransform>().localScale = new Vector3(0.1f, 0.1f, 0.1f);*/
+        GameObject Healthpreset1 = Instantiate(healthPrefab, Vector3.zero, Quaternion.identity);
+        GameObject Healthpreset2 = Instantiate(healthPrefab, Vector3.zero, Quaternion.identity);
+
+        Canvas canvas1 = Healthpreset1.GetComponent<Canvas>();
+        canvas1.renderMode = RenderMode.ScreenSpaceOverlay;
+
+        Canvas canvas2 = Healthpreset2.GetComponent<Canvas>();
+        canvas2.renderMode = RenderMode.ScreenSpaceOverlay;
+
+        RectTransform presetHealthText2 = Healthpreset2.transform.Find("HealthControllerText").GetComponent<RectTransform>();
+        RectTransform presetHealthBar2 = Healthpreset2.transform.Find("ImageHealth").GetComponent<RectTransform>();
+
+        presetHealthText2.anchorMin = new Vector2(1, 1); 
+        presetHealthText2.anchorMax = new Vector2(1, 1);
+        presetHealthText2.pivot = new Vector2(1, 1); 
+
+        presetHealthBar2.anchorMin = new Vector2(1, 1); 
+        presetHealthBar2.anchorMax = new Vector2(1, 1); 
+        presetHealthBar2.pivot = new Vector2(1, 1); 
+        presetHealthText2.anchoredPosition = new Vector3(-10, -30, 0);
+        presetHealthBar2.anchoredPosition = new Vector3(-10, -100, 0);
+       
+
 
         if (GameObject.Find("GLOBALOBJECT")) {
             game = GameObject.Find("GLOBALOBJECT").GetComponent<GlobalController>();
