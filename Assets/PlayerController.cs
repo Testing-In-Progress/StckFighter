@@ -274,6 +274,12 @@ public class PlayerController : MonoBehaviour
         else{
             shield = false;
         }
+        if (hasAirDashed == true && onGround == true){
+                Invoke("refreshDashCooldown", dashRefreshTime);
+                refreshMoveCooldown();
+                hasAirDashed = false;
+                isAirDashing = false;
+            }
         
     }
     void FixedUpdate()
@@ -328,12 +334,6 @@ public class PlayerController : MonoBehaviour
         if (feet.CompareTag("ground"))
         {
             Invoke("jumpBuffer", jumpBufferTime);
-            canMove = true;
-            if (hasAirDashed == true){
-                canDash = true;
-                hasAirDashed = false;
-                isAirDashing = false;
-            }
         }
         
     }
@@ -373,7 +373,6 @@ public class PlayerController : MonoBehaviour
             //backward ground
             dashDirection = 1;
             groundBackDash = true;
-            canMove = false;
         }
         else if (xDirection == -1 && onGround == true && enemyPositionOnLeft == false){
             //backward ground
@@ -414,10 +413,12 @@ public class PlayerController : MonoBehaviour
             groundForwardDash = false;
             isDashing = false;
             Invoke("refreshDashCooldown", dashRefreshTime);
+            refreshMoveCooldown();
         }
         else if (groundBackDash == true){
             groundBackDash = false;
             isDashing = false;
+            Invoke("refreshMoveCooldown", dashRefreshTime);
             Invoke("refreshDashCooldown", dashRefreshTime);
         }
         else if (airBackDash == true){
@@ -441,6 +442,8 @@ public class PlayerController : MonoBehaviour
     }
     public void refreshDashCooldown(){
         canDash = true;
+    }
+    public void refreshMoveCooldown(){
         canMove = true;
     }
 
