@@ -118,7 +118,7 @@ public class GameController : MonoBehaviour
             }
 
             GameObject newCharacterHealthBar = Instantiate(healthPrefab);
-            newCharacterHealthBar.transform.position = i*10;
+            newCharacterHealthBar.transform.position = new Vector2(i*10, newCharacterHealthBar.transform.position.y);
 
             // Create NameTag
             /** GameObject nameTag = new GameObject();
