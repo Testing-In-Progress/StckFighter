@@ -34,6 +34,7 @@ public class MainMenuUIController : MonoBehaviour
     public List<PlayerData> players;
     public string settings;
     public bool selecting;
+    public GameObject Fade;
     public GameObject startGameButton;
     public TMPro.TextMeshProUGUI leftControlUI;
     public TMPro.TextMeshProUGUI rightControlUI;
@@ -71,6 +72,8 @@ public class MainMenuUIController : MonoBehaviour
         map = "";
 
         selecting = false;
+        Fade = GameObject.Find("Fade");
+        Fade.SetActive(false);
         startGameButton = GameObject.Find("StartGame");
 
         //statusText = GameObject.Find("StatusText").GetComponent<TMPro.TextMeshProUGUI>();
@@ -262,6 +265,8 @@ public class MainMenuUIController : MonoBehaviour
             
             selUI.transform.Find("numberholder").transform.Find("number").GetComponent<TextMeshProUGUI>().text = (currentIndex+1).ToString();
             
+            selUI.transform.Find("door").SetActive(false);
+
             if (!selUI.transform.Find("selectedChara")) {
                 GameObject newCharacter = Instantiate(getCharacter(charaNames[0]));
 
@@ -286,6 +291,12 @@ public class MainMenuUIController : MonoBehaviour
         Debug.Log(e);
         Type thisType = this.GetType();
         MethodInfo theMethod;
+
+        // coroutien stuff
+        if (e == "StartGame") {
+            StartCoroutine(e);
+            return;
+        }
 
         if (e.Any(x => Char.IsWhiteSpace(x))) {
             theMethod = thisType.GetMethod(e.Split(' ')[0]);
@@ -458,7 +469,17 @@ public class MainMenuUIController : MonoBehaviour
         updateStartButton();
     }
 
-    public void StartGame() {
+    IEnumerator StartGame() {
+        startGameButton.SetActive(false);
+        Fade.SetActive(true);
+
+        foreach(GameObject characterSelectObject in characterSelectObjectArray) {
+            characterSelectObject.transform.Find("door").SetActive(true);
+            characterSelectObject.transform.Find("door").GetComponent<Animator>().SetTrigger("close");
+        }
+
+        yield return new WaitForSecondsRealtime(5);
+
         SceneManager.LoadScene("GameArena");
         
         // save to global
