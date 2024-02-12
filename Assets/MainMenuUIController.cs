@@ -473,8 +473,10 @@ public class MainMenuUIController : MonoBehaviour
         startGameButton.SetActive(false);
         Fade.SetActive(true);
 
+        
         foreach(GameObject characterSelectObject in characterSelectObjectArray) {
             characterSelectObject.transform.Find("door").gameObject.SetActive(true);
+            characterSelectObject.transform.Find("door").SetSiblingIndex(characterSelectObject.transform.childCount);
             characterSelectObject.transform.Find("door").GetComponent<Animator>().SetTrigger("close");
         }
 
