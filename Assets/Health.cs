@@ -44,7 +44,7 @@ public class Health : MonoBehaviour
     {
         if (healthText != null)
         {
-            Debug.Log(healthText.text);
+            //Debug.Log(healthText.text);
         }
         else
         {

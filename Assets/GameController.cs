@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public int bluestickmanhealth;
     public GameObject[] maps;
     public GameObject map;
+    public GameObject healthPrefab;
     public GameObject[] characters;
 
     public Canvas canvas1;
@@ -63,36 +64,6 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Load the prefab from the Resources folder
-        GameObject healthPrefab = Resources.Load<GameObject>("UI/Health");
-
-        
-        GameObject Healthpreset1 = Instantiate(healthPrefab, Vector3.zero, Quaternion.identity);
-        GameObject Healthpreset2 = Instantiate(healthPrefab, Vector3.zero, Quaternion.identity);
-
-        Canvas canvas1 = Healthpreset1.GetComponent<Canvas>();
-        canvas1.renderMode = RenderMode.ScreenSpaceOverlay;
-
-        Canvas canvas2 = Healthpreset2.GetComponent<Canvas>();
-        canvas2.renderMode = RenderMode.ScreenSpaceOverlay;
-
-        RectTransform presetHealthText2 = Healthpreset2.transform.Find("HealthControllerText").GetComponent<RectTransform>();
-        RectTransform presetHealthBar2 = Healthpreset2.transform.Find("ImageHealth").GetComponent<RectTransform>();
-
-        presetHealthText2.anchorMin = new Vector2(1, 1); 
-        presetHealthText2.anchorMax = new Vector2(1, 1);
-        presetHealthText2.pivot = new Vector2(1, 1); 
-
-        presetHealthBar2.anchorMin = new Vector2(1, 1); 
-        presetHealthBar2.anchorMax = new Vector2(1, 1); 
-        presetHealthBar2.pivot = new Vector2(1, 1); 
-
-        //Left side Bar cords(-261,190,4.74)
-        //left side Text cords(-309,216,474)
-        presetHealthText2.anchoredPosition = new Vector3(34.5f, -17.5f, 0);
-        presetHealthBar2.anchoredPosition = new Vector3(-33, -52, 0);
-       
-
 
         if (GameObject.Find("GLOBALOBJECT")) {
             game = GameObject.Find("GLOBALOBJECT").GetComponent<GlobalController>();
@@ -122,6 +93,7 @@ public class GameController : MonoBehaviour
         // Instansiate the Game
         maps = Resources.LoadAll<GameObject>("Maps");
         characters = Resources.LoadAll<GameObject>("Characters");
+        healthPrefab = Resources.Load<GameObject>("UI/Health");
         // Load the Map
         map = Instantiate(getMap(game.map)); // load map stored in game.map
         // Load characters and assign values
@@ -138,12 +110,16 @@ public class GameController : MonoBehaviour
             newCharacter.transform.position = new Vector2(getPosFromMap(game.players.Count, i), newCharacter.transform.position.y);
 
             if (playerData.character == "redstickman") {
-            playerData.health = redstickmanhealth; // Assuming redstickmanhealth is set elsewhere
-        } else if (playerData.character == "bluestickman") {
-            playerData.health = bluestickmanhealth; // Assuming bluestickmanhealth is set elsewhere
-        } else {
-            playerData.health = defaultHealth; // Default health for any other character
-        }                           
+                playerData.health = redstickmanhealth; // Assuming redstickmanhealth is set elsewhere
+            } else if (playerData.character == "bluestickman") {
+                playerData.health = bluestickmanhealth; // Assuming bluestickmanhealth is set elsewhere
+            } else {
+                playerData.health = defaultHealth; // Default health for any other character
+            }
+
+            GameObject newCharacterHealthBar = Instantiate(healthPrefab);
+            newCharacterHealthBar.transform.position = i*10;
+
             // Create NameTag
             /** GameObject nameTag = new GameObject();
             nameTag.name = "nameTag";
