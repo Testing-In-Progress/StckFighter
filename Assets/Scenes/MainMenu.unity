@@ -1975,7 +1975,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.4685, y: -30.195219}
+  m_AnchoredPosition: {x: -1.4685, y: -38.8}
   m_SizeDelta: {x: 323.3677, y: 83.9614}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &622294327
@@ -3732,7 +3732,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.9032, y: -94.2863}
+  m_AnchoredPosition: {x: -0.9032, y: -101.5}
   m_SizeDelta: {x: 313.4559, y: 79.7464}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1125287343
@@ -6054,6 +6054,7 @@ MonoBehaviour:
   playType: 
   map: 
   characters: []
+  characterBackgrounds: []
   statusText: {fileID: 0}
   StatusTextControl: {fileID: 0}
   selectedPlayer: 
