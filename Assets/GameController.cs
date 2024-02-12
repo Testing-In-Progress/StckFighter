@@ -86,8 +86,11 @@ public class GameController : MonoBehaviour
         presetHealthBar2.anchorMin = new Vector2(1, 1); 
         presetHealthBar2.anchorMax = new Vector2(1, 1); 
         presetHealthBar2.pivot = new Vector2(1, 1); 
-        presetHealthText2.anchoredPosition = new Vector3(-10, -30, 0);
-        presetHealthBar2.anchoredPosition = new Vector3(-10, -100, 0);
+
+        //Left side Bar cords(-261,190,4.74)
+        //left side Text cords(-309,216,474)
+        presetHealthText2.anchoredPosition = new Vector3(34.5f, -17.5f, 0);
+        presetHealthBar2.anchoredPosition = new Vector3(-33, -52, 0);
        
 
 
