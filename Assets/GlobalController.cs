@@ -8,8 +8,8 @@ using static CharacterBase;
 
 public class GlobalController : MonoBehaviour
 {
-    public CharacterBase redstickman;
-    public CharacterBase bluestickman;
+    public CharacterBase Andre;
+    public CharacterBase FLLFFL;
 
     // controllerTypes
     public ControllerType wasd;
@@ -39,26 +39,26 @@ public class GlobalController : MonoBehaviour
 
     void SetupCharacters() {
         
-        // redstickman code
-        redstickman = new CharacterBase();
-        redstickman.minJumpHeight = 3;
-        redstickman.maxJumpHeight = 5;
-        redstickman.movementSpeed = 3;
-        redstickman.fallSpeed = 5;
-        redstickman.jumpSpeed = 0.05f;
-        redstickman.Attack = () => {
-            Debug.Log("redstickman has attacked");
+        // Andre code
+        Andre = new CharacterBase();
+        Andre.minJumpHeight = 3;
+        Andre.maxJumpHeight = 5;
+        Andre.movementSpeed = 3;
+        Andre.fallSpeed = 5;
+        Andre.jumpSpeed = 0.05f;
+        Andre.Attack = () => {
+            Debug.Log("Andre has attacked");
         };
 
-        // bluestickman code
-        bluestickman = new CharacterBase();
-        bluestickman.minJumpHeight = 3;
-        bluestickman.maxJumpHeight = 5;
-        bluestickman.movementSpeed = 3;
-        bluestickman.fallSpeed = 5;
-        bluestickman.jumpSpeed = 0.07f;
-        bluestickman.Attack = () => {
-            Debug.Log("bluestickman has attacked");
+        // FLLFFL code
+        FLLFFL = new CharacterBase();
+        FLLFFL.minJumpHeight = 3;
+        FLLFFL.maxJumpHeight = 5;
+        FLLFFL.movementSpeed = 3;
+        FLLFFL.fallSpeed = 5;
+        FLLFFL.jumpSpeed = 0.07f;
+        FLLFFL.Attack = () => {
+            Debug.Log("FLLFFL has attacked");
         };
     }
 

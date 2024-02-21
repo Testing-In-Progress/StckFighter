@@ -18,8 +18,8 @@ public class Health : MonoBehaviour
     float lerpSpeed;
 
 /*
-    public int redstickmanhealth;
-    public int bluestickmanhealth;
+    public int Andrehealth;
+    public int FLLFFLhealth;
 
     public GlobalController game;
 

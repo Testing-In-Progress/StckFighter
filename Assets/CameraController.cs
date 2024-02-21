@@ -74,10 +74,10 @@ public class CameraController : MonoBehaviour
                 playerData.name = "player" + index.ToString();
                 if (index == 1) {
                     playerData.controllerType = game.wasd;
-                    playerData.character = "redstickman";
+                    playerData.character = "Andre";
                 } else if (index == 2) {
                     playerData.controllerType = game.arrow;
-                    playerData.character = "bluestickman";
+                    playerData.character = "FLLFFL";
                 }
                 Debug.Log(playerData);
                 game.players.Add(playerData);

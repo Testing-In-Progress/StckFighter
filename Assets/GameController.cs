@@ -11,8 +11,8 @@ using TMPro;
 public class GameController : MonoBehaviour
 {
     public GlobalController game;
-    public int redstickmanhealth;
-    public int bluestickmanhealth;
+    public int Andrehealth;
+    public int FLLFFLhealth;
     public GameObject[] maps;
     public GameObject map;
     public GameObject healthPrefab;
@@ -82,10 +82,10 @@ public class GameController : MonoBehaviour
                 playerData.name = "player" + index.ToString();
                 if (index == 1) {
                     playerData.controllerType = game.wasd;
-                    playerData.character = "redstickman";
+                    playerData.character = "Andre";
                 } else if (index == 2) {
                     playerData.controllerType = game.arrow;
-                    playerData.character = "bluestickman";
+                    playerData.character = "FLLFFL";
                 }
                 game.players.Add(playerData);
             }
@@ -109,10 +109,10 @@ public class GameController : MonoBehaviour
             charaData.charaName = playerData.character;
             newCharacter.transform.position = new Vector2(getPosFromMap(game.players.Count, i), newCharacter.transform.position.y);
 
-            if (playerData.character == "redstickman") {
-                playerData.health = redstickmanhealth; // Assuming redstickmanhealth is set elsewhere
-            } else if (playerData.character == "bluestickman") {
-                playerData.health = bluestickmanhealth; // Assuming bluestickmanhealth is set elsewhere
+            if (playerData.character == "Andre") {
+                playerData.health = Andrehealth; // Assuming Andrehealth is set elsewhere
+            } else if (playerData.character == "FLLFFL") {
+                playerData.health = FLLFFLhealth; // Assuming FLLFFLhealth is set elsewhere
             } else {
                 playerData.health = defaultHealth; // Default health for any other character
             }

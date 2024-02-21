@@ -45,8 +45,8 @@ public class MainMenuUIController : MonoBehaviour
     public TMPro.TextMeshProUGUI attackControlUI;
     private bool captureKeyInput = false;
     private string keyInputType = "";
-    private bool isRedStickManSelected = false;
-    private bool isBlueStickManSelected = false;
+    private bool isAndreSelected = false;
+    private bool isFLLFFLSelected = false;
 
     private Stack<string> screenHistory = new Stack<string>();
     public List<string> playerControllerStore1;
