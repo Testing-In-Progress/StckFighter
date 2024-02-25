@@ -281,6 +281,9 @@ public class PlayerController : MonoBehaviour
                 hasAirDashed = false;
                 isAirDashing = false;
             }
+        if (onGround == true && groundBackDash == false){
+            refreshMoveCooldown();
+        }
         
     }
     void FixedUpdate()
