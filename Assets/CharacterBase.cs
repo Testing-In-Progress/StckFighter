@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class CharacterBase
 {
+    public float minJumpHeight;
+    public float maxJumpHeight;
+    public float movementSpeed;
+    public float fallSpeed;
+    public float jumpSpeed;
+
     public Action Attack = () => {
         
     };
@@ -179,4 +185,5 @@ public class CharacterBase
     public Action exitAnimation = () => {
         
     };
+
 }

@@ -363,15 +363,11 @@ public class PlayerController : MonoBehaviour
         canDash = false;
         isDashing = true;
         if (xDirection == -1 && onGround == true && enemyPositionOnLeft == true){
-            //forward ground
-            dashDirection = -1;
-            groundForwardDash = true;
+            canDash = true;
 
         }
         else if (xDirection == 1 && onGround == true && enemyPositionOnLeft == false){
-            //forward ground
-            dashDirection = 1;
-            groundForwardDash = true;
+            canDash = true;
 
         }
         else if (xDirection == 1 && onGround == true && enemyPositionOnLeft == true){
@@ -386,15 +382,11 @@ public class PlayerController : MonoBehaviour
 
         }
         else if (xDirection == -1 && onGround == false && enemyPositionOnLeft == true){
-            //forward air
-            dashDirection = -1;
-            airForwardDash = true;
+            canDash = true;
 
         }
         else if (xDirection == 1 && onGround == false && enemyPositionOnLeft == false){
-            //forward air
-            dashDirection = 1;
-            airForwardDash = true;
+            canDash = true;
 
         }
         else if (xDirection == 1 && onGround == false && enemyPositionOnLeft == true){
@@ -414,13 +406,8 @@ public class PlayerController : MonoBehaviour
 
     }
     public void stopDash(){
-        if (groundForwardDash == true){
-            groundForwardDash = false;
-            isDashing = false;
-            Invoke("refreshDashCooldown", dashRefreshTime);
-            refreshMoveCooldown();
-        }
-        else if (groundBackDash == true){
+        
+        if (groundBackDash == true){
             groundBackDash = false;
             isDashing = false;
             Invoke("refreshMoveCooldown", dashRefreshTime);
@@ -428,14 +415,6 @@ public class PlayerController : MonoBehaviour
         }
         else if (airBackDash == true){
             airBackDash = false;
-            isDashing = false;
-            isAirDashing = false;
-            characterRB.velocity = new Vector2(dashDirection * xVelocity, characterRB.velocity.y);
-            hasAirDashed = true;
-
-        }
-        else if (airForwardDash == true){
-            airForwardDash = false;
             isDashing = false;
             isAirDashing = false;
             characterRB.velocity = new Vector2(dashDirection * xVelocity, characterRB.velocity.y);
