@@ -338,6 +338,7 @@ public class PlayerController : MonoBehaviour
         if (feet.CompareTag("ground"))
         {
             Invoke("jumpBuffer", jumpBufferTime);
+            refreshMoveCooldown();
         }
         
     }
