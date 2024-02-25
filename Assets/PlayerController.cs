@@ -364,10 +364,12 @@ public class PlayerController : MonoBehaviour
         isDashing = true;
         if (xDirection == -1 && onGround == true && enemyPositionOnLeft == true){
             canDash = true;
+            isDashing = false;
 
         }
         else if (xDirection == 1 && onGround == true && enemyPositionOnLeft == false){
             canDash = true;
+            isDashing = false;
 
         }
         else if (xDirection == 1 && onGround == true && enemyPositionOnLeft == true){
@@ -383,10 +385,12 @@ public class PlayerController : MonoBehaviour
         }
         else if (xDirection == -1 && onGround == false && enemyPositionOnLeft == true){
             canDash = true;
+            isDashing = false;
 
         }
         else if (xDirection == 1 && onGround == false && enemyPositionOnLeft == false){
             canDash = true;
+            isDashing = false;
 
         }
         else if (xDirection == 1 && onGround == false && enemyPositionOnLeft == true){
