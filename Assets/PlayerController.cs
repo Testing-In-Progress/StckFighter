@@ -94,6 +94,8 @@ public class PlayerController : MonoBehaviour
         selectedCharacter = (CharacterBase)characterField.GetValue(game);
 
         foreach (PlayerData playerDatae in game.players) {
+            Debug.Log(playerDatae.name);
+            Debug.Log(gameObject.name);
             if (playerDatae.name == gameObject.name) {
                 playerData = playerDatae;
             }
@@ -157,7 +159,6 @@ public class PlayerController : MonoBehaviour
         initialSpeedY = Mathf.Sqrt(2f * yAccel * maxHeight);
         backDashTime = backDashDistance / backDashInitialSpeed;
         forwardDashTime = forwardDashDistance / forwardDashInitialSpeed;
-
         KeyCode leftCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.left);
         KeyCode rightCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.right);
         KeyCode upCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.up);

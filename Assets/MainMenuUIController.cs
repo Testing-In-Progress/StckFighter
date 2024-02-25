@@ -268,9 +268,9 @@ public class MainMenuUIController : MonoBehaviour
             selUI.transform.Find("door").gameObject.SetActive(false);
 
             if (!selUI.transform.Find("selectedChara")) {
-                GameObject newCharacter = Instantiate(getCharacter(charaNames[0]));
+                GameObject newCharacter = Instantiate(getCharacter("Random"));
 
-                players[currentIndex].character = charaNames[0];
+                players[currentIndex].character = "Random";
 
                 newCharacter.transform.position = selUI.transform.position;
                 newCharacter.transform.parent = selUI.transform;
@@ -280,7 +280,7 @@ public class MainMenuUIController : MonoBehaviour
                 Destroy(newCharacter.GetComponent<Rigidbody2D>());
             }
 
-            selUI.GetComponent<Image>().sprite = getCharacterBackground(charaNames[0]);
+            selUI.GetComponent<Image>().sprite = getCharacterBackground("Random");
 
 
             i++;
@@ -361,6 +361,10 @@ public class MainMenuUIController : MonoBehaviour
         Debug.Log("moveing character selectino up for player" + number);
         Debug.Log(ourCharacterSelectObjectArray.name);
 
+        if (ourCharacterSelectObjectArray.transform.Find("selectPopup").gameObject.activeSelf) {
+            ourCharacterSelectObjectArray.transform.Find("selectPopup").gameObject.SetActive(false);
+        }
+
         Debug.Log(characters);
         Debug.Log(players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character);
         var index = Array.FindIndex(characters, character => character.name == players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character);
@@ -402,6 +406,11 @@ public class MainMenuUIController : MonoBehaviour
         Debug.Log("moveing character selectino down for player" + number);
         Debug.Log(ourCharacterSelectObjectArray.name);
 
+        // Get rid of the select ur character popup
+        if (ourCharacterSelectObjectArray.transform.Find("selectPopup").gameObject.activeSelf) {
+            ourCharacterSelectObjectArray.transform.Find("selectPopup").gameObject.SetActive(false);
+        }
+
         Debug.Log(characters);
         Debug.Log(players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character);
         var index = Array.FindIndex(characters, character => character.name == players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character);
@@ -441,17 +450,20 @@ public class MainMenuUIController : MonoBehaviour
     public void SelectButton(string number) {
         GameObject ourCharacterSelectObjectArray = characterSelectObjectArray[Int32.Parse(number)-1];
 
-        PlayerData currentPlayer = players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)];
-        Image selectedButtonImage = ourCharacterSelectObjectArray.transform.Find("numberholder").GetComponent<Image>();
-        
-        currentPlayer.selected = !currentPlayer.selected;
-        if (currentPlayer.selected) {
-            selectedButtonImage.color = hex("#2CBA31");
-        } else {
-            selectedButtonImage.color = hex("#EC4545");
-        }
+        // If charactersleect is stil on select your characere spot, then dont allow
+        if (ourCharacterSelectObjectArray.transform.Find("selectPopup").gameObject.activeSelf == false) {
+            PlayerData currentPlayer = players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)];
+            Image selectedButtonImage = ourCharacterSelectObjectArray.transform.Find("numberholder").GetComponent<Image>();
+            
+            currentPlayer.selected = !currentPlayer.selected;
+            if (currentPlayer.selected) {
+                selectedButtonImage.color = hex("#2CBA31");
+            } else {
+                selectedButtonImage.color = hex("#EC4545");
+            }
 
-        updateStartButton();
+            updateStartButton();   
+        }
     }
     public void Player1() {
         
@@ -482,14 +494,52 @@ public class MainMenuUIController : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(2);
 
-        SceneManager.LoadScene("GameArena");
-        
+        float fadeDuration = 0.5f; // How long the fade to black lasts
+
+        Image fadeImageComponent = Fade.GetComponent<Image>();
+        Color startColor = fadeImageComponent.color;
+        Color targetColor = new Color(startColor.r, startColor.g, startColor.b, 1f);
+
+        // Time elapsed
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            // Increment the elapsed time
+            elapsedTime += Time.deltaTime;
+
+            // Calculate the lerp value based on the elapsed time and fade duration
+            float lerpValue = elapsedTime / fadeDuration;
+
+            // Lerp the color between start and target
+            fadeImageComponent.color = Color.Lerp(startColor, targetColor, lerpValue);
+
+            // Wait for the next frame
+            yield return null;
+        }
+
+        // Check for randoms
+        foreach(PlayerData player in players) {
+            if (player.character == "Random") {
+                List<string> realCharas = new List<string>();
+                foreach (GameObject character in characters) {
+                    if (character.name != "Random") {
+                        realCharas.Add(character.name);
+                    }
+                }
+                int randomIndex = new System.Random().Next(0, realCharas.Count);
+                string randomCharaName = realCharas[randomIndex];
+                player.character = randomCharaName;
+            }
+        }
         // save to global
         game.players = players;
         game.map = map;
         game.playType = playType;
         game.mute = Mute;
         game.fullScreen = FullScreen;
+
+        SceneManager.LoadScene("GameArena");
     }
     // This is Control Code Now
     public void PlayerOneSettingButton()

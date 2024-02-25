@@ -10,6 +10,7 @@ public class GlobalController : MonoBehaviour
 {
     public CharacterBase Andre;
     public CharacterBase FLLFFL;
+    public CharacterBase Dante;
 
     // controllerTypes
     public ControllerType wasd;
@@ -59,6 +60,17 @@ public class GlobalController : MonoBehaviour
         FLLFFL.jumpSpeed = 0.07f;
         FLLFFL.Attack = () => {
             Debug.Log("FLLFFL has attacked");
+        };
+
+        // Dante code
+        Dante = new CharacterBase();
+        Dante.minJumpHeight = 3;
+        Dante.maxJumpHeight = 5;
+        Dante.movementSpeed = 3;
+        Dante.fallSpeed = 5;
+        Dante.jumpSpeed = 0.07f;
+        Dante.Attack = () => {
+            Debug.Log("Dante has attacked");
         };
     }
 
