@@ -53,9 +53,9 @@ public class GlobalController : MonoBehaviour
 
         // FLLFFL code
         FLLFFL = new CharacterBase();
-        FLLFFL.minJumpHeight = 3;
-        FLLFFL.maxJumpHeight = 5;
-        FLLFFL.movementSpeed = 3;
+        FLLFFL.minJumpHeight = 4;
+        FLLFFL.maxJumpHeight = 6;
+        FLLFFL.movementSpeed = 4;
         FLLFFL.fallSpeed = 5;
         FLLFFL.jumpSpeed = 0.07f;
         FLLFFL.Attack = () => {
