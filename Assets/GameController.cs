@@ -109,14 +109,6 @@ public class GameController : MonoBehaviour
             charaData.charaName = playerData.character;
             newCharacter.transform.position = new Vector2(getPosFromMap(game.players.Count, i), newCharacter.transform.position.y);
 
-            if (playerData.character == "Andre") {
-                playerData.health = Andrehealth; // Assuming Andrehealth is set elsewhere
-            } else if (playerData.character == "FLLFFL") {
-                playerData.health = FLLFFLhealth; // Assuming FLLFFLhealth is set elsewhere
-            } else {
-                playerData.health = defaultHealth; // Default health for any other character
-            }
-
             GameObject newCharacterHealthBar = Instantiate(healthPrefab);
             newCharacterHealthBar.transform.position = new Vector2(i*10, newCharacterHealthBar.transform.position.y);
 
