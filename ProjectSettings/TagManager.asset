@@ -8,6 +8,8 @@ TagManager:
   - ground
   - feet
   - player
+  - HealthBorder
+  - HealthImage
   layers:
   - Default
   - TransparentFX

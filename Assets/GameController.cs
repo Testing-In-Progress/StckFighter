@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using static System.Linq.Enumerable;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 using static GlobalController;
 using static CharacterBase;
@@ -15,21 +16,18 @@ public class GameController : MonoBehaviour
     public int FLLFFLhealth;
     public GameObject[] maps;
     public GameObject map;
-    public GameObject healthPrefab;
+   // public GameObject healthPrefab;
     public GameObject[] characters;
 
-    public Canvas canvas1;
-    public Canvas canvas2;
-
-    public GameObject Healthpreset1;
-    public GameObject Healthpreset2;
+    public Slider slider;
+    public Gradient gradient;
 
 
 
   /*  public TMPro.TextMeshProUGUI healthText;
     public Image healthBar;*/
     float health, maxHealth = 100;
-    float lerpSpeed;
+    float lerpSpeed = 1f;
 
     GameObject getMap(string mapName) {
         foreach (GameObject map in maps) {
@@ -93,7 +91,7 @@ public class GameController : MonoBehaviour
         // Instansiate the Game
         maps = Resources.LoadAll<GameObject>("Maps");
         characters = Resources.LoadAll<GameObject>("Characters");
-        healthPrefab = Resources.Load<GameObject>("UI/Health");
+        //healthPrefab = Resources.Load<GameObject>("UI/Health");
         // Load the Map
         map = Instantiate(getMap(game.map)); // load map stored in game.map
         // Load characters and assign values
@@ -109,8 +107,8 @@ public class GameController : MonoBehaviour
             charaData.charaName = playerData.character;
             newCharacter.transform.position = new Vector2(getPosFromMap(game.players.Count, i), newCharacter.transform.position.y);
 
-            GameObject newCharacterHealthBar = Instantiate(healthPrefab);
-            newCharacterHealthBar.transform.position = new Vector2(i*10, newCharacterHealthBar.transform.position.y);
+            //GameObject newCharacterHealthBar = Instantiate(healthPrefab);
+            //newCharacterHealthBar.transform.position = new Vector2(i*10, newCharacterHealthBar.transform.position.y);
 
             // Create NameTag
             /** GameObject nameTag = new GameObject();
@@ -122,12 +120,19 @@ public class GameController : MonoBehaviour
             nameTag.transform.position = new Vector2(0, 0 + (newCharacter.GetComponent<BoxCollider2D>().bounds.size.y/2.6f));
             nameTag.transform.SetParent(newCharacter.transform, false); */
             
-            health = defaultHealth;
-            maxHealth = health;
+            maxHealth = playerData.Health;
+            health = maxHealth;
             i++;
         } 
 
     }
+
+    void SetHealthBarFiller()
+    {
+        slider.value = Mathf.Lerp(slider.value,(health/maxHealth), lerpSpeed);
+        
+    }
+    
     /*void HealthBarFiller()
     {
         //Debug.Log("healthBar = " + healthBar);
