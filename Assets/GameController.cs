@@ -120,7 +120,7 @@ public class GameController : MonoBehaviour
             nameTag.transform.position = new Vector2(0, 0 + (newCharacter.GetComponent<BoxCollider2D>().bounds.size.y/2.6f));
             nameTag.transform.SetParent(newCharacter.transform, false); */
             
-            maxHealth = playerData.Health;
+            maxHealth = playerData.health;
             health = maxHealth;
             i++;
         } 
