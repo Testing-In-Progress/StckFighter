@@ -50,7 +50,7 @@ public class Health : MonoBehaviour
         {
             Debug.LogError("TextMeshProUGUI component not found or assigned.");
         }
-        //healthText.text = "Health: " + health.ToString() + "%";
+        healthText.text = "Health: " + health.ToString() + "%";
 
         if (health > maxHealth) health = maxHealth;
 
@@ -65,7 +65,7 @@ public class Health : MonoBehaviour
         //Debug.Log("healthBar.fillAmount = " + healthBar.fillAmount);
 
 
-       // healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (health / maxHealth), lerpSpeed);
+        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (health / maxHealth), lerpSpeed);
 
 
     }

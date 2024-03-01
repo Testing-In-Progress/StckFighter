@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
     public Gradient gradient;
 
 
+
   /*  public TMPro.TextMeshProUGUI healthText;
     public Image healthBar;*/
     float health, maxHealth = 100;
@@ -119,18 +120,18 @@ public class GameController : MonoBehaviour
             nameTag.transform.position = new Vector2(0, 0 + (newCharacter.GetComponent<BoxCollider2D>().bounds.size.y/2.6f));
             nameTag.transform.SetParent(newCharacter.transform, false); */
             
-/*            maxHealth = playerData.health;
-            health = maxHealth;*/
+            maxHealth = playerData.health;
+            health = maxHealth;
             i++;
         } 
 
     }
 
-    void SetHealthBarFiller(float health, float maxHealth)
-{
-    Debug.Log(slider.value);
-    slider.value = Mathf.Lerp(slider.value, (health / maxHealth), lerpSpeed);
-}
+    void SetHealthBarFiller()
+    {
+        slider.value = Mathf.Lerp(slider.value,(health/maxHealth), lerpSpeed);
+        
+    }
     
     /*void HealthBarFiller()
     {
@@ -166,14 +167,11 @@ public class GameController : MonoBehaviour
     }*/
     // Update is called once per frame
     void Update()
-{
-    if (Input.GetKeyDown(KeyCode.Escape))
     {
-        Debug.Log(health);
-        Debug.Log("Escape key was pressed");
-        health -= 10;
-        SetHealthBarFiller(health, maxHealth); // Corrected call
+        if (Input.GetKeyDown("escape"))
+        {
+            Debug.Log("space key was pressed");
+        }
     }
-}
 
 }
