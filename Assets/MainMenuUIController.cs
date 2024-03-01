@@ -385,6 +385,7 @@ public class MainMenuUIController : MonoBehaviour
         finalChara.transform.position = ourCharacterSelectObjectArray.transform.position;
         finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
         finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60, finalChara.GetComponent<RectTransform>().localScale.y*60);
+        finalChara.transform.SetSiblingIndex(1);
         finalChara.name = "selectedChara";
 
         ourCharacterSelectObjectArray.GetComponent<Image>().sprite = getCharacterBackground(temp.name);
@@ -428,9 +429,10 @@ public class MainMenuUIController : MonoBehaviour
         // update screen 
         GameObject oldChara = ourCharacterSelectObjectArray.transform.Find("selectedChara").gameObject;
         
-        finalChara.transform.position = ourCharacterSelectObjectArray.transform.position;
+        finalChara.transform.position = new Vector2(ourCharacterSelectObjectArray.transform.position.x, ourCharacterSelectObjectArray.transform.position.y+107);
         finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
         finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60, finalChara.GetComponent<RectTransform>().localScale.y*60);
+        finalChara.transform.SetSiblingIndex(1);
         finalChara.name = "selectedChara";
 
         ourCharacterSelectObjectArray.GetComponent<Image>().sprite = getCharacterBackground(temp.name);
@@ -461,6 +463,8 @@ public class MainMenuUIController : MonoBehaviour
             } else {
                 selectedButtonImage.color = hex("#EC4545");
             }
+            
+            ourCharacterSelectObjectArray.transform.Find("selectedChara").gameObject.GetComponent<Animator>().SetTrigger("lock_in");
 
             updateStartButton();   
         }

@@ -119,7 +119,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 8, y: 5}
+  m_SizeDelta: {x: 11, y: 9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &2483624211597007634
 SpriteRenderer:
@@ -366,7 +366,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 669529943, guid: 94b2ec061b6c6b049ae93911df2eb450, type: 3}
+  m_Sprite: {fileID: 564244128, guid: 52cd3670d25e1824abedb5c90876c0b4, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

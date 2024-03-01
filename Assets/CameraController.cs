@@ -67,20 +67,22 @@ public class CameraController : MonoBehaviour
             game.playType = "Local";
             game.mute = false;
             game.fullScreen = Screen.fullScreen;
-            game.players = new List<PlayerData>();
-            foreach (var index in Range(1, 2)) { // Default 2 players
-                PlayerData playerData = new PlayerData();
-                Debug.Log(playerData);
-                playerData.name = "player" + index.ToString();
-                if (index == 1) {
-                    playerData.controllerType = game.wasd;
-                    playerData.character = "Andre";
-                } else if (index == 2) {
-                    playerData.controllerType = game.arrow;
-                    playerData.character = "FLLFFL";
+            if (game.players == null || game.players.Count == 0) {
+                game.players = new List<PlayerData>();
+                foreach (var index in Range(1, 2)) { // Default 2 players
+                    PlayerData playerData = new PlayerData();
+                    Debug.Log(playerData);
+                    playerData.name = "player" + index.ToString();
+                    if (index == 1) {
+                        playerData.controllerType = game.wasd;
+                        playerData.character = "Andre";
+                    } else if (index == 2) {
+                        playerData.controllerType = game.arrow;
+                        playerData.character = "FLLFFL";
+                    }
+                    Debug.Log(playerData);
+                    game.players.Add(playerData);
                 }
-                Debug.Log(playerData);
-                game.players.Add(playerData);
             }
         }
 
