@@ -272,9 +272,15 @@ public class MainMenuUIController : MonoBehaviour
 
                 players[currentIndex].character = "Random";
 
+                int isFlipped = 1;
+
+                if ((currentIndex+1).ToString() == "2") {
+                    isFlipped = -1;
+                }
+
                 newCharacter.transform.position = selUI.transform.position;
                 newCharacter.transform.parent = selUI.transform;
-                newCharacter.GetComponent<RectTransform>().localScale = new Vector2(newCharacter.GetComponent<RectTransform>().localScale.x*60, newCharacter.GetComponent<RectTransform>().localScale.y*60);
+                newCharacter.GetComponent<RectTransform>().localScale = new Vector2(newCharacter.GetComponent<RectTransform>().localScale.x*60*isFlipped, newCharacter.GetComponent<RectTransform>().localScale.y*60);
                 newCharacter.name = "selectedChara";
                 Destroy(newCharacter.GetComponent<PlayerController>());
                 Destroy(newCharacter.GetComponent<Rigidbody2D>());
@@ -381,10 +387,16 @@ public class MainMenuUIController : MonoBehaviour
         }
         // update screen 
         GameObject oldChara = ourCharacterSelectObjectArray.transform.Find("selectedChara").gameObject;
+
+        int isFlipped = 1;
+
+        if (number == "2") {
+            isFlipped = -1;
+        }
         
         finalChara.transform.position = ourCharacterSelectObjectArray.transform.position;
         finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
-        finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60, finalChara.GetComponent<RectTransform>().localScale.y*60);
+        finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60*isFlipped, finalChara.GetComponent<RectTransform>().localScale.y*60);
         finalChara.transform.SetSiblingIndex(1);
         finalChara.name = "selectedChara";
 
@@ -428,10 +440,16 @@ public class MainMenuUIController : MonoBehaviour
         }
         // update screen 
         GameObject oldChara = ourCharacterSelectObjectArray.transform.Find("selectedChara").gameObject;
-        
+
+        int isFlipped = 1;
+
+        if (number == "2") {
+            isFlipped = -1;
+        }
+
         finalChara.transform.position = new Vector2(ourCharacterSelectObjectArray.transform.position.x, ourCharacterSelectObjectArray.transform.position.y+107);
         finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
-        finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60, finalChara.GetComponent<RectTransform>().localScale.y*60);
+        finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60*isFlipped, finalChara.GetComponent<RectTransform>().localScale.y*60);
         finalChara.transform.SetSiblingIndex(1);
         finalChara.name = "selectedChara";
 
@@ -463,7 +481,7 @@ public class MainMenuUIController : MonoBehaviour
             } else {
                 selectedButtonImage.color = hex("#EC4545");
             }
-            
+
             ourCharacterSelectObjectArray.transform.Find("selectedChara").gameObject.GetComponent<Animator>().SetTrigger("lock_in");
 
             updateStartButton();   

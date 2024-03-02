@@ -220,6 +220,8 @@ MonoBehaviour:
   opponent: {fileID: 4234586300536212365, guid: 799f2f81f3eb6da42a298c439516da61, type: 3}
   characterRB: {fileID: 7632931193009452350}
   feet: {fileID: 2971860299101578022}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
   walkSpeed: 0
   crouchSpeed: 0
   sprintMultiplier: 0
@@ -384,7 +386,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -15}
+  m_Offset: {x: 0, y: -15.539551}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -395,5 +397,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 1}
+  m_Size: {x: 3, y: 1.000061}
   m_EdgeRadius: 0

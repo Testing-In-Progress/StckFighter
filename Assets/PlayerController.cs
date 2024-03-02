@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     public PlayerData playerData;
     public Rigidbody2D characterRB;
     public BoxCollider2D feet;
+    public Animator anim;
+    public SpriteRenderer spriteRenderer;
 
     public float walkSpeed;
     public float crouchSpeed;
@@ -93,6 +95,9 @@ public class PlayerController : MonoBehaviour
         Debug.Log(characterField);
         selectedCharacter = (CharacterBase)characterField.GetValue(game);
 
+        anim = gameObject.GetComponent<Animator>();
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+
         foreach (PlayerData playerDatae in game.players) {
             Debug.Log(playerDatae.name);
             Debug.Log(gameObject.name);
@@ -150,10 +155,16 @@ public class PlayerController : MonoBehaviour
     void Update(){
         if (opponent.position.x < transform.position.x){
             enemyPositionOnLeft = true;
-        }
-        else{
+        } else {
             enemyPositionOnLeft = false;
         }
+
+        if (enemyPositionOnLeft ) {
+            spriteRenderer.flipX = true;
+        } else {
+            spriteRenderer.flipX = false;
+        }
+        
         
         yVelocity = characterRB.velocity.y;
         initialSpeedY = Mathf.Sqrt(2f * yAccel * maxHeight);

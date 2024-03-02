@@ -19,8 +19,6 @@ public class GameController : MonoBehaviour
     public GameObject healthPrefab;
     public GameObject[] characters;
     public GameObject canvas;
-
-    public Slider slider;
     public Gradient gradient;
 
 
@@ -85,9 +83,11 @@ public class GameController : MonoBehaviour
                     if (index == 1) {
                         playerData.controllerType = game.wasd;
                         playerData.character = "Andre";
+                        playerData.health = 0;
                     } else if (index == 2) {
                         playerData.controllerType = game.arrow;
                         playerData.character = "FLLFFL";
+                        playerData.health = 0;
                     }
                     Debug.Log(playerData);
                     game.players.Add(playerData);
@@ -135,15 +135,17 @@ public class GameController : MonoBehaviour
             nameTag.transform.position = new Vector2(0, 0 + (newCharacter.GetComponent<BoxCollider2D>().bounds.size.y/2.6f));
             nameTag.transform.SetParent(newCharacter.transform, false); */
             
-            maxHealth = playerData.health;
             i++;
         } 
-
+        SetHealthBarFiller();
     }
 
     void SetHealthBarFiller()
     {
-        slider.value = Mathf.Lerp(slider.value,(health/maxHealth), lerpSpeed);
+        foreach (PlayerData player in game.players) {
+            Slider slider = GameObject.Find(player.name + "HealthBar").GetComponent<Slider>();
+            slider.value = Mathf.Lerp(slider.value, (player.health), lerpSpeed);
+        }
         
     }
     
@@ -182,10 +184,16 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("escape"))
-        {
-            Debug.Log("space key was pressed");
+        SetHealthBarFiller();
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            Debug.Log(game.players[0].health);
+            game.players[0].health = game.players[0].health - 10;
         }
+
+        if (Input.GetKeyDown(KeyCode.BackQuote)) {
+            Debug.Log(game.players[0].health);
+            game.players[0].health = game.players[0].health + 10;
+        } 
     }
 
 }

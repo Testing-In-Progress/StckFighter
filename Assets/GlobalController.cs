@@ -50,6 +50,9 @@ public class GlobalController : MonoBehaviour
         Andre.Attack = () => {
             Debug.Log("Andre has attacked");
         };
+        Andre.hitGround = () => {
+            
+        }
 
         // FLLFFL code
         FLLFFL = new CharacterBase();
