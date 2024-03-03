@@ -172,6 +172,13 @@ public class PlayerController : MonoBehaviour
                 break; // If you only want to handle the first collider with the tag
             }
         }
+
+        if (onGround == true){
+            canMove = true;
+        }
+        else{
+            canMove = false;
+        }
         
         
         yVelocity = characterRB.velocity.y;
