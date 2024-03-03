@@ -52,7 +52,7 @@ public class GlobalController : MonoBehaviour
         };
         Andre.hitGround = () => {
             
-        }
+        };
 
         // FLLFFL code
         FLLFFL = new CharacterBase();
