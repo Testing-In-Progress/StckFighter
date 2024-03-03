@@ -60,6 +60,7 @@ public class MainMenuUIController : MonoBehaviour
 
     public bool Mute;
     public bool FullScreen;
+    public bool closing;
 
     // Start is called before the first frame update
     void Start() {
@@ -70,6 +71,8 @@ public class MainMenuUIController : MonoBehaviour
 
         playType = "";
         map = "";
+
+        closing = false;
 
         selecting = false;
         Fade = GameObject.Find("Fade");
@@ -212,12 +215,23 @@ public class MainMenuUIController : MonoBehaviour
 
     public void updateStartButton() {
         bool startable = true;
-        Debug.Log(players);
+        //Debug.Log(players);
         foreach (PlayerData player in players) {
             if (player.selected == false) {
                 startable = false;
             }
         }
+        foreach(GameObject ourCharacterSelectObjectArray in characterSelectObjectArray) {
+            if (ourCharacterSelectObjectArray.transform.Find("selectPopup").gameObject.activeSelf == false) {
+                if (ourCharacterSelectObjectArray.transform.Find("selectedChara").gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("lock_in_idle") == false) {
+                    startable = false;
+                }
+            }
+        }
+        if (closing) {
+            return;
+        }
+
         startGameButton.transform.SetSiblingIndex(startGameButton.transform.parent.transform.childCount);
         startGameButton.SetActive(startable);
     }
@@ -394,7 +408,7 @@ public class MainMenuUIController : MonoBehaviour
             isFlipped = -1;
         }
         
-        finalChara.transform.position = ourCharacterSelectObjectArray.transform.position;
+        finalChara.transform.position = new Vector2(ourCharacterSelectObjectArray.transform.position.x, ourCharacterSelectObjectArray.transform.position.y+107);
         finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
         finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60*isFlipped, finalChara.GetComponent<RectTransform>().localScale.y*60);
         finalChara.transform.SetSiblingIndex(1);
@@ -477,14 +491,18 @@ public class MainMenuUIController : MonoBehaviour
             
             currentPlayer.selected = !currentPlayer.selected;
             if (currentPlayer.selected) {
+                Animator anim = ourCharacterSelectObjectArray.transform.Find("selectedChara").gameObject.GetComponent<Animator>();
+                anim.SetTrigger("lock_in");
+                AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(a => a.name == "lock_in_idle");
+                Invoke("updateStartButton", clip.length);
                 selectedButtonImage.color = hex("#2CBA31");
             } else {
+                ourCharacterSelectObjectArray.transform.Find("selectedChara").gameObject.GetComponent<Animator>().SetTrigger("lock_out");
                 selectedButtonImage.color = hex("#EC4545");
             }
 
-            ourCharacterSelectObjectArray.transform.Find("selectedChara").gameObject.GetComponent<Animator>().SetTrigger("lock_in");
 
-            updateStartButton();   
+            updateStartButton();
         }
     }
     public void Player1() {
@@ -504,6 +522,7 @@ public class MainMenuUIController : MonoBehaviour
     }
 
     IEnumerator StartGame() {
+        closing = true;
         startGameButton.SetActive(false);
         Fade.SetActive(true);
 
@@ -840,6 +859,7 @@ public class MainMenuUIController : MonoBehaviour
                 }
             }
         }
+        updateStartButton();
     }
 
 

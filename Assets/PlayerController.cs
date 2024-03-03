@@ -68,8 +68,6 @@ public class PlayerController : MonoBehaviour
     public bool groundBackDash;
     public bool airForwardDash;
     public bool airBackDash;
-
-    public float jumpBufferTime;
     public float airDashDelayTime;
     public float dashRefreshTime;
     void Start()
@@ -150,7 +148,6 @@ public class PlayerController : MonoBehaviour
         airBackDash = false;
 
         dashRefreshTime = 0.25f;
-        jumpBufferTime = 0.1f;
     }
     void Update(){
         if (opponent.position.x < transform.position.x){
@@ -163,6 +160,17 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.flipX = true;
         } else {
             spriteRenderer.flipX = false;
+        }
+        
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(feet.bounds.center, feet.bounds.size, 0f);
+        onGround = false; 
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag("ground"))
+            {
+                onGround = true;
+                break; // If you only want to handle the first collider with the tag
+            }
         }
         
         
@@ -343,26 +351,38 @@ public class PlayerController : MonoBehaviour
         
 
     }
-    public void OnTriggerEnter2D(Collider2D feet)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         // Check if the collider is tagged as ground
-        if (feet.CompareTag("ground"))
+        if (other.gameObject.name.Contains("Hit"))
         {
-            Invoke("jumpBuffer", jumpBufferTime);
-            refreshMoveCooldown();
+            int attackAmount = Int32.Parse(other.gameObject.name.Split("Hit")[1]);
+            Debug.Log(attackAmount);
+            selectedCharacter.hitGround(anim, gameObject, playerData, attackAmount);
+        }
+        
+    }
+    // Foot Collider
+    /**public void feet.OnTriggerEnter2D(Collider2D ground)
+    {
+        // Check if the collider is tagged as ground
+        if (ground.CompareTag("ground"))
+        {
+            onGround = true; 
+            canMove = true;
         }
         
     }
 
-    public void OnTriggerExit2D(Collider2D feet)
+    public void feet.OnTriggerExit2D(Collider2D ground)
     {
         // Check if the collider is tagged as ground
-        if (feet.CompareTag("ground"))
+        if (ground.CompareTag("ground"))
         {
             onGround = false;
             canMove = false;
         }
-    }
+    }*/
 
     public void jumpBuffer(){
         onGround = true; 

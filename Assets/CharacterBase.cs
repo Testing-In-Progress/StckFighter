@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
+using static PlayerData;
+
 public class CharacterBase
 {
     public float minJumpHeight;
@@ -143,7 +145,7 @@ public class CharacterBase
         
     };
     // Hitstun Animation
-    public Action hitGround = () => {
+    public Action<Animator, GameObject, PlayerData, int> hitGround = (Animator anim, GameObject charaObj, PlayerData playerData, int attackAmount) => {
         
     };
     public Action hitGroundRelease = () => {

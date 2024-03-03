@@ -6153,6 +6153,7 @@ MonoBehaviour:
   characterSelectObjectArray: []
   Mute: 0
   FullScreen: 0
+  closing: 0
 --- !u!1 &1757604063
 GameObject:
   m_ObjectHideFlags: 0

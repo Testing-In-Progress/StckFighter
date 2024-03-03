@@ -50,9 +50,13 @@ public class GlobalController : MonoBehaviour
         Andre.Attack = () => {
             Debug.Log("Andre has attacked");
         };
-        Andre.hitGround = () => {
-            
-        }
+        Andre.hitGround = (Animator anim, GameObject charaObj, PlayerData playerData, int attackAmount) => {
+            // run hitground animation
+            // move charaObj backwards
+            Debug.Log(playerData.health);
+            playerData.health -= attackAmount;
+            Debug.Log(playerData.health);
+        };
 
         // FLLFFL code
         FLLFFL = new CharacterBase();

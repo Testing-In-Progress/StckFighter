@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 3098829144083718544}
   - component: {fileID: 8777591098013121357}
   - component: {fileID: 7991696531808247895}
-  - component: {fileID: 9159763363867240022}
+  - component: {fileID: 1172474282839230666}
   m_Layer: 0
   m_Name: Andre
   m_TagString: player
@@ -297,6 +297,8 @@ MonoBehaviour:
   opponent: {fileID: 2568059790158973162, guid: be6c2061168895240b35cec418c2b811, type: 3}
   characterRB: {fileID: 2703648274752094817}
   feet: {fileID: 2626126039976298166}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
   walkSpeed: 0
   crouchSpeed: 0
   sprintMultiplier: 0
@@ -335,7 +337,6 @@ MonoBehaviour:
   groundBackDash: 0
   airForwardDash: 0
   airBackDash: 0
-  jumpBufferTime: 0
   airDashDelayTime: 0
   dashRefreshTime: 0
 --- !u!222 &8777591098013121357
@@ -366,7 +367,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 564244128, guid: 52cd3670d25e1824abedb5c90876c0b4, type: 3}
+  m_Sprite: {fileID: 123911885, guid: f4bdc898459343041b5ffbb9c5046499, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -376,7 +377,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &9159763363867240022
+--- !u!95 &1172474282839230666
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
