@@ -235,7 +235,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(upCode)) {
             up = true;
-            Debug.Log("Up is true"); // aman run again and look at console
+            Debug.Log("Up is true"); 
         } else{
             up = false;
         }
@@ -268,7 +268,7 @@ public class PlayerController : MonoBehaviour
         }
         
         if (Input.GetKeyDown(attackCode) && canAttack) { // be sure to clear
-            if (up) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller
+            if (up) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
                 Debug.Log("GOING UP");// it seems that up isnt working
                 selectedCharacter.lUp(anim, gameObject);// test lets have it debug .log 
                 canAttack = false;
