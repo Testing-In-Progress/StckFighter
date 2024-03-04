@@ -263,7 +263,7 @@ public class MainMenuUIController : MonoBehaviour
             Debug.Log(segmentSize);
             float finalPos = startingPoint + segmentSize*i + segmentSize/2;
             Debug.Log(finalPos);
-            selUI.transform.position = new Vector2(finalPos, pss.transform.position.y);
+            selUI.transform.position = new Vector2(finalPos, pss.transform.position.y-12);
             selUI.transform.parent = pss.transform;
 
             selUI.name = players[i].name;
@@ -300,7 +300,7 @@ public class MainMenuUIController : MonoBehaviour
                 Destroy(newCharacter.GetComponent<Rigidbody2D>());
             }
 
-            selUI.GetComponent<Image>().sprite = getCharacterBackground("Random");
+            selUI.transform.Find("characterBackground").GetComponent<Image>().sprite = getCharacterBackground("Default");
 
 
             i++;
@@ -414,7 +414,7 @@ public class MainMenuUIController : MonoBehaviour
         finalChara.transform.SetSiblingIndex(1);
         finalChara.name = "selectedChara";
 
-        ourCharacterSelectObjectArray.GetComponent<Image>().sprite = getCharacterBackground(temp.name);
+        ourCharacterSelectObjectArray.transform.Find("characterBackground").GetComponent<Image>().sprite = getCharacterBackground(temp.name);
 
         Destroy(finalChara.GetComponent<PlayerController>());
         Destroy(finalChara.GetComponent<Rigidbody2D>());
@@ -467,7 +467,7 @@ public class MainMenuUIController : MonoBehaviour
         finalChara.transform.SetSiblingIndex(1);
         finalChara.name = "selectedChara";
 
-        ourCharacterSelectObjectArray.GetComponent<Image>().sprite = getCharacterBackground(temp.name);
+        ourCharacterSelectObjectArray.transform.Find("characterBackground").GetComponent<Image>().sprite = getCharacterBackground(temp.name);
 
         Destroy(finalChara.GetComponent<PlayerController>());
         Destroy(finalChara.GetComponent<Rigidbody2D>());
