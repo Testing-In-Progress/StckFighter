@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
     public float dashRefreshTime;
 
     //Attack
+    public bool canAttack;
     public bool isAttacking;
     public float DashAttack;
     public float JumpAttack;
@@ -138,6 +139,7 @@ public class PlayerController : MonoBehaviour
         crouch = false; 
         onGround = false;
         canMove = true;
+        canAttack = true;
 
         dash = false;
         sprint = false;
@@ -265,24 +267,34 @@ public class PlayerController : MonoBehaviour
             shield = false;
         }
         
-        if (Input.GetKeyDown(attackCode) ) { // be sure to clear
+        if (Input.GetKeyDown(attackCode) && canAttack) { // be sure to clear
             if (up) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller
                 Debug.Log("GOING UP");// it seems that up isnt working
                 selectedCharacter.lUp(anim, gameObject);// test lets have it debug .log 
+                canAttack = false;
+                Invoke("attackBuffer", 1f);
             } else if (enemyPositionOnLeft) {
                 // no aman bruh just hold W(up for orange) and attack its not wroking, weird
                 if (right) {
                     selectedCharacter.lForward(anim, gameObject, 1);
+                    canAttack = false;
+                    Invoke("attackBuffer", 1f);
                 } else {
                     selectedCharacter.lForward(anim, gameObject, -1);
+                    canAttack = false;
+                    Invoke("attackBuffer", 1f);
                 }
                  // spelled wrong
                 
             } else if (enemyPositionOnLeft == false) {
                 if (left) {
                     selectedCharacter.lForward(anim, gameObject, -1);
+                    canAttack = false;
+                    Invoke("attackBuffer", 1f);
                 } else {
                     selectedCharacter.lForward(anim, gameObject, 1);
+                    canAttack = false;
+                    Invoke("attackBuffer", 1f);
                 }
                 // lets go to globalcotrooller
                 //selectedCharacter.lBackward(anim, charaObj); 
@@ -462,6 +474,9 @@ public class PlayerController : MonoBehaviour
         }
     }*/
 
+    public void attackBuffer() {
+        canAttack = true;
+    }
     public void jumpBuffer(){
         onGround = true; 
     }
