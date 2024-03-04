@@ -159,6 +159,8 @@ public class GameController : MonoBehaviour
 
 
     }
+
+    
     void ColorChanger()
     {
         Color healthColor = Color.Lerp(Color.red, Color.green, (health / maxHealth));
