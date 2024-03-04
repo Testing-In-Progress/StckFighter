@@ -70,6 +70,18 @@ public class PlayerController : MonoBehaviour
     public bool airBackDash;
     public float airDashDelayTime;
     public float dashRefreshTime;
+
+    //Attack
+    public bool isAttacking;
+    public float DashAttack;
+    public float JumpAttack;
+    public float SlamAttack;
+    //public float ChargeAttack
+    public float ComboAttack;
+    public float AirBorneAttack;
+    public float simpleAttack;
+
+
     void Start()
     {
         if (GameObject.Find("GLOBALOBJECT")) {
@@ -105,12 +117,12 @@ public class PlayerController : MonoBehaviour
         }
 
         // jump = 3f;
-        walkSpeed = 6f;
+        walkSpeed = 12f;
         crouchSpeed = 0f;
         sprintMultiplier = 3f;
 
         xVelocity = 0f;
-        yAccel = 6f;
+        yAccel = 6f; //  look in 
         maxHeight = 60f;     
 
         xDirection = 0;
@@ -148,6 +160,18 @@ public class PlayerController : MonoBehaviour
         airBackDash = false;
 
         dashRefreshTime = 0.25f;
+
+      /*  isAttacking = False;
+        DashAttack = 10f;
+        JumpAttack = 15f;
+        SlamAttack = 20f;
+        ComboAttack = 30f;
+        AirborneAttack = 15f;
+        //ChargeAttack = 30f;
+*/
+
+
+
     }
     void Update(){
         if (opponent.position.x < transform.position.x){
@@ -182,15 +206,16 @@ public class PlayerController : MonoBehaviour
         
         
         yVelocity = characterRB.velocity.y;
-        initialSpeedY = Mathf.Sqrt(2f * yAccel * maxHeight);
+        initialSpeedY = Mathf.Sqrt(2f * selectedCharacter.jumpSpeed * selectedCharacter.maxJumpHeight);
         backDashTime = backDashDistance / backDashInitialSpeed;
         forwardDashTime = forwardDashDistance / forwardDashInitialSpeed;
         KeyCode leftCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.left);
         KeyCode rightCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.right);
-        KeyCode upCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.up);
+        KeyCode upCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.up); //this should be w
         KeyCode downCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.down);
         KeyCode jumpCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.jump);
         KeyCode dashCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.dash);
+        KeyCode attackCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.attack);
 
         // To detect what direction or input the player is doing
         if (Input.GetKey(leftCode)) {
@@ -208,8 +233,8 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(upCode)) {
             up = true;
-        }
-        else{
+            Debug.Log("Up is true"); // aman run again and look at console
+        } else{
             up = false;
         }
 
@@ -240,6 +265,36 @@ public class PlayerController : MonoBehaviour
             shield = false;
         }
         
+        if (Input.GetKeyDown(attackCode) ) { // be sure to clear
+            if (up) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller
+                Debug.Log("GOING UP");// it seems that up isnt working
+                selectedCharacter.lUp(anim, gameObject);// test lets have it debug .log 
+            } else if (enemyPositionOnLeft) {
+                // no aman bruh just hold W(up for orange) and attack its not wroking, weird
+                if (right) {
+                    selectedCharacter.lForward(anim, gameObject, 1);
+                } else {
+                    selectedCharacter.lForward(anim, gameObject, -1);
+                }
+                 // spelled wrong
+                
+            } else if (enemyPositionOnLeft == false) {
+                if (left) {
+                    selectedCharacter.lForward(anim, gameObject, -1);
+                } else {
+                    selectedCharacter.lForward(anim, gameObject, 1);
+                }
+                // lets go to globalcotrooller
+                //selectedCharacter.lBackward(anim, charaObj); 
+            }
+            
+            // we have a variable or that
+            // if the enemyposition is on left and left == true, the we are attacking forward
+            // 
+            
+        }
+
+        //nvm
 
         // Defines inputs into movement
         if (left == true && right == false){
@@ -281,7 +336,10 @@ public class PlayerController : MonoBehaviour
         }
 
         if (jump == true && onGround == true){
-            jumpFunction();
+            if (left == false && right == false) {
+                selectedCharacter.vJumpUp(anim, gameObject);
+            } //lets add a debug in globalconerller
+            jumpFunction();//right here
         }
 
         if (dash == true && canDash == true && isDashing == false && xDirection != 0){
@@ -310,6 +368,14 @@ public class PlayerController : MonoBehaviour
         if (onGround == true && groundBackDash == false){
             refreshMoveCooldown();
         }
+
+        //Attack
+
+        
+
+
+
+
         
     }
     void FixedUpdate()
@@ -364,8 +430,13 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.name.Contains("Hit"))
         {
             int attackAmount = Int32.Parse(other.gameObject.name.Split("Hit")[1]);
-            Debug.Log(attackAmount);
-            selectedCharacter.hitGround(anim, gameObject, playerData, attackAmount);
+            // we need to change this code to 
+            // say we name every hit thing "player1" + "Hit" + "amount"
+            if (other.gameObject.name.Split("Hit")[0] != playerData.name) {
+                // oh ok, the problem is that falfafel doesnt have code lets add
+                Debug.Log(attackAmount);
+                selectedCharacter.hitGround(anim, gameObject, playerData, attackAmount);   
+            }
         }
         
     }

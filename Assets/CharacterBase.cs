@@ -12,18 +12,20 @@ public class CharacterBase
     public float movementSpeed;
     public float fallSpeed;
     public float jumpSpeed;
+    public float lightAttackValue;
 
     public Action Attack = () => {
         
     };
     // l means Light Attack
-    public Action lForward = () => {
+    public Action<Animator, GameObject, int> lForward = (Animator anim, GameObject charaObj, int dir) => {
+        // now its instansiated. every time we work with these functions we have to define
+        // the type of data we pass through 
+    };
+    public Action<Animator, GameObject, int> lBackward = (Animator anim, GameObject charaObj, int dir) => {
         
     };
-    public Action lBackward = () => {
-        
-    };
-    public Action lUp = () => {
+    public Action<Animator, GameObject> lUp = (Animator anim, GameObject charaObj) => {
         
     };
     public Action lDown = () => {
@@ -91,7 +93,7 @@ public class CharacterBase
         
     };
     // Jump Animations
-    public Action vJumpUp = () => {
+    public Action<Animator, GameObject> vJumpUp = (Animator anim, GameObject charaObj) => {
         
     };
     public Action vJumpHover = () => {

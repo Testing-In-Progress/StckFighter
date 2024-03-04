@@ -26,6 +26,8 @@ public class GlobalController : MonoBehaviour
     // exFullScreen false
     public bool fullScreen;
     public bool paused;
+    public int num;
+
 
     // To keep it loaded thru scenes
     void Awake() 
@@ -39,16 +41,28 @@ public class GlobalController : MonoBehaviour
     }
 
     void SetupCharacters() {
+        GameObject hitBox = Resources.Load<GameObject>("Hit");
         
         // Andre code
         Andre = new CharacterBase();
-        Andre.minJumpHeight = 3;
-        Andre.maxJumpHeight = 5;
+        Andre.minJumpHeight = 15;
+        Andre.maxJumpHeight = 100;
         Andre.movementSpeed = 3;
         Andre.fallSpeed = 5;
-        Andre.jumpSpeed = 0.05f;
+        Andre.jumpSpeed = 7f;
+        Andre.lightAttackValue = 5; // i defined it, run
         Andre.Attack = () => {
+
+
+            
+           // just make an empty prefab with boxcollider then you just instansiate, change position and collider bounds as you desire. also screensare so i can see.
+           // ill chat 
             Debug.Log("Andre has attacked");
+        };
+        Andre.vJumpUp = (Animator anim, GameObject charaObj) => {
+            Debug.Log("Andre has Jumped");
+            // run jump animation I havent impoerted the jump animation this is just fo
+// here lets get fflfl the vjumpup
         };
         Andre.hitGround = (Animator anim, GameObject charaObj, PlayerData playerData, int attackAmount) => {
             // run hitground animation
@@ -57,18 +71,88 @@ public class GlobalController : MonoBehaviour
             playerData.health -= attackAmount;
             Debug.Log(playerData.health);
         };
+        Andre.lForward = (Animator anim, GameObject charaObj, int dir) => { // this is how we get chara position
+            GameObject attack = Instantiate(hitBox);
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackValue.ToString(); // i fixed 
+            int attackDistanceFromPlayer = 2;// were gonna define in this function
+            attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir, charaObj.transform.position.y); 
+            Debug.Log("lForward from " + charaObj.name);
+            Destroy(attack, 2); //  fixed, run
+            
+        };
 
+        Andre.lBackward = (Animator anim, GameObject charaObj, int dir) => { // 
+            GameObject attack = Instantiate(hitBox);
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackValue.ToString(); // 
+            int attackDistanceFromPlayer = 2;// were gonna define in this function
+            attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir*-1, charaObj.transform.position.y); 
+            Debug.Log("lBackward from " + charaObj.name);
+            Destroy(attack, 2); //  go to characterbase
+            // aman i changed the bool to an int so we can just multiply to change te direction of attack
+            // ok 
+        };
+        Andre.lUp = (Animator anim, GameObject charaObj) => { // 
+            GameObject attack = Instantiate(hitBox);
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackValue.ToString(); // 
+            int attackDistanceFromPlayer = 4;// now i think we should add the 
+            attack.transform.localPosition = new Vector2(charaObj.transform.position.x, charaObj.transform.position.y+attackDistanceFromPlayer); 
+            Debug.Log("lBackward from " + charaObj.name);
+            Destroy(attack, 2); //  go to characterbase
+            // aman i changed the bool to an int so we can just multiply to change te direction of attack
+            // ok 
+        }; // lets got to playercontroller
         // FLLFFL code
         FLLFFL = new CharacterBase();
-        FLLFFL.minJumpHeight = 4;
-        FLLFFL.maxJumpHeight = 6;
+        FLLFFL.minJumpHeight = 15;
+        FLLFFL.maxJumpHeight = 100; // right here
         FLLFFL.movementSpeed = 4;
-        FLLFFL.fallSpeed = 5;
-        FLLFFL.jumpSpeed = 0.07f;
+        FLLFFL.fallSpeed = 5; // aman put the grabity back
+        FLLFFL.jumpSpeed = 7f;// wait aman the jumpspeed isnt implement in playercontrller
         FLLFFL.Attack = () => {
             Debug.Log("FLLFFL has attacked");
         };
+        FLLFFL.hitGround = (Animator anim, GameObject charaObj, PlayerData playerData, int attackAmount) => {
+            // run hitground animation
+            // move charaObj backwards
+            Debug.Log(playerData.health);
+            playerData.health -= attackAmount;
+            // basically when you are standing still or moving towards opponent and attack, it runs lforward, when you move away from opponent and attack it runs lbackward
+            Debug.Log(playerData.health);
+        };
 
+        FLLFFL.lForward = (Animator anim, GameObject charaObj, int dir) => { // this is how we get chara position
+            GameObject attack = Instantiate(hitBox);
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackValue.ToString(); // i fixed 
+            int attackDistanceFromPlayer = 2;// were gonna define in this function
+            attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir, charaObj.transform.position.y); 
+            Debug.Log("lForward from " + charaObj.name);
+            Destroy(attack, 2); //  fixed, run
+            
+        };
+
+        FLLFFL.lBackward = (Animator anim, GameObject charaObj, int dir) => { // 
+            GameObject attack = Instantiate(hitBox);
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackValue.ToString(); // 
+            int attackDistanceFromPlayer = 2;// were gonna define in this function
+            attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir*-1, charaObj.transform.position.y); 
+            Debug.Log("lBackward from " + charaObj.name);
+            Destroy(attack, 2); //  go to characterbase
+            // aman i changed the bool to an int so we can just multiply to change te direction of attack
+            // it runs when u press up and attack
+        };
+        FLLFFL.lUp = (Animator anim, GameObject charaObj) => { // 
+            GameObject attack = Instantiate(hitBox);
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackValue.ToString(); // 
+            int attackDistanceFromPlayer = 4;// were gonna define in this function
+            attack.transform.localPosition = new Vector2(charaObj.transform.position.x, charaObj.transform.position.y+attackDistanceFromPlayer); 
+            Debug.Log("lBackward from " + charaObj.name);
+            Destroy(attack, 2); //  go to characterbase
+            // aman i changed the bool to an int so we can just multiply to change te direction of attack
+            // ok 
+        }; // lets got to playercontroller
+        FLLFFL.vJumpUp = (Animator anim, GameObject charaObj) => {
+            Debug.Log("FLLFFL has Jumped"); // test adn look in console make sure that it only runs if you arent moving and just jump in place
+        };// wait i think we need to add this in playercontroller
         // Dante code
         Dante = new CharacterBase();
         Dante.minJumpHeight = 3;
@@ -86,7 +170,7 @@ public class GlobalController : MonoBehaviour
     {
         SetupCharacters();
 
-        wasd = new ControllerType("W", "S", "A", "D", "Space", "LeftShift", "Mouse0");
+        wasd = new ControllerType("W", "S", "A", "D", "Space", "LeftShift", "Mouse0"); // 
         arrow = new ControllerType("UpArrow", "DownArrow", "LeftArrow", "RightArrow", "RightControl", "RightShift", "Mouse1");
         players = new List<PlayerData>();
         map = "";

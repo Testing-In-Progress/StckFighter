@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using static System.Linq.Enumerable;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 using static GlobalController;
@@ -137,14 +138,22 @@ public class GameController : MonoBehaviour
             
             i++;
         } 
+        game.players[0].health = (int)maxHealth;
+        game.players[1].health = (int)maxHealth; // 
         SetHealthBarFiller();
     }
 
     void SetHealthBarFiller()
     {
+    
         foreach (PlayerData player in game.players) {
-            Slider slider = GameObject.Find(player.name + "HealthBar").GetComponent<Slider>();
-            slider.value = Mathf.Lerp(slider.value, (player.health), lerpSpeed);
+            if(0 < player.health){
+                Slider slider = GameObject.Find(player.name + "HealthBar").GetComponent<Slider>();
+                slider.value = Mathf.Lerp(slider.value, (player.health), lerpSpeed);
+            }
+            else{
+                SceneManager.LoadScene("MainMenu");
+            }
         }
         
     }
@@ -189,13 +198,14 @@ public class GameController : MonoBehaviour
         SetHealthBarFiller();
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Debug.Log(game.players[0].health);
-            game.players[0].health = game.players[0].health - 10;
+            game.players[1].health = game.players[0].health - 10;
+            
         }
 
         if (Input.GetKeyDown(KeyCode.BackQuote)) {
             Debug.Log(game.players[0].health);
-            game.players[0].health = game.players[0].health + 10;
-        } 
+            game.players[1].health = game.players[0].health + 10;
+        } // now ittl change falafel's health. so load the game, then make ffafles heatl at 100, then test andre's attack
     }
 
 }
