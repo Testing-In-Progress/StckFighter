@@ -407,8 +407,13 @@ public class MainMenuUIController : MonoBehaviour
         if (number == "2") {
             isFlipped = -1;
         }
-        
-        finalChara.transform.position = new Vector2(ourCharacterSelectObjectArray.transform.position.x, ourCharacterSelectObjectArray.transform.position.y+125);
+        if (players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character == "Andre"){
+            finalChara.transform.position = new Vector2(ourCharacterSelectObjectArray.transform.position.x, ourCharacterSelectObjectArray.transform.position.y+125);
+        }
+        else if (players[getPNum(characterSelectObjectArray[Int32.Parse(number)-1].name)].character == "FLLFFL"){
+            finalChara.transform.position = new Vector2(ourCharacterSelectObjectArray.transform.position.x, ourCharacterSelectObjectArray.transform.position.y-20);
+        }
+       
         finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
         finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60*isFlipped, finalChara.GetComponent<RectTransform>().localScale.y*60);
         finalChara.transform.SetSiblingIndex(1);
