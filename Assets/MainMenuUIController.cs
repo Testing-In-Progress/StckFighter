@@ -408,7 +408,7 @@ public class MainMenuUIController : MonoBehaviour
             isFlipped = -1;
         }
         
-        finalChara.transform.position = new Vector2(ourCharacterSelectObjectArray.transform.position.x, ourCharacterSelectObjectArray.transform.position.y+107);
+        finalChara.transform.position = new Vector2(ourCharacterSelectObjectArray.transform.position.x, ourCharacterSelectObjectArray.transform.position.y+125);
         finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
         finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60*isFlipped, finalChara.GetComponent<RectTransform>().localScale.y*60);
         finalChara.transform.SetSiblingIndex(1);
@@ -461,7 +461,7 @@ public class MainMenuUIController : MonoBehaviour
             isFlipped = -1;
         }
 
-        finalChara.transform.position = new Vector2(ourCharacterSelectObjectArray.transform.position.x, ourCharacterSelectObjectArray.transform.position.y+107);
+        finalChara.transform.position = new Vector2(ourCharacterSelectObjectArray.transform.position.x, ourCharacterSelectObjectArray.transform.position.y+125);
         finalChara.transform.parent = ourCharacterSelectObjectArray.transform;
         finalChara.GetComponent<RectTransform>().localScale = new Vector2(finalChara.GetComponent<RectTransform>().localScale.x*60*isFlipped, finalChara.GetComponent<RectTransform>().localScale.y*60);
         finalChara.transform.SetSiblingIndex(1);
@@ -495,10 +495,10 @@ public class MainMenuUIController : MonoBehaviour
                 anim.SetTrigger("lock_in");
                 AnimationClip clip = anim.runtimeAnimatorController.animationClips.First(a => a.name == "lock_in_idle");
                 Invoke("updateStartButton", clip.length);
-                selectedButtonImage.color = hex("#2CBA31");
+                selectedButtonImage.color = hex("#8ABB00");
             } else {
                 ourCharacterSelectObjectArray.transform.Find("selectedChara").gameObject.GetComponent<Animator>().SetTrigger("lock_out");
-                selectedButtonImage.color = hex("#EC4545");
+                selectedButtonImage.color = hex("#D43345");
             }
 
 

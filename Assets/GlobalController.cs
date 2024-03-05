@@ -50,7 +50,7 @@ public class GlobalController : MonoBehaviour
         Andre.movementSpeed = 3;
         Andre.fallSpeed = 5;
         Andre.jumpSpeed = 7f;
-        Andre.lightAttackValue = 5; // i defined it, run
+        Andre.lightAttackValue = 2; // i defined it, run
         Andre.Attack = () => {
 
 
@@ -77,7 +77,7 @@ public class GlobalController : MonoBehaviour
             int attackDistanceFromPlayer = 2;// were gonna define in this function
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir, charaObj.transform.position.y); 
             Debug.Log("lForward from " + charaObj.name);
-            Destroy(attack, 2); //  fixed, run
+            Destroy(attack, 0.25f); //  fixed, run
             
         };
 
@@ -87,7 +87,7 @@ public class GlobalController : MonoBehaviour
             int attackDistanceFromPlayer = 2;// were gonna define in this function
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir*-1, charaObj.transform.position.y); 
             Debug.Log("lBackward from " + charaObj.name);
-            Destroy(attack, 2); //  go to characterbase
+            Destroy(attack, 0.25f); //  go to characterbase
             // aman i changed the bool to an int so we can just multiply to change te direction of attack
             // ok 
         };
@@ -97,7 +97,7 @@ public class GlobalController : MonoBehaviour
             int attackDistanceFromPlayer = 4;// now i think we should add the 
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x, charaObj.transform.position.y+attackDistanceFromPlayer); 
             Debug.Log("lBackward from " + charaObj.name);
-            Destroy(attack, 2); //  go to characterbase
+            Destroy(attack, 0.25f); //  go to characterbase
             // aman i changed the bool to an int so we can just multiply to change te direction of attack
             // ok 
         }; // lets got to playercontroller

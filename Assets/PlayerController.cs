@@ -272,17 +272,17 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("GOING UP");// it seems that up isnt working
                 selectedCharacter.lUp(anim, gameObject);// test lets have it debug .log 
                 canAttack = false;
-                Invoke("attackBuffer", 1f);
+                Invoke("attackBuffer", 0.5f);
             } else if (enemyPositionOnLeft) {
                 // no aman bruh just hold W(up for orange) and attack its not wroking, weird
                 if (right) {
                     selectedCharacter.lForward(anim, gameObject, 1);
                     canAttack = false;
-                    Invoke("attackBuffer", 1f);
+                    Invoke("attackBuffer", 0.5f);
                 } else {
                     selectedCharacter.lForward(anim, gameObject, -1);
                     canAttack = false;
-                    Invoke("attackBuffer", 1f);
+                    Invoke("attackBuffer", 0.5f);
                 }
                  // spelled wrong
                 
@@ -290,11 +290,11 @@ public class PlayerController : MonoBehaviour
                 if (left) {
                     selectedCharacter.lForward(anim, gameObject, -1);
                     canAttack = false;
-                    Invoke("attackBuffer", 1f);
+                    Invoke("attackBuffer", 0.5f);
                 } else {
                     selectedCharacter.lForward(anim, gameObject, 1);
                     canAttack = false;
-                    Invoke("attackBuffer", 1f);
+                    Invoke("attackBuffer", 0.5f);
                 }
                 // lets go to globalcotrooller
                 //selectedCharacter.lBackward(anim, charaObj); 
