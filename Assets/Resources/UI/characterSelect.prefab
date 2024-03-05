@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 6172647813053738945}
   - component: {fileID: 1205522424763620982}
   - component: {fileID: 468863290587494806}
-  - component: {fileID: 4743427313452058271}
+  - component: {fileID: 7086902607316893139}
   m_Layer: 9
   m_Name: door
   m_TagString: Untagged
@@ -110,8 +110,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 312, y: 421}
+  m_AnchoredPosition: {x: 0, y: 26}
+  m_SizeDelta: {x: 269, y: 410}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1205522424763620982
 CanvasRenderer:
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1053508188, guid: 538472b523220ef4a9f86568f5e7b349, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ad93330005c13334f80174f7b0acb93c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &4743427313452058271
+--- !u!95 &7086902607316893139
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -161,7 +161,7 @@ Animator:
   m_GameObject: {fileID: 3282062327484384032}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c6a5afb62e1e785489dc33970cfc015d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8ab9ef8dd5e8e2946b9a0835599f1b62, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

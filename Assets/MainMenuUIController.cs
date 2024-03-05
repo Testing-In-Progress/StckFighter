@@ -533,7 +533,7 @@ public class MainMenuUIController : MonoBehaviour
             characterSelectObject.transform.Find("door").GetComponent<Animator>().SetTrigger("close");
         }
 
-        yield return new WaitForSecondsRealtime(2);
+        yield return new WaitForSecondsRealtime(2f);
 
         float fadeDuration = 0.5f; // How long the fade to black lasts
 
