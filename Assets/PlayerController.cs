@@ -311,15 +311,19 @@ public class PlayerController : MonoBehaviour
         // Defines inputs into movement
         if (left == true && right == false){
             xDirection = -1;
+            anim.SetBool("walking", true);
         }
         else if (left == false && right == true){
             xDirection = 1;
+            anim.SetBool("walking", true);
         }
         else if (left == false && right == false){
             xDirection = 0;
+            anim.SetBool("walking", false);
         }
         else if (left == true && right == true){
             xDirection = 0;
+            anim.SetBool("walking", false);
         }
 
         if (up == true && down == false){

@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1214480796, guid: a3d192fab7bc96e4e9c0849aa90c1c0e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2e698dafc8bc1b646be41e7935e0c1cf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -163,18 +163,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.012619019, y: -0.08718872}
+  m_Offset: {x: -0.012619019, y: -1.7489929}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 7.13, y: 7}
+    oldSize: {x: 19.2, y: 10.8}
     newSize: {x: 7.1399994, y: 7.011877}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.2939758, y: 6.8756714}
+  m_Size: {x: 3.2939758, y: 7.0597534}
   m_EdgeRadius: 0
 --- !u!50 &7632931193009452350
 Rigidbody2D:
@@ -262,6 +262,14 @@ MonoBehaviour:
   airBackDash: 0
   airDashDelayTime: 0
   dashRefreshTime: 0
+  canAttack: 0
+  isAttacking: 0
+  DashAttack: 0
+  JumpAttack: 0
+  SlamAttack: 0
+  ComboAttack: 0
+  AirBorneAttack: 0
+  simpleAttack: 0
 --- !u!222 &8236087668434708946
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -385,7 +393,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -15.539551}
+  m_Offset: {x: 0, y: -24.042511}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -396,5 +404,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 1.000061}
+  m_Size: {x: 3, y: 1.3272095}
   m_EdgeRadius: 0
