@@ -45,12 +45,10 @@ public class GlobalController : MonoBehaviour
         
         // Andre code
         Andre = new CharacterBase();
-        Andre.minJumpHeight = 15;
-        Andre.maxJumpHeight = 100;
-        Andre.movementSpeed = 3;
-        Andre.fallSpeed = 5;
-        Andre.jumpSpeed = 7f;
-        Andre.lightAttackValue = 2; // i defined it, run
+        Andre.walkSpeed = 4.5f;
+        Andre.sprintMultiplier = 2.7f;
+        Andre.maxHeight = 80f;
+        Andre.yAccel = 9f;
         Andre.Attack = () => {
 
 
@@ -103,11 +101,10 @@ public class GlobalController : MonoBehaviour
         }; // lets got to playercontroller
         // FLLFFL code
         FLLFFL = new CharacterBase();
-        FLLFFL.minJumpHeight = 15;
-        FLLFFL.maxJumpHeight = 100; // right here
-        FLLFFL.movementSpeed = 4;
-        FLLFFL.fallSpeed = 5; // aman put the grabity back
-        FLLFFL.jumpSpeed = 7f;// wait aman the jumpspeed isnt implement in playercontrller
+        FLLFFL.walkSpeed = 7.5f;
+        FLLFFL.sprintMultiplier = 3f;
+        FLLFFL.yAccel = 6f;
+        FLLFFL.maxHeight = 100f;
         FLLFFL.Attack = () => {
             Debug.Log("FLLFFL has attacked");
         };
@@ -155,11 +152,10 @@ public class GlobalController : MonoBehaviour
         };// wait i think we need to add this in playercontroller
         // Dante code
         Dante = new CharacterBase();
-        Dante.minJumpHeight = 3;
-        Dante.maxJumpHeight = 5;
-        Dante.movementSpeed = 3;
-        Dante.fallSpeed = 5;
-        Dante.jumpSpeed = 0.07f;
+        Dante.walkSpeed = 5f;
+        Dante.sprintMultiplier = 5f;
+        Dante.yAccel = 5f;
+        Dante.maxHeight = 5f;
         Dante.Attack = () => {
             Debug.Log("Dante has attacked");
         };

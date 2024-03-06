@@ -7,11 +7,10 @@ using static PlayerData;
 
 public class CharacterBase
 {
-    public float minJumpHeight;
-    public float maxJumpHeight;
-    public float movementSpeed;
-    public float fallSpeed;
-    public float jumpSpeed;
+    public float walkSpeed;
+    public float sprintMultiplier;
+    public float yAccel;
+    public float maxHeight;
     public float lightAttackValue;
 
     public Action Attack = () => {

@@ -118,13 +118,13 @@ public class PlayerController : MonoBehaviour
         }
 
         // jump = 3f;
-        walkSpeed = 12f;
+        walkSpeed = selectedCharacter.walkSpeed;
         crouchSpeed = 0f;
-        sprintMultiplier = 3f;
+        sprintMultiplier = selectedCharacter.sprintMultiplier;
 
         xVelocity = 0f;
-        yAccel = 6f; //  look in 
-        maxHeight = 60f;     
+        yAccel = selectedCharacter.yAccel;
+        maxHeight = selectedCharacter.maxHeight;   
 
         xDirection = 0;
         dashDirection = 0;
@@ -208,7 +208,7 @@ public class PlayerController : MonoBehaviour
         
         
         yVelocity = characterRB.velocity.y;
-        initialSpeedY = Mathf.Sqrt(2f * selectedCharacter.jumpSpeed * selectedCharacter.maxJumpHeight);
+        initialSpeedY = Mathf.Sqrt(2f * yAccel * maxHeight);
         backDashTime = backDashDistance / backDashInitialSpeed;
         forwardDashTime = forwardDashDistance / forwardDashInitialSpeed;
         KeyCode leftCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.left);
@@ -399,6 +399,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isDashing == false && canMove == false){
             characterRB.gravityScale = yAccel;
+            characterRB.velocity = new Vector2(airDirection * walkSpeed, characterRB.velocity.y);
         }
         else{
             characterRB.velocity = new Vector2(0, 0);
@@ -536,6 +537,7 @@ public class PlayerController : MonoBehaviour
         onGround = true; 
     }
     public void jumpFunction(){
+        airDirection = xDirection;
         characterRB.velocity = new Vector2(characterRB.velocity.x, initialSpeedY);
     }
     public void dashFunction(){
