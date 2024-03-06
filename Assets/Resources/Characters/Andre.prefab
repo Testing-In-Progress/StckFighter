@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 3098829144083718544}
   - component: {fileID: 8777591098013121357}
   - component: {fileID: 7991696531808247895}
-  - component: {fileID: 1172474282839230666}
+  - component: {fileID: 2754708366189475473}
   m_Layer: 0
   m_Name: Andre
   m_TagString: player
@@ -162,12 +162,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 669529943, guid: 94b2ec061b6c6b049ae93911df2eb450, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31f78c553b163ed418d31090d8362880, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 11, y: 11}
+  m_Size: {x: 19.2, y: 10.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -244,8 +244,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.72, y: 6.8}
-    newSize: {x: 11, y: 11}
+    oldSize: {x: 19.2, y: 10.8}
+    newSize: {x: 19.2, y: 10.8}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -375,7 +375,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 123911885, guid: f4bdc898459343041b5ffbb9c5046499, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1d8651d831101734fb1db631b784ed5f, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -385,7 +385,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &1172474282839230666
+--- !u!95 &2754708366189475473
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
