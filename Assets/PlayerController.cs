@@ -311,19 +311,15 @@ public class PlayerController : MonoBehaviour
         // Defines inputs into movement
         if (left == true && right == false){
             xDirection = -1;
-            anim.SetBool("walking", true);
         }
         else if (left == false && right == true){
             xDirection = 1;
-            anim.SetBool("walking", true);
         }
         else if (left == false && right == false){
             xDirection = 0;
-            anim.SetBool("walking", false);
         }
         else if (left == true && right == true){
             xDirection = 0;
-            anim.SetBool("walking", false);
         }
 
         if (up == true && down == false){
@@ -437,8 +433,63 @@ public class PlayerController : MonoBehaviour
 
 
         
-        
-
+        //animation
+        if (xDirection == 0 && crouch == false){
+            anim.SetBool("idle", true);
+            anim.SetBool("crouch", false);
+            anim.SetBool("backward_walk", false);
+            anim.SetBool("forward_walk", false);
+            anim.SetBool("sprint", false);
+        }
+        else if (xDirection == 0 && crouch == true){
+            anim.SetBool("idle", false);
+            anim.SetBool("crouch", true);
+            anim.SetBool("backward_walk", false);
+            anim.SetBool("forward_walk", false);
+            anim.SetBool("sprint", false);
+        }
+        else if (xDirection == 1 && enemyPositionOnLeft == true && crouch == false){
+            anim.SetBool("idle", false);
+            anim.SetBool("crouch", false);
+            anim.SetBool("backward_walk", true);
+            anim.SetBool("forward_walk", false);
+            anim.SetBool("sprint", false);
+        }
+        else if (xDirection == -1 && enemyPositionOnLeft == false && crouch == false){
+            anim.SetBool("idle", false);
+            anim.SetBool("crouch", false);
+            anim.SetBool("backward_walk", true);
+            anim.SetBool("forward_walk", false);
+            anim.SetBool("sprint", false);
+        }
+        else if (xDirection == 1 && enemyPositionOnLeft == false && sprint == false && crouch == false){
+            anim.SetBool("idle", false);
+            anim.SetBool("crouch", false);
+            anim.SetBool("backward_walk", false);
+            anim.SetBool("forward_walk", true);
+            anim.SetBool("sprint", false);
+        }
+        else if (xDirection == -1 && enemyPositionOnLeft == true && sprint == false && crouch == false){
+            anim.SetBool("idle", false);
+            anim.SetBool("crouch", false);
+            anim.SetBool("backward_walk", false);
+            anim.SetBool("forward_walk", true);
+            anim.SetBool("sprint", false);
+        }
+        else if (xDirection == 1 && enemyPositionOnLeft == false && sprint == true && crouch == false){
+            anim.SetBool("idle", false);
+            anim.SetBool("crouch", false);
+            anim.SetBool("backward_walk", false);
+            anim.SetBool("forward_walk", false);
+            anim.SetBool("sprint", true);
+        }
+        else if (xDirection == -1 && enemyPositionOnLeft == true && sprint == true && crouch == false){
+            anim.SetBool("idle", false);
+            anim.SetBool("crouch", false);
+            anim.SetBool("backward_walk", false);
+            anim.SetBool("forward_walk", false);
+            anim.SetBool("sprint", true);
+        }
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
