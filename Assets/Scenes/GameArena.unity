@@ -231,8 +231,8 @@ MonoBehaviour:
   game: {fileID: 0}
   bounds: {x: 0, y: 0}
   guider: 0
-  minDistance: 5
-  maxDistance: 30
+  minDistance: 7
+  maxDistance: 7
   zoomSpeed: 5
 --- !u!1 &747056772
 GameObject:
