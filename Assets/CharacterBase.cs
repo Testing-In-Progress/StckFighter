@@ -11,7 +11,10 @@ public class CharacterBase
     public float sprintMultiplier;
     public float yAccel;
     public float maxHeight;
-    public float lightAttackValue;
+    public float lightAttackUpValue;
+    public float lightAttackDownValue;
+    public float lightAttackForwardValue;
+    public float lightAttackBackValue;
 
     public Action Attack = () => {
         
