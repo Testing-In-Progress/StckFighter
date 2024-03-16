@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
     public bool isAirDashing;
     public bool hasAirDashed;
     public bool enemyPositionOnLeft;
+    public bool isJumping;
     public bool sprint;
     public bool shield;
 
@@ -149,6 +150,7 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
         isAirDashing = false;
         hasAirDashed = false;
+        isJumping = false;
 
         backDashInitialSpeed = 50f;
         forwardDashInitialSpeed = 100f;
@@ -176,6 +178,13 @@ public class PlayerController : MonoBehaviour
 
     }
     void Update(){
+        anim.SetInteger("direction", xDirection);
+        anim.SetBool("crouch", crouch);
+        anim.SetBool("sprint", sprint);
+        anim.SetBool("onground", onGround);
+        anim.SetBool("enemyisonleft", enemyPositionOnLeft);
+        anim.SetBool("isdashing", isDashing);
+
         if (opponent.position.x < transform.position.x){
             enemyPositionOnLeft = true;
         } else {
@@ -348,9 +357,6 @@ public class PlayerController : MonoBehaviour
         }
 
         if (jump == true && onGround == true){
-            if (left == false && right == false) {
-                selectedCharacter.vJumpUp(anim, gameObject);
-            } //lets add a debug in globalconerller
             jumpFunction();//right here
         }
 
@@ -435,62 +441,6 @@ public class PlayerController : MonoBehaviour
 
         
         //animation
-        if (xDirection == 0 && crouch == false){
-            anim.SetBool("idle", true);
-            anim.SetBool("crouch", false);
-            anim.SetBool("backward_walk", false);
-            anim.SetBool("forward_walk", false);
-            anim.SetBool("sprint", false);
-        }
-        else if (xDirection == 0 && crouch == true){
-            anim.SetBool("idle", false);
-            anim.SetBool("crouch", true);
-            anim.SetBool("backward_walk", false);
-            anim.SetBool("forward_walk", false);
-            anim.SetBool("sprint", false);
-        }
-        else if (xDirection == 1 && enemyPositionOnLeft == true && crouch == false){
-            anim.SetBool("idle", false);
-            anim.SetBool("crouch", false);
-            anim.SetBool("backward_walk", true);
-            anim.SetBool("forward_walk", false);
-            anim.SetBool("sprint", false);
-        }
-        else if (xDirection == -1 && enemyPositionOnLeft == false && crouch == false){
-            anim.SetBool("idle", false);
-            anim.SetBool("crouch", false);
-            anim.SetBool("backward_walk", true);
-            anim.SetBool("forward_walk", false);
-            anim.SetBool("sprint", false);
-        }
-        else if (xDirection == 1 && enemyPositionOnLeft == false && sprint == false && crouch == false){
-            anim.SetBool("idle", false);
-            anim.SetBool("crouch", false);
-            anim.SetBool("backward_walk", false);
-            anim.SetBool("forward_walk", true);
-            anim.SetBool("sprint", false);
-        }
-        else if (xDirection == -1 && enemyPositionOnLeft == true && sprint == false && crouch == false){
-            anim.SetBool("idle", false);
-            anim.SetBool("crouch", false);
-            anim.SetBool("backward_walk", false);
-            anim.SetBool("forward_walk", true);
-            anim.SetBool("sprint", false);
-        }
-        else if (xDirection == 1 && enemyPositionOnLeft == false && sprint == true && crouch == false){
-            anim.SetBool("idle", false);
-            anim.SetBool("crouch", false);
-            anim.SetBool("backward_walk", false);
-            anim.SetBool("forward_walk", false);
-            anim.SetBool("sprint", true);
-        }
-        else if (xDirection == -1 && enemyPositionOnLeft == true && sprint == true && crouch == false){
-            anim.SetBool("idle", false);
-            anim.SetBool("crouch", false);
-            anim.SetBool("backward_walk", false);
-            anim.SetBool("forward_walk", false);
-            anim.SetBool("sprint", true);
-        }
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
