@@ -531,6 +531,7 @@ public class MainMenuUIController : MonoBehaviour
             characterSelectObject.transform.Find("door").gameObject.SetActive(true);
             characterSelectObject.transform.Find("door").SetSiblingIndex(characterSelectObject.transform.childCount);
             characterSelectObject.transform.Find("door").GetComponent<Animator>().SetTrigger("close");
+            characterSelectObject.transform.Find("selectedChara").gameObject.SetActive(false);
         }
 
         yield return new WaitForSecondsRealtime(2f);

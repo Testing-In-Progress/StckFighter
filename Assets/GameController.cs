@@ -108,6 +108,8 @@ public class GameController : MonoBehaviour
 
         Debug.Log(game.players.Count);
 
+        List<GameObject> charaObjects = new List<GameObject>();
+
         foreach (PlayerData playerData in game.players) {
             Debug.Log(playerData.character);
             GameObject newCharacter = Instantiate(getCharacter(playerData.character));
@@ -117,6 +119,8 @@ public class GameController : MonoBehaviour
             charaData.charaName = playerData.character;
             newCharacter.transform.position = new Vector2(getPosFromMap(game.players.Count, i), newCharacter.transform.position.y);
             newCharacter.GetComponent<Animator>().SetBool("menu", false);
+
+            charaObjects.Add(newCharacter);
 
             GameObject newCharacterHealthBar = Instantiate(healthPrefab);
             newCharacterHealthBar.transform.parent = canvas.transform;
@@ -141,6 +145,19 @@ public class GameController : MonoBehaviour
         game.players[0].health = (int)maxHealth;
         game.players[1].health = (int)maxHealth; // 
         SetHealthBarFiller();
+
+        // Ignore collisions between players
+        for (int x = 0; x < charaObjects.Count; x++)
+        {
+            // Loop through subsequent numbers to form combinations
+            for (int j = x + 1; j < charaObjects.Count; j++)
+            {
+                // Print out the combination
+                Debug.Log(charaObjects[x].GetComponent<BoxCollider2D>());
+                Debug.Log(charaObjects[j].GetComponent<BoxCollider2D>());
+                Physics2D.IgnoreCollision(charaObjects[x].GetComponent<BoxCollider2D>(), charaObjects[j].GetComponent<BoxCollider2D>());
+            }
+        }
     }
 
     void SetHealthBarFiller()
