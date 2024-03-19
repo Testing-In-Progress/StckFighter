@@ -184,6 +184,8 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("onground", onGround);
         anim.SetBool("enemyisonleft", enemyPositionOnLeft);
         anim.SetBool("isdashing", isDashing);
+        anim.SetFloat("verticalspeed", yVelocity);
+        anim.SetInteger("airdirection", airDirection);
 
         if (opponent.position.x < transform.position.x){
             enemyPositionOnLeft = true;
