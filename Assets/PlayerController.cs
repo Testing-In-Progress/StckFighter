@@ -187,6 +187,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("onground", onGround);
         anim.SetBool("enemyisonleft", enemyPositionOnLeft);
         anim.SetBool("isdashing", isDashing);
+        anim.SetBool("grounddashdelay", groundDashDelay);
         anim.SetBool("isairdashing", isAirDashing);
         anim.SetBool("hasairdashed", hasAirDashed);
         anim.SetFloat("verticalspeed", yVelocity);
@@ -582,6 +583,7 @@ public class PlayerController : MonoBehaviour
     }
     public void groundDashStart(){
         groundBackDash = true;
+        groundDashDelay = false;
     }
 }
         

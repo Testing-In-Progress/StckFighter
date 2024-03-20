@@ -158,6 +158,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-6448450155568963861
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ground_back_dash
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: e2fc6ad089827684bad477b414050f09, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-6420938290499853445
 AnimatorState:
   serializedVersion: 6
@@ -206,6 +232,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: onground
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: grounddashdelay
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6666141250070847850}
@@ -347,6 +376,12 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 4483514801649504680}
     m_Position: {x: 870, y: 140, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 8238029711569051061}
+    m_Position: {x: 1090, y: 80, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6448450155568963861}
+    m_Position: {x: 1090, y: 140, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 6990771406937721858}
@@ -359,6 +394,8 @@ AnimatorStateMachine:
   - {fileID: 8879004831771503673}
   - {fileID: 2049007329553239418}
   - {fileID: -5166729298541411649}
+  - {fileID: 4672139219058835144}
+  - {fileID: 3156987650332179389}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
@@ -472,6 +509,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: onground
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: grounddashdelay
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6666141250070847850}
   m_Solo: 0
@@ -544,6 +584,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: isdashing
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: grounddashdelay
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -710,6 +756,40 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &3156987650332179389
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: menu
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: onground
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: isdashing
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: grounddashdelay
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -6448450155568963861}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 0
 --- !u!1101 &3887444010438020421
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -787,6 +867,37 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &4672139219058835144
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: menu
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: onground
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: grounddashdelay
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 8238029711569051061}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 0
 --- !u!1101 &5828777607046573382
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -863,6 +974,12 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: onground
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isdashing
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: grounddashdelay
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7101896876700116627}
   m_Solo: 0
@@ -877,6 +994,32 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
+--- !u!1102 &8238029711569051061
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ground_back_dash_delay
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 429d0c67b1d55944c9a85cfa84e76ea9, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1101 &8879004831771503673
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
