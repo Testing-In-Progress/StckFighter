@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
     public float forwardDashInitialSpeed;
     public float backDashTime;
     public float forwardDashTime;
+    public float groundDashDelayTime;
 
     public bool groundForwardDash;
     public bool groundBackDash;
@@ -70,6 +71,7 @@ public class PlayerController : MonoBehaviour
     public bool airBackDash;
     public float airDashDelayTime;
     public float dashRefreshTime;
+    public bool groundDashDelay;
 
     //Attack
     public bool canAttack;
@@ -156,11 +158,13 @@ public class PlayerController : MonoBehaviour
         backDashDistance = 3f;
         forwardDashDistance = 6f;
         airDashDelayTime = 0.25f;
+        groundDashDelayTime = 0.02f;
 
         groundForwardDash = false;
         groundBackDash = false;
         airForwardDash = false;
         airBackDash = false;
+        groundDashDelay = false;
 
         dashRefreshTime = 0.25f;
 
@@ -386,6 +390,9 @@ public class PlayerController : MonoBehaviour
                 hasAirDashed = false;
                 isAirDashing = false;
             }
+        else if (onGround == true){
+            isAirDashing = false;
+        }
         if (onGround == true && groundBackDash == false){
             refreshMoveCooldown();
         }
@@ -509,12 +516,15 @@ public class PlayerController : MonoBehaviour
         else if (xDirection == 1 && onGround == true && enemyPositionOnLeft == true){
             //backward ground
             dashDirection = 1;
-            groundBackDash = true;
+            groundDashDelay = true;
+            Invoke("groundDashStart", groundDashDelayTime);
         }
         else if (xDirection == -1 && onGround == true && enemyPositionOnLeft == false){
             //backward ground
             dashDirection = -1;
-            groundBackDash = true;
+            groundDashDelay = true;
+            Invoke("groundDashStart", groundDashDelayTime);
+            
 
         }
         else if (xDirection == -1 && onGround == false && enemyPositionOnLeft == true){
@@ -570,6 +580,8 @@ public class PlayerController : MonoBehaviour
     public void refreshMoveCooldown(){
         canMove = true;
     }
-
+    public void groundDashStart(){
+        groundBackDash = true;
+    }
 }
         
