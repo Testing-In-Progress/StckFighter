@@ -54,7 +54,6 @@ public class PlayerController : MonoBehaviour
     public bool isAirDashing;
     public bool hasAirDashed;
     public bool enemyPositionOnLeft;
-    public bool isJumping;
     public bool sprint;
     public bool shield;
 
@@ -150,7 +149,7 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
         isAirDashing = false;
         hasAirDashed = false;
-        isJumping = false;
+
 
         backDashInitialSpeed = 50f;
         forwardDashInitialSpeed = 100f;
@@ -184,6 +183,8 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("onground", onGround);
         anim.SetBool("enemyisonleft", enemyPositionOnLeft);
         anim.SetBool("isdashing", isDashing);
+        anim.SetBool("isairdashing", isAirDashing);
+        anim.SetBool("hasairdashed", hasAirDashed);
         anim.SetFloat("verticalspeed", yVelocity);
         anim.SetInteger("airdirection", airDirection);
 
