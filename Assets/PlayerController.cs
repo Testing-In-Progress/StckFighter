@@ -184,6 +184,8 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("onground", onGround);
         anim.SetBool("enemyisonleft", enemyPositionOnLeft);
         anim.SetBool("isdashing", isDashing);
+        anim.SetFloat("verticalspeed", yVelocity);
+        anim.SetInteger("airdirection", airDirection);
 
         if (opponent.position.x < transform.position.x){
             enemyPositionOnLeft = true;
@@ -527,12 +529,14 @@ public class PlayerController : MonoBehaviour
         else if (xDirection == 1 && onGround == false && enemyPositionOnLeft == true){
             //backward air
             dashDirection = 1;
+            airDirection = 1;
             airBackDash = true;
 
         }
         else if (xDirection == -1 && onGround == false && enemyPositionOnLeft == false){
             //backward air
             dashDirection = -1;
+            airDirection = -1;
             airBackDash = true;
 
         }
