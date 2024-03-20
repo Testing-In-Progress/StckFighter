@@ -411,26 +411,7 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-<<<<<<< HEAD
     m_Controller: {fileID: 9100000}
-=======
-    m_Controller: {fileID: 0}
-<<<<<<< HEAD
-  - m_Name: verticalspeed
-    m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: airdirection
-    m_Type: 3
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
->>>>>>> 38972b45d5358db16fa10961834ecf8ff5b0f88b
-=======
->>>>>>> parent of 38972b4 (e)
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
