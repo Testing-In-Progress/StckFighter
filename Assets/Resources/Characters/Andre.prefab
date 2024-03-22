@@ -289,7 +289,6 @@ MonoBehaviour:
   isAirDashing: 0
   hasAirDashed: 0
   enemyPositionOnLeft: 0
-  isJumping: 0
   sprint: 0
   shield: 0
   backDashDistance: 0
@@ -298,12 +297,14 @@ MonoBehaviour:
   forwardDashInitialSpeed: 0
   backDashTime: 0
   forwardDashTime: 0
+  groundDashDelayTime: 0
   groundForwardDash: 0
   groundBackDash: 0
   airForwardDash: 0
   airBackDash: 0
   airDashDelayTime: 0
   dashRefreshTime: 0
+  groundDashDelay: 0
   canAttack: 0
   isAttacking: 0
   DashAttack: 0
