@@ -158,7 +158,7 @@ public class PlayerController : MonoBehaviour
         backDashDistance = 3f;
         forwardDashDistance = 6f;
         airDashDelayTime = 0.25f;
-        groundDashDelayTime = 0.02f;
+        groundDashDelayTime = 0.1f;
 
         groundForwardDash = false;
         groundBackDash = false;
