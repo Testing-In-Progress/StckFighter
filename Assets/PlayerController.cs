@@ -180,6 +180,35 @@ public class PlayerController : MonoBehaviour
 
 
     }
+
+    bool getInput(string inputString, string add="") {    // 01234
+        if (inputString.Contains("Joy")) { // Key0XLeft
+            string axisName = inputString.Substring(0, 5);
+            if (inputString.Split(axisName)[1] == "Left" || inputString.Split(axisName)[1] == "Down") {
+                if (Input.GetAxis(axisName) < -0.9) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                if (Input.GetAxis(axisName) > 0.9) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            KeyCode keyCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), inputString);
+            if (add == "Down") {
+                return Input.GetKeyDown(keyCode);
+            } else if (add == "Up") {
+                return Input.GetKeyUp(keyCode);
+            } else {
+                return Input.GetKey(keyCode);
+            }
+        }
+    }
+
     void Update(){
         anim.SetInteger("direction", xDirection);
         anim.SetBool("crouch", crouch);
@@ -228,54 +257,54 @@ public class PlayerController : MonoBehaviour
         initialSpeedY = Mathf.Sqrt(2f * yAccel * maxHeight);
         backDashTime = backDashDistance / backDashInitialSpeed;
         forwardDashTime = forwardDashDistance / forwardDashInitialSpeed;
-        KeyCode leftCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.left);
-        KeyCode rightCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.right);
-        KeyCode upCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.up); //this should be w
-        KeyCode downCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.down);
-        KeyCode jumpCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.jump);
-        KeyCode dashCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.dash);
-        KeyCode attackCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), playerData.controllerType.attack);
+        string leftCode = playerData.controllerType.left;
+        string rightCode = playerData.controllerType.right;
+        string upCode = playerData.controllerType.up; //this should be w
+        string downCode = playerData.controllerType.down;
+        string jumpCode = playerData.controllerType.jump;
+        string dashCode = playerData.controllerType.dash;
+        string attackCode = playerData.controllerType.attack;
 
         // To detect what direction or input the player is doing
-        if (Input.GetKey(leftCode)) {
+        if (getInput(leftCode)) {
             left = true;
         } else {
             left = false;
         }
         
-        if (Input.GetKey(rightCode)) {
+        if (getInput(rightCode)) {
             right = true;
         }
         else{
             right = false;
         }
 
-        if (Input.GetKey(upCode)) {
+        if (getInput(upCode)) {
             up = true;
             Debug.Log("Up is true"); 
         } else{
             up = false;
         }
 
-        if (Input.GetKey(downCode)) {
+        if (getInput(downCode)) {
             down = true;
         }
         else{
             down = false;
         }
-        if (Input.GetKey(jumpCode)) {
+        if (getInput(jumpCode)) {
             jump = true;
         }
         else{
             jump = false;
         }
-        if (Input.GetKeyDown(dashCode)) {
+        if (getInput(dashCode, "Down")) {
             dash = true;
         }
         else{
             dash = false;
         }
-        if (Input.GetKey(dashCode) && xDirection != 0){
+        if (getInput(dashCode) && xDirection != 0){
             sprint = true;
             shield = false;
         }
@@ -284,7 +313,7 @@ public class PlayerController : MonoBehaviour
             shield = false;
         }
         
-        if (Input.GetKeyDown(attackCode) && canAttack) { // be sure to clear
+        if (getInput(attackCode, "Down") && canAttack) { // be sure to clear
             if (up) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
                 Debug.Log("GOING UP");// it seems that up isnt working
                 selectedCharacter.lUp(anim, gameObject);// test lets have it debug .log 
@@ -378,7 +407,7 @@ public class PlayerController : MonoBehaviour
         else if (right == true && enemyPositionOnLeft == true){
             shield = true;
         }
-        else if (Input.GetKey(dashCode) && xDirection == 0){
+        else if (getInput(dashCode) && xDirection == 0){
             sprint = false;
             shield = true;
         }
