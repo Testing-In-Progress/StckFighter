@@ -795,54 +795,42 @@ public class MainMenuUIController : MonoBehaviour
         return !excludedKeys.Contains(keyCode);
     }
 
+    void updateControls(string kcode) {
+        replaceKey(kcode.ToString(), keyInputType);
+        players[getPNum(selectedCharacterControl)].controllerType.set(keyInputType.ToString().ToLower(), kcode.ToString());
+        Debug.Log(keyInputType.ToString() + " key set to: " + kcode + " for " + selectedCharacterControl);
+    }
 
     void Update()
     {
         // only runs on controller page
+        if (captureKeyInput) {
+            for (int i = 0; i < 3; i++)
+                    {
+                        if (Mathf.Abs(Input.GetAxis("Joy" + i + "X")) > 0.9) {
+                            updateControls("Joy" + i + "X");
+                            captureKeyInput = false;
+                            if (Input.GetJoystickNames().Length > 0) {
+                                Debug.Log(Input.GetJoystickNames()[i] + "X is moved");
+                            }
+                        } 
+                        else if (Mathf.Abs(Input.GetAxis("Joy" + i + "Y")) > 0.9)
+                        {
+                            updateControls("Joy" + i + "Y");
+                            captureKeyInput = false;
+                            if (Input.GetJoystickNames().Length > 0) {
+                                Debug.Log(Input.GetJoystickNames()[i] + "Y is moved");
+                            }
+                        }
+                    }
+        }
         if (captureKeyInput && Input.anyKeyDown)
         {
             foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
             {
                 if (Input.GetKeyDown(kcode) &&  IsAllowedKey(kcode))
                 {
-                    if (keyInputType == "Left")
-                    {
-                        replaceKey(kcode.ToString(), keyInputType);
-                        players[getPNum(selectedCharacterControl)].controllerType.left = kcode.ToString();
-                        Debug.Log("Left key set to: " + kcode + " for " + selectedCharacterControl);
-                    }
-
-                    if(keyInputType == "Right"){
-                        replaceKey(kcode.ToString(), keyInputType);
-                        players[getPNum(selectedCharacterControl)].controllerType.right = kcode.ToString();
-                        Debug.Log("Right key set to: " + kcode + " for " + selectedCharacterControl);
-                    }
-                    if (keyInputType == "Up")
-                    {
-                        replaceKey(kcode.ToString(), keyInputType);
-                        players[getPNum(selectedCharacterControl)].controllerType.up = kcode.ToString();
-                        Debug.Log("Up key set to: " + kcode + " for " + selectedCharacterControl);
-                    }
-                    if (keyInputType == "Down"){
-                        replaceKey(kcode.ToString(), keyInputType);
-                        players[getPNum(selectedCharacterControl)].controllerType.down = kcode.ToString();
-                        Debug.Log("Down key set to: " + kcode + " for " + selectedCharacterControl);
-                    }
-                    if (keyInputType == "Jump"){
-                        replaceKey(kcode.ToString(), keyInputType);
-                        players[getPNum(selectedCharacterControl)].controllerType.jump = kcode.ToString();
-                        Debug.Log("Jump key set to: " + kcode + " for " + selectedCharacterControl);
-                    }
-                    if (keyInputType == "Dash"){
-                        replaceKey(kcode.ToString(), keyInputType);
-                        players[getPNum(selectedCharacterControl)].controllerType.dash = kcode.ToString();
-                        Debug.Log("Dash key set to: " + kcode + " for " + selectedCharacterControl);
-                    }
-                    if (keyInputType == "Attack"){
-                        replaceKey(kcode.ToString(), keyInputType);
-                        players[getPNum(selectedCharacterControl)].controllerType.attack = kcode.ToString();
-                        Debug.Log("Attack key set to: " + kcode + " for " + selectedCharacterControl);
-                    }
+                    updateControls(kcode.ToString());
                     captureKeyInput = false; // Stop capturing key input
                     updateControlsUI();
                     break;
