@@ -805,7 +805,7 @@ public class MainMenuUIController : MonoBehaviour
     {
         // only runs on controller page
         if (captureKeyInput) {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 7; i++)
                     {
                         if (Mathf.Abs(Input.GetAxis("Joy" + i + "X")) > 0.9) {
                             updateControls("Joy" + i + "X");
