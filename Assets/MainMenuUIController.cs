@@ -807,7 +807,11 @@ public class MainMenuUIController : MonoBehaviour
         if (captureKeyInput) {
             for (int i = 0; i < 7; i++)
                     {
+                        if (i == 1) {
+                            continue;
+                        }
                         if (Input.GetAxis("Joy" + i + "X") > 0.9) {
+                            Debug.Log(Input.GetAxis("Joy" + i + "X"));
                             updateControls("Joy" + i + "X" + "Right");
                             captureKeyInput = false;
                             if (Input.GetJoystickNames().Length > 0) {

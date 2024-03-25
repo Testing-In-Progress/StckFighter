@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour
     }
 
     bool getInput(string inputString, string add="") {    // 01234
-        if (inputString.Contains("Joy")) { // Key0XLeft
+        if (inputString.Contains("Joy") && !inputString.Contains("stick")) { // Key0XLeft
             string axisName = inputString.Substring(0, 5);
             if (inputString.Split(axisName)[1] == "Left" || inputString.Split(axisName)[1] == "Down") {
                 if (Input.GetAxis(axisName) < -0.9) {
