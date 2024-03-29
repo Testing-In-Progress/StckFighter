@@ -21,9 +21,11 @@ public class CameraController : MonoBehaviour
     public float guider;
 
     public float minDistance = 5f;
-    public float maxDistance = 7f;
+    public float maxDistance = 11f;
 
     public float zoomSpeed = 5f;
+
+    public float adjustYCamera = 5;
 
     public Vector2 getCameraBounds() {
         float startBound = playerObjects.First().transform.position.x;
@@ -53,7 +55,7 @@ public class CameraController : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
+    {   adjustYCamera = 5;
         guider = 0f;
         if (GameObject.Find("GLOBALOBJECT")) {
             game = GameObject.Find("GLOBALOBJECT").GetComponent<GlobalController>();
@@ -133,8 +135,8 @@ public class CameraController : MonoBehaviour
             float newOrthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, distance-guider, Time.deltaTime * zoomSpeed);
             //Debug.Log(newOrthographicSize);
             GetComponent<Camera>().orthographicSize = newOrthographicSize;
-            
-            gameObject.transform.position = new Vector3( (bounds.x + bounds.y)/2, gameObject.transform.position.y, gameObject.transform.position.z);
+        
+            gameObject.transform.position = new Vector3((bounds.x + bounds.y)/2, newOrthographicSize - adjustYCamera, gameObject.transform.position.z);
         }
 
         /***/
