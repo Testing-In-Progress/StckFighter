@@ -136,6 +136,7 @@ public class CameraController : MonoBehaviour
                 Debug.Log(getCameraBounds().y);
                 bounds = getCameraBounds();
             }
+            bottomLimit = GameObject.Find("gameMap").transform.Find("mainFloor").transform.position.y;
         } else {
             bounds = getCameraBounds();    // left        right
 
@@ -147,7 +148,7 @@ public class CameraController : MonoBehaviour
             GetComponent<Camera>().orthographicSize = newOrthographicSize;
             
             gameObject.transform.position = new Vector3(
-                Mathf.Clamp((bounds.x + bounds.y)/2,leftLimit,rightLimit), Mathf.Clamp(newOrthographicSize, topLimit,bottomLimit), gameObject.transform.position.z);
+                Mathf.Clamp((bounds.x + bounds.y)/2,leftLimit,rightLimit), bottomLimit + GetComponent<Camera>().orthographicSize, gameObject.transform.position.z);
 
             /*gameObject.transform.position = Vector3(Mathf.Clamp(gameObject.transform.position.x,leftLimit, rightLimit), 
             (Mathf.Clamp(gameObject.transform.position.y,topLimit, bottomLimit), transform.position.z));*/

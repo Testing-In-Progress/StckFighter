@@ -231,10 +231,14 @@ MonoBehaviour:
   game: {fileID: 0}
   bounds: {x: 0, y: 0}
   guider: 0
-  minDistance: 8
+  minDistance: 6
   maxDistance: 12
   zoomSpeed: 5
   adjustYCamera: 5
+  leftLimit: 0
+  rightLimit: 0
+  topLimit: 0
+  bottomLimit: 0
 --- !u!1 &747056772
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,11 +503,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   game: {fileID: 0}
-  Andrehealth: 0
-  FLLFFLhealth: 0
   maps: []
   map: {fileID: 0}
   healthPrefab: {fileID: 0}
+  specialPrefab: {fileID: 0}
   characters: []
   canvas: {fileID: 0}
   gradient:

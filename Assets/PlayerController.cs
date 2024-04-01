@@ -209,6 +209,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public IEnumerator shakeCamera(float time, float intensity) {
+        Transform camera = GameObject.Find("Main Camera").transform;
+        Vector3 originalPos = camera.localPosition;
+        float changedTime = 0f;
+
+        while (changedTime < time) {
+            float offsetX = UnityEngine.Random.Range(-0.5f, 0.5f) * intensity;
+            float offsetY = UnityEngine.Random.Range(-0.5f, 0.5f) * intensity;
+
+            camera.localPosition = new Vector3(originalPos.x + offsetX, originalPos.y + offsetY, originalPos.z);
+
+            changedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        camera.localPosition = originalPos;
+    }
+
     void Update(){
         anim.SetInteger("direction", xDirection);
         anim.SetBool("crouch", crouch);
@@ -298,6 +317,10 @@ public class PlayerController : MonoBehaviour
         else{
             jump = false;
         }
+        if (getInput(jumpCode, "Down")) {
+            // Debug Special, reset special
+            playerData.special = 0;
+        }
         if (getInput(dashCode, "Down")) {
             dash = true;
         }
@@ -317,6 +340,8 @@ public class PlayerController : MonoBehaviour
             if (up) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
                 Debug.Log("GOING UP");// it seems that up isnt working
                 selectedCharacter.lUp(anim, gameObject);// test lets have it debug .log 
+                // Shake camera a little
+                StartCoroutine(shakeCamera(0.2f, 0.2f)); // 1 second, 1 intensity
                 canAttack = false;
                 Invoke("attackBuffer", 0.5f);
             } else if (enemyPositionOnLeft) {
@@ -375,6 +400,8 @@ public class PlayerController : MonoBehaviour
         else if (up == false && down == true && onGround){
             crouch = true;
             lookUp = false;
+            // Special Debug, when crouching special will go up
+            playerData.special += 0.2f;
         }
         else{
             crouch = false;
@@ -494,6 +521,8 @@ public class PlayerController : MonoBehaviour
                 // oh ok, the problem is that falfafel doesnt have code lets add
                 Debug.Log(attackAmount);
                 selectedCharacter.hitGround(anim, gameObject, playerData, attackAmount);   
+                // Shake camera a LOT
+                StartCoroutine(shakeCamera(0.5f, 0.5f)); // 1 second, 1 intensity
             }
         }
         

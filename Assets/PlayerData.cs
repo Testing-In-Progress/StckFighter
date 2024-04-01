@@ -13,9 +13,10 @@ public class PlayerData
     public bool selected;
 
     public int health;
+    public float special;
 
   // Create a class constructor with a parameter
-  public PlayerData(string name = "", string character = "", ControllerType? controllerTypex = null, int health = 0)
+  public PlayerData(string name = "", string character = "", ControllerType? controllerTypex = null, int health = 0, int special = 0)
   {
     controllerTypex = controllerTypex ?? new ControllerType("", "", "", "", "", "", "");
     this.name = name;
@@ -23,5 +24,6 @@ public class PlayerData
     this.controllerType = controllerTypex;
     this.selected = false;
     this.health = health;
+    this.special = special;
   }
 }

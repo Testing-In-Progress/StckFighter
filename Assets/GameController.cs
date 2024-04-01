@@ -13,21 +13,19 @@ using TMPro;
 public class GameController : MonoBehaviour
 {
     public GlobalController game;
-    public int Andrehealth;
-    public int FLLFFLhealth;
     public GameObject[] maps;
     public GameObject map;
     public GameObject healthPrefab;
+    public GameObject specialPrefab;
     public GameObject[] characters;
     public GameObject canvas;
     public Gradient gradient;
 
 
 
-  /*  public TMPro.TextMeshProUGUI healthText;
-    public Image healthBar;*/
     float health, maxHealth = 100;
-    float lerpSpeed = 1f;
+    float special, maxSpecial = 100;
+    float lerpSpeed = 0.1f;
 
     GameObject getMap(string mapName) {
         foreach (GameObject map in maps) {
@@ -84,11 +82,13 @@ public class GameController : MonoBehaviour
                     if (index == 1) {
                         playerData.controllerType = game.wasd;
                         playerData.character = "Andre";
-                        playerData.health = 0;
+                        playerData.health = 100;
+                        playerData.special = 0;
                     } else if (index == 2) {
                         playerData.controllerType = game.arrow;
                         playerData.character = "FLLFFL";
-                        playerData.health = 0;
+                        playerData.health = 100;
+                        playerData.special = 0;
                     }
                     Debug.Log(playerData);
                     game.players.Add(playerData);
@@ -100,11 +100,14 @@ public class GameController : MonoBehaviour
         characters = Resources.LoadAll<GameObject>("Characters");
         canvas = GameObject.Find("Canvas");
         healthPrefab = Resources.Load<GameObject>("UI/healthBar");
+        specialPrefab = Resources.Load<GameObject>("UI/specialBar");
         // Load the Map
         map = Instantiate(getMap(game.map)); // load map stored in game.map
+        map.name = "gameMap";
         // Load characters and assign values
         int i = 0;
         int defaultHealth = 100;
+        int defaultSpecial = 0;
 
         Debug.Log(game.players.Count);
 
@@ -122,6 +125,7 @@ public class GameController : MonoBehaviour
 
             charaObjects.Add(newCharacter);
 
+            // Instansiate healthBar
             GameObject newCharacterHealthBar = Instantiate(healthPrefab);
             newCharacterHealthBar.transform.parent = canvas.transform;
             newCharacterHealthBar.GetComponent<RectTransform>().localScale = new Vector2(1,1);
@@ -129,6 +133,15 @@ public class GameController : MonoBehaviour
             newCharacterHealthBar.name = playerData.name + "HealthBar";
             Debug.Log(newCharacterHealthBar.transform.position.z);
             Debug.Log(newCharacterHealthBar.transform.localPosition.z);
+
+            // Instansiate specialBar
+            GameObject newCharacterSpecialBar = Instantiate(specialPrefab);
+            newCharacterSpecialBar.transform.parent = canvas.transform;
+            newCharacterSpecialBar.GetComponent<RectTransform>().localScale = new Vector2(1,1);
+            newCharacterSpecialBar.transform.localPosition = new Vector3((i*(canvas.GetComponent<RectTransform>().sizeDelta.x/2))-(canvas.GetComponent<RectTransform>().sizeDelta.x/4), (canvas.GetComponent<RectTransform>().sizeDelta.y/2)-((newCharacterHealthBar.GetComponent<RectTransform>().sizeDelta.y/1.25f)*3), 0);
+            newCharacterSpecialBar.name = playerData.name + "SpecialBar";
+            Debug.Log(newCharacterSpecialBar.transform.position.z);
+            Debug.Log(newCharacterSpecialBar.transform.localPosition.z);
 
             // Create NameTag
             /** GameObject nameTag = new GameObject();
@@ -145,6 +158,10 @@ public class GameController : MonoBehaviour
         game.players[0].health = (int)maxHealth;
         game.players[1].health = (int)maxHealth; // 
         SetHealthBarFiller();
+
+        game.players[0].special = (int)defaultSpecial;
+        game.players[1].special = (int)defaultSpecial;
+        SetSpecialBarFiller();
 
         // Ignore collisions between players
         for (int x = 0; x < charaObjects.Count; x++)
@@ -170,6 +187,18 @@ public class GameController : MonoBehaviour
             }
             else{
                 SceneManager.LoadScene("MainMenu");
+            }
+        }
+        
+    }
+
+    void SetSpecialBarFiller()
+    {
+    
+        foreach (PlayerData player in game.players) {
+            if(0 < player.special || 100 >= player.special){
+                Slider slider = GameObject.Find(player.name + "SpecialBar").GetComponent<Slider>();
+                slider.value = Mathf.Lerp(slider.value, (player.special), lerpSpeed);
             }
         }
         
@@ -213,16 +242,17 @@ public class GameController : MonoBehaviour
     void Update()
     {
         SetHealthBarFiller();
+        SetSpecialBarFiller();
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            Debug.Log(game.players[0].health);
-            game.players[1].health = game.players[0].health - 10;
+            Debug.Log(game.players[0].special);
+            game.players[1].special = game.players[0].special - 10;
             
         }
 
         if (Input.GetKeyDown(KeyCode.BackQuote)) {
-            Debug.Log(game.players[0].health);
-            game.players[1].health = game.players[0].health + 10;
-        } // now ittl change falafel's health. so load the game, then make ffafles heatl at 100, then test andre's attack
+            Debug.Log(game.players[0].special);
+            game.players[1].special = game.players[1].special + 10;
+        } // now ittl change falafel's special. so load the game, then make ffafles specail at 0, then test specail
     }
 
 }
