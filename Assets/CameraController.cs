@@ -26,6 +26,12 @@ public class CameraController : MonoBehaviour
     public float zoomSpeed = 5f;
 
     public float adjustYCamera = 5;
+    public float leftLimit;
+    public float rightLimit;
+    public float topLimit;
+    public float bottomLimit;
+
+
 
     public Vector2 getCameraBounds() {
         float startBound = playerObjects.First().transform.position.x;
@@ -50,13 +56,17 @@ public class CameraController : MonoBehaviour
             startBound = midPoint - maxDistance/2;
             endBound = midPoint + maxDistance/2;
         }
+        
         return new Vector2(startBound, endBound);
     }
 
     // Start is called before the first frame update
     void Start()
-    {   adjustYCamera = 5;
+    {   
         guider = 0f;
+        leftLimit = -3.53f;
+        rightLimit = 3.53f;
+        bottomLimit = 7f;
         if (GameObject.Find("GLOBALOBJECT")) {
             game = GameObject.Find("GLOBALOBJECT").GetComponent<GlobalController>();
         } else {
@@ -135,10 +145,15 @@ public class CameraController : MonoBehaviour
             float newOrthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, distance-guider, Time.deltaTime * zoomSpeed);
             //Debug.Log(newOrthographicSize);
             GetComponent<Camera>().orthographicSize = newOrthographicSize;
-        
-            gameObject.transform.position = new Vector3((bounds.x + bounds.y)/2, newOrthographicSize - adjustYCamera, gameObject.transform.position.z);
+            
+            gameObject.transform.position = new Vector3(
+                Mathf.Clamp((bounds.x + bounds.y)/2,leftLimit,rightLimit), Mathf.Clamp(newOrthographicSize, topLimit,bottomLimit), gameObject.transform.position.z);
+
+            /*gameObject.transform.position = Vector3(Mathf.Clamp(gameObject.transform.position.x,leftLimit, rightLimit), 
+            (Mathf.Clamp(gameObject.transform.position.y,topLimit, bottomLimit), transform.position.z));*/
         }
 
         /***/
     }
+    
 }
