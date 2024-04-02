@@ -64,8 +64,6 @@ public class CameraController : MonoBehaviour
     void Start()
     {   
         guider = 0f;
-        leftLimit = -3.53f;
-        rightLimit = 3.53f;
         bottomLimit = 7f;
         if (GameObject.Find("GLOBALOBJECT")) {
             game = GameObject.Find("GLOBALOBJECT").GetComponent<GlobalController>();
@@ -137,6 +135,11 @@ public class CameraController : MonoBehaviour
                 bounds = getCameraBounds();
             }
             bottomLimit = GameObject.Find("gameMap").transform.Find("mainFloor").transform.position.y;
+            leftLimit = GameObject.Find("LeftWall").transform.position.x;
+            Debug.Log(" fijdsfjdsfjlfafhioraegh peruaefhare left" + leftLimit);
+            //leftLimit = -3.53f;
+            rightLimit = GameObject.Find("RightWall").transform.position.x;
+            Debug.Log("fijdsfjdsfjlfaffoeffjioihioraegh right" + rightLimit);
         } else {
             bounds = getCameraBounds();    // left        right
 
