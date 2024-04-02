@@ -78,6 +78,7 @@ public class GlobalController : MonoBehaviour
             attack.name = charaObj.name + "Hit" + Andre.lightAttackForwardValue.ToString(); // i fixed 
             int attackDistanceFromPlayer = 2;// were gonna define in this function
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir, charaObj.transform.position.y); 
+            attack.transform.parent = charaObj.transform;
             Debug.Log("lForward from " + charaObj.name);
             Destroy(attack, 0.25f); //  fixed, run
             
@@ -88,6 +89,7 @@ public class GlobalController : MonoBehaviour
             attack.name = charaObj.name + "Hit" + Andre.lightAttackBackValue.ToString(); // 
             int attackDistanceFromPlayer = 2;// were gonna define in this function
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir*-1, charaObj.transform.position.y); 
+            attack.transform.parent = charaObj.transform;
             Debug.Log("lBackward from " + charaObj.name);
             Destroy(attack, 0.25f); //  go to characterbase
             // aman i changed the bool to an int so we can just multiply to change te direction of attack
@@ -98,6 +100,7 @@ public class GlobalController : MonoBehaviour
             attack.name = charaObj.name + "Hit" + Andre.lightAttackUpValue.ToString(); // 
             int attackDistanceFromPlayer = 4;// now i think we should add the 
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x, charaObj.transform.position.y+attackDistanceFromPlayer); 
+            attack.transform.parent = charaObj.transform;
             Debug.Log("lBackward from " + charaObj.name);
             Destroy(attack, 0.25f); //  go to characterbase
             // aman i changed the bool to an int so we can just multiply to change te direction of attack
@@ -130,8 +133,9 @@ public class GlobalController : MonoBehaviour
             attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackForwardValue.ToString(); // i fixed 
             int attackDistanceFromPlayer = 2;// were gonna define in this function
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir, charaObj.transform.position.y); 
+            attack.transform.parent = charaObj.transform;
             Debug.Log("lForward from " + charaObj.name);
-            Destroy(attack, 2); //  fixed, run
+            Destroy(attack, 0.7f); //  fixed, run
             
         };
 
@@ -140,6 +144,7 @@ public class GlobalController : MonoBehaviour
             attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackBackValue.ToString(); // 
             int attackDistanceFromPlayer = 2;// were gonna define in this function
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir*-1, charaObj.transform.position.y); 
+            attack.transform.parent = charaObj.transform;
             Debug.Log("lBackward from " + charaObj.name);
             Destroy(attack, 2); //  go to characterbase
             // aman i changed the bool to an int so we can just multiply to change te direction of attack
@@ -150,6 +155,7 @@ public class GlobalController : MonoBehaviour
             attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackUpValue.ToString(); // 
             int attackDistanceFromPlayer = 4;// were gonna define in this function
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x, charaObj.transform.position.y+attackDistanceFromPlayer); 
+            attack.transform.parent = charaObj.transform;
             Debug.Log("lBackward from " + charaObj.name);
             Destroy(attack, 2); //  go to characterbase
             // aman i changed the bool to an int so we can just multiply to change te direction of attack

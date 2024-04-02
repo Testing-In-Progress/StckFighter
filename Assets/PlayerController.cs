@@ -400,13 +400,17 @@ public class PlayerController : MonoBehaviour
         else if (up == false && down == true && onGround){
             crouch = true;
             lookUp = false;
-            // Special Debug, when crouching special will go up
-            playerData.special += 0.2f;
         }
         else{
             crouch = false;
             lookUp = false;
         }
+
+        if (up == false && getInput(downCode, "Down") && onGround) {
+            // Special Debug, when crouching special will go up
+            playerData.special += 33.33f;
+        }
+
         if (crouch == true && onGround == true){
             xVelocity = crouchSpeed;
         }

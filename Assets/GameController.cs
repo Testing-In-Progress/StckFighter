@@ -133,15 +133,26 @@ public class GameController : MonoBehaviour
             newCharacterHealthBar.name = playerData.name + "HealthBar";
             Debug.Log(newCharacterHealthBar.transform.position.z);
             Debug.Log(newCharacterHealthBar.transform.localPosition.z);
+            if ((i+1)/game.players.Count > 0.5f) {
+                Debug.Log(newCharacterHealthBar.transform.Find("Border").gameObject.GetComponent<RectTransform>().sizeDelta.x);
+                newCharacterHealthBar.transform.Find("Heart").localPosition = new Vector3(newCharacterHealthBar.transform.Find("Heart").localPosition.x+newCharacterHealthBar.transform.Find("Border").gameObject.GetComponent<RectTransform>().sizeDelta.x, newCharacterHealthBar.transform.Find("Heart").localPosition.y, newCharacterHealthBar.transform.Find("Heart").localPosition.z);
+            }
 
             // Instansiate specialBar
             GameObject newCharacterSpecialBar = Instantiate(specialPrefab);
             newCharacterSpecialBar.transform.parent = canvas.transform;
             newCharacterSpecialBar.GetComponent<RectTransform>().localScale = new Vector2(1,1);
-            newCharacterSpecialBar.transform.localPosition = new Vector3((i*(canvas.GetComponent<RectTransform>().sizeDelta.x/2))-(canvas.GetComponent<RectTransform>().sizeDelta.x/4), (canvas.GetComponent<RectTransform>().sizeDelta.y/2)-((newCharacterHealthBar.GetComponent<RectTransform>().sizeDelta.y/1.25f)*3), 0);
+            newCharacterSpecialBar.transform.localPosition = new Vector3((i*(canvas.GetComponent<RectTransform>().sizeDelta.x-((newCharacterSpecialBar.GetComponent<RectTransform>().sizeDelta.x/2)*3)))-(canvas.GetComponent<RectTransform>().sizeDelta.x/2)+((newCharacterSpecialBar.GetComponent<RectTransform>().sizeDelta.x/4)*3), (canvas.GetComponent<RectTransform>().sizeDelta.y/2*-1)+(newCharacterHealthBar.GetComponent<RectTransform>().sizeDelta.y/1.25f), 0);
             newCharacterSpecialBar.name = playerData.name + "SpecialBar";
             Debug.Log(newCharacterSpecialBar.transform.position.z);
             Debug.Log(newCharacterSpecialBar.transform.localPosition.z);
+            Debug.Log(i);
+            Debug.Log(game.players.Count);
+            Debug.Log((i+1)/game.players.Count);
+            if ((i+1)/game.players.Count > 0.5f) {
+                Debug.Log(newCharacterSpecialBar.transform.Find("Border").gameObject.GetComponent<RectTransform>().sizeDelta.x);
+                newCharacterSpecialBar.transform.Find("Lightning").localPosition += new Vector3(newCharacterSpecialBar.transform.Find("Border").gameObject.GetComponent<RectTransform>().sizeDelta.x, 0, 0);
+            }
 
             // Create NameTag
             /** GameObject nameTag = new GameObject();
