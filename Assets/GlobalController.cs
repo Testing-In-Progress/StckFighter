@@ -180,8 +180,8 @@ public class GlobalController : MonoBehaviour
     {
         SetupCharacters();
 
-        wasd = new ControllerType("W", "S", "A", "D", "Space", "LeftShift", "Mouse0"); // 
-        arrow = new ControllerType("UpArrow", "DownArrow", "LeftArrow", "RightArrow", "RightControl", "RightShift", "Mouse1");
+        wasd = new ControllerType("W", "S", "A", "D", "Space", "LeftShift", "Mouse0", "F", "R"); // 
+        arrow = new ControllerType("UpArrow", "DownArrow", "LeftArrow", "RightArrow", "RightControl", "RightShift", "Mouse1", "T", "P");
         players = new List<PlayerData>();
         map = "";
         playType = "";

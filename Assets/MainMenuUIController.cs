@@ -42,7 +42,9 @@ public class MainMenuUIController : MonoBehaviour
     public TMPro.TextMeshProUGUI downControlUI;
     public TMPro.TextMeshProUGUI jumpControlUI;
     public TMPro.TextMeshProUGUI dashControlUI;
-    public TMPro.TextMeshProUGUI attackControlUI;
+    public TMPro.TextMeshProUGUI lightControlUI;
+    public TMPro.TextMeshProUGUI heavyControlUI;
+    public TMPro.TextMeshProUGUI specialControlUI;
     private bool captureKeyInput = false;
     private string keyInputType = "";
     private bool isAndreSelected = false;
@@ -89,12 +91,14 @@ public class MainMenuUIController : MonoBehaviour
 
         jumpControlUI = GameObject.Find("StatusTextControlJump").GetComponent<TMPro.TextMeshProUGUI>();
         dashControlUI = GameObject.Find("StatusTextControlDash").GetComponent<TMPro.TextMeshProUGUI>();
-        attackControlUI = GameObject.Find("StatusTextControlAttack").GetComponent<TMPro.TextMeshProUGUI>();
+        lightControlUI = GameObject.Find("StatusTextControlLight").GetComponent<TMPro.TextMeshProUGUI>();
+        heavyControlUI = GameObject.Find("StatusTextControlHeavy").GetComponent<TMPro.TextMeshProUGUI>();
+        specialControlUI = GameObject.Find("StatusTextControlSpecial").GetComponent<TMPro.TextMeshProUGUI>();
 
         selectedPlayer = "";
         selectedCharacterControl = "";
-        wasdreset = new ControllerType("W", "S", "A", "D", "Space", "LeftShift", "Mouse0");
-        arrowreset = new ControllerType("UpArrow", "DownArrow", "LeftArrow", "RightArrow", "RightControl", "RightShift", "Mouse1");
+        wasdreset = game.wasd;
+        arrowreset = game.arrow;
         Debug.Log(wasdreset.right.ToString());
         Debug.Log(arrowreset.up.ToString());
 
@@ -104,8 +108,8 @@ public class MainMenuUIController : MonoBehaviour
         // player stuff
         numPlayers = 2;
         players = new List<PlayerData>();
-        playerControllerStore1 = new List<string>(new string[7]);
-        playerControllerStore2 = new List<string>(new string[7]);
+        playerControllerStore1 = new List<string>(new string[9]);
+        playerControllerStore2 = new List<string>(new string[9]);
 
         // grab all player models
         characters = Resources.LoadAll<GameObject>("Characters");
@@ -190,7 +194,9 @@ public class MainMenuUIController : MonoBehaviour
 
         jumpControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.jump;
         dashControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.dash;
-        attackControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.attack;
+        lightControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.light;
+        heavyControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.heavy;
+        specialControlUI.text = players[getPNum(selectedCharacterControl)].controllerType.special;
 
         if(getPNum(selectedCharacterControl) == 1)
         {   
@@ -200,7 +206,9 @@ public class MainMenuUIController : MonoBehaviour
             playerControllerStore1[3] = downControlUI.text;
             playerControllerStore1[4] = jumpControlUI.text;
             playerControllerStore1[5] = dashControlUI.text;
-            playerControllerStore1[6] = attackControlUI.text;
+            playerControllerStore1[6] = lightControlUI.text;
+            playerControllerStore1[7] = heavyControlUI.text;
+            playerControllerStore1[8] = specialControlUI.text;
         } else {
             playerControllerStore2[0] = leftControlUI.text;
             playerControllerStore2[1] = rightControlUI.text;
@@ -208,8 +216,9 @@ public class MainMenuUIController : MonoBehaviour
             playerControllerStore2[3] = downControlUI.text;
             playerControllerStore2[4] = jumpControlUI.text;
             playerControllerStore2[5] = dashControlUI.text;
-            playerControllerStore2[6] = attackControlUI.text;
-
+            playerControllerStore2[6] = lightControlUI.text;
+            playerControllerStore2[7] = heavyControlUI.text;
+            playerControllerStore2[8] = specialControlUI.text;
         }
     }
 
@@ -616,7 +625,8 @@ public class MainMenuUIController : MonoBehaviour
                                         $"Left: {controller.left}, Right: {controller.right}, " +
                                         $"Up: {controller.up}, Down: {controller.down}, " +
                                         $"Jump: {controller.jump}, Dash: {controller.dash}, " +
-                                        $"Attack: {controller.attack}";
+                                        $"Light: {controller.light}, Heavy: {controller.heavy}, " +
+                                        $"Special: {controller.special}";
         return controllerSettings;
     }
 
@@ -635,7 +645,9 @@ public class MainMenuUIController : MonoBehaviour
                     players[getPNum(selectedCharacterControl)].controllerType.right = wasdreset.right.ToString();
                     players[getPNum(selectedCharacterControl)].controllerType.jump = wasdreset.jump.ToString();
                     players[getPNum(selectedCharacterControl)].controllerType.dash = wasdreset.dash.ToString();
-                    players[getPNum(selectedCharacterControl)].controllerType.attack = wasdreset.attack.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.light = wasdreset.light.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.heavy = wasdreset.heavy.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.special = wasdreset.special.ToString();
                 } else {
                     // Assigning properties from game.arrow to the selected player's controllerType
                     players[getPNum(selectedCharacterControl)].controllerType.up = arrowreset.up.ToString();
@@ -644,7 +656,9 @@ public class MainMenuUIController : MonoBehaviour
                     players[getPNum(selectedCharacterControl)].controllerType.right = arrowreset.right.ToString();
                     players[getPNum(selectedCharacterControl)].controllerType.jump = arrowreset.jump.ToString();
                     players[getPNum(selectedCharacterControl)].controllerType.dash = arrowreset.dash.ToString();
-                    players[getPNum(selectedCharacterControl)].controllerType.attack = arrowreset.attack.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.light = arrowreset.light.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.heavy = arrowreset.heavy.ToString();
+                    players[getPNum(selectedCharacterControl)].controllerType.special = arrowreset.special.ToString();
             }
                 updateControlsUI();
         }
@@ -712,7 +726,7 @@ public class MainMenuUIController : MonoBehaviour
             keyInputType = "Dash";
         }
     }
-    public void AttackSettingButton()
+    public void LightSettingButton()
     {
         if (selectedCharacterControl == "")
         {
@@ -721,7 +735,31 @@ public class MainMenuUIController : MonoBehaviour
         else{
             StatusTextControl.text = "Press a Button";
             captureKeyInput = true;
-            keyInputType = "Attack";
+            keyInputType = "Light";
+        }
+    }
+    public void HeavySettingButton()
+    {
+        if (selectedCharacterControl == "")
+        {
+            StatusTextControl.text = "You have to select a Player First";
+        }
+        else{
+            StatusTextControl.text = "Press a Button";
+            captureKeyInput = true;
+            keyInputType = "Heavy";
+        }
+    }
+    public void SpecialSettingButton()
+    {
+        if (selectedCharacterControl == "")
+        {
+            StatusTextControl.text = "You have to select a Player First";
+        }
+        else{
+            StatusTextControl.text = "Press a Button";
+            captureKeyInput = true;
+            keyInputType = "Special";
         }
     }
     public void Back()
@@ -750,7 +788,9 @@ public class MainMenuUIController : MonoBehaviour
         if (controllerType.down == newKeyCode) controllerType.down = "None";
         if (controllerType.jump == newKeyCode) controllerType.jump = "None";
         if (controllerType.dash == newKeyCode) controllerType.dash = "None";
-        if (controllerType.attack == newKeyCode) controllerType.attack = "None";
+        if (controllerType.light == newKeyCode) controllerType.light = "None";
+        if (controllerType.heavy == newKeyCode) controllerType.heavy = "None";
+        if (controllerType.special == newKeyCode) controllerType.special = "None";
 
         // Now set the new key code to the desired control
         switch (keyInputType)
@@ -773,8 +813,14 @@ public class MainMenuUIController : MonoBehaviour
             case "Dash":
                 controllerType.dash = newKeyCode;
                 break;
-            case "Attack":
-                controllerType.attack = newKeyCode;
+            case "Light":
+                controllerType.light = newKeyCode;
+                break;
+            case "Heavy":
+                controllerType.heavy = newKeyCode;
+                break;
+            case "Special":
+                controllerType.special = newKeyCode;
                 break;
             default:
                 Debug.LogError("Invalid keyInputType provided: " + keyInputType);

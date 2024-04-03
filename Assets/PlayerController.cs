@@ -282,7 +282,9 @@ public class PlayerController : MonoBehaviour
         string downCode = playerData.controllerType.down;
         string jumpCode = playerData.controllerType.jump;
         string dashCode = playerData.controllerType.dash;
-        string attackCode = playerData.controllerType.attack;
+        string lightCode = playerData.controllerType.light;
+        string heavyCode = playerData.controllerType.heavy;
+        string specialCode = playerData.controllerType.special;
 
         // To detect what direction or input the player is doing
         if (getInput(leftCode)) {
@@ -336,7 +338,7 @@ public class PlayerController : MonoBehaviour
             shield = false;
         }
         
-        if (getInput(attackCode, "Down") && canAttack) { // be sure to clear
+        if (getInput(lightCode, "Down") && canAttack) { // be sure to clear
             if (up) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
                 Debug.Log("GOING UP");// it seems that up isnt working
                 selectedCharacter.lUp(anim, gameObject);// test lets have it debug .log 
