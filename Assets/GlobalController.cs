@@ -53,6 +53,11 @@ public class GlobalController : MonoBehaviour
         Andre.lightAttackDownValue = 5;
         Andre.lightAttackForwardValue = 5;
         Andre.lightAttackBackValue = 5;
+        // heavy
+        Andre.heavyAttackUpValue = 5;
+        Andre.heavyAttackDownValue = 5;
+        Andre.heavyAttackForwardValue = 20;
+        Andre.heavyAttackBackValue = 5;
         Andre.Attack = () => {
 
 
@@ -81,6 +86,12 @@ public class GlobalController : MonoBehaviour
             attack.transform.parent = charaObj.transform;
             Debug.Log("lForward from " + charaObj.name);
             Destroy(attack, 0.25f); //  fixed, run
+            
+        };
+        Andre.hForward = (Animator anim, GameObject charaObj, int dir) => { // this is how we get chara position
+            anim.SetTrigger("heavy");
+            charaObj.transform.GetChild(1).name = charaObj.name + "Hit" + Andre.heavyAttackForwardValue.ToString(); // i fixed 
+            Debug.Log("lForward from " + charaObj.name);
             
         };
 
