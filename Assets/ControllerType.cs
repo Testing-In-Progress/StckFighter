@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class ControllerType
 {
-    public string up;
-    public string down;
-    public string left;
-    public string right;
-    public string jump;
-    public string dash;
-    public string attack;
+  public string up;
+  public string down;
+  public string left;
+  public string right;
+  public string jump;
+  public string dash;
+  public string light;
+  public string heavy;
+  public string special;
 
   // Create a class constructor with a parameter
-  public ControllerType(string up, string down, string left, string right, string jump, string dash, string attack)
+  public ControllerType(string up, string down, string left, string right, string jump, string dash, string light, string heavy, string special)
   {
     this.up = up;
     this.down = down;
@@ -21,7 +23,9 @@ public class ControllerType
     this.right = right;
     this.jump = jump;
     this.dash = dash;
-    this.attack = attack;
+    this.light = light;
+    this.heavy = heavy;
+    this.special = special;
   }
 
   public void set(string key, string value)
@@ -46,8 +50,14 @@ public class ControllerType
           case "dash":
               this.dash = value;
               break;
-          case "attack":
-              this.attack = value;
+          case "light":
+              this.light = value;
+              break;
+          case "heavy":
+              this.heavy = value;
+              break;
+          case "special":
+              this.special = value;
               break;
           default:
               this.up = value;
@@ -57,6 +67,6 @@ public class ControllerType
 
   public override string ToString()
   {
-    return "(" + this.up + ", " + this.down + ", " + this.left + ", " + this.right + ", " + this.jump + ", " + this.dash + ", " + this.attack  + ")";
+    return "(" + this.up + ", " + this.down + ", " + this.left + ", " + this.right + ", " + this.jump + ", " + this.dash + ", " + this.light + ", " + this.heavy + ", " + this.special  + ")";
   }
 }

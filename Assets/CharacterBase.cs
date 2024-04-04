@@ -11,10 +11,16 @@ public class CharacterBase
     public float sprintMultiplier;
     public float yAccel;
     public float maxHeight;
+    // light
     public float lightAttackUpValue;
     public float lightAttackDownValue;
     public float lightAttackForwardValue;
     public float lightAttackBackValue;
+    // heavy
+    public float heavyAttackUpValue;
+    public float heavyAttackDownValue;
+    public float heavyAttackForwardValue;
+    public float heavyAttackBackValue;
 
     public Action Attack = () => {
         
@@ -34,13 +40,13 @@ public class CharacterBase
         
     };
     // h means Heavy Attack
-    public Action hForward = () => {
+    public Action<Animator, GameObject, int> hForward = (Animator anim, GameObject charaObj, int dir) => {
         
     };
     public Action hBackward = () => {
         
     };
-    public Action hUp = () => {
+    public Action<Animator, GameObject> hUp = (Animator anim, GameObject charaObj) => {
         
     };
     public Action hDown = () => {
