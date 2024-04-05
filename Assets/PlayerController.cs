@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     public bool lookUp;
     public bool onGround;
     public bool canMove;
+    public bool knocked;
 
     public bool dash;
     public bool canDash;
@@ -141,6 +142,7 @@ public class PlayerController : MonoBehaviour
         crouch = false; 
         onGround = false;
         canMove = true;
+        knocked = false;
         canAttack = true;
 
         dash = false;
@@ -516,15 +518,17 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
    
-        if (isDashing == false && canMove == true){
+        if (knocked) {
+            
+        } else if (isDashing == false && canMove == true){
             characterRB.gravityScale = yAccel;
             characterRB.velocity = new Vector2(xDirection * xVelocity, characterRB.velocity.y);
         }
         else if (isDashing == false && canMove == false){
             characterRB.gravityScale = yAccel;
-            characterRB.velocity = new Vector2(airDirection * walkSpeed, characterRB.velocity.y);
+            characterRB.velocity = new Vector2(airDirection * walkSpeed, characterRB.velocity.y); 
         }
-        else{
+        else {
             characterRB.velocity = new Vector2(0, 0);
             characterRB.gravityScale = 0f;
         }
@@ -564,7 +568,7 @@ public class PlayerController : MonoBehaviour
         // Check if the collider is tagged as ground
         if (other.gameObject.name.Contains("Hit"))
         {
-            int attackAmount = Int32.Parse(other.gameObject.name.Split("Hit")[1]);
+            int attackAmount = Int32.Parse(other.gameObject.name.Split("Hit")[1].Split("Knock")[0]);
             // we need to change this code to 
             // say we name every hit thing "player1" + "Hit" + "amount"
             if (other.gameObject.name.Split("Hit")[0] != playerData.name) {
@@ -572,8 +576,23 @@ public class PlayerController : MonoBehaviour
                 Debug.Log(attackAmount);
                 selectedCharacter.hitGround(anim, gameObject, playerData, attackAmount);   
                 // Shake camera a LOT
-                StartCoroutine(shakeCamera(0.5f, 0.5f)); // 1 second, 1 intensity
+                //StartCoroutine(shakeCamera(0.5f, 0.5f)); // 1 second, 1 intensity
             }
+
+            if (other.gameObject.name.Split("Knock")[1] != "") {
+                string knockString = other.gameObject.name.Split("Knock")[1];
+                Debug.Log(knockString);
+                int knockAmountX = Int32.Parse(knockString.Split("X")[1].Split("Y")[0]);
+                Debug.Log(knockAmountX);
+                int knockAmountY = Int32.Parse(knockString.Split("Y")[1].Split("T")[0]);
+                Debug.Log(knockAmountY);
+                float knockTime = float.Parse(knockString.Split("T")[1]);
+                // Apply force
+                knocked = true;
+                Invoke("refreshKnockCooldown", knockTime);
+                characterRB.velocity = new Vector2(knockAmountX, knockAmountY);
+            }
+
         }
         
     }
@@ -692,6 +711,9 @@ public class PlayerController : MonoBehaviour
     public void groundDashStart(){
         groundBackDash = true;
         groundDashDelay = false;
+    }
+    public void refreshKnockCooldown() {
+        knocked = false;
     }
 }
         

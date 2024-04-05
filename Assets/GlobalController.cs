@@ -80,7 +80,7 @@ public class GlobalController : MonoBehaviour
         };
         Andre.lForward = (Animator anim, GameObject charaObj, int dir) => { // this is how we get chara position
             GameObject attack = Instantiate(hitBox);
-            attack.name = charaObj.name + "Hit" + Andre.lightAttackForwardValue.ToString(); // i fixed 
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackForwardValue.ToString() + "Knock" + "X" + (20*(dir)).ToString() + "Y" + (20).ToString() + "T" + "0.8"; // i fixed 
             int attackDistanceFromPlayer = 2;// were gonna define in this function
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir, charaObj.transform.position.y); 
             attack.transform.parent = charaObj.transform;
@@ -90,14 +90,14 @@ public class GlobalController : MonoBehaviour
         };
         Andre.hForward = (Animator anim, GameObject charaObj, int dir) => { // this is how we get chara position
             anim.SetTrigger("heavy");
-            charaObj.transform.GetChild(1).name = charaObj.name + "Hit" + Andre.heavyAttackForwardValue.ToString(); // i fixed 
+            charaObj.transform.GetChild(1).name = charaObj.name + "Hit" + Andre.heavyAttackForwardValue.ToString() + "Knock"; // i fixed 
             Debug.Log("lForward from " + charaObj.name);
             
         };
 
         Andre.lBackward = (Animator anim, GameObject charaObj, int dir) => { // 
             GameObject attack = Instantiate(hitBox);
-            attack.name = charaObj.name + "Hit" + Andre.lightAttackBackValue.ToString(); // 
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackBackValue.ToString() + "Knock"; // 
             int attackDistanceFromPlayer = 2;// were gonna define in this function
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir*-1, charaObj.transform.position.y); 
             attack.transform.parent = charaObj.transform;
@@ -108,7 +108,7 @@ public class GlobalController : MonoBehaviour
         };
         Andre.lUp = (Animator anim, GameObject charaObj) => { // 
             GameObject attack = Instantiate(hitBox);
-            attack.name = charaObj.name + "Hit" + Andre.lightAttackUpValue.ToString(); // 
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackUpValue.ToString() + "Knock"; // 
             int attackDistanceFromPlayer = 4;// now i think we should add the 
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x, charaObj.transform.position.y+attackDistanceFromPlayer); 
             attack.transform.parent = charaObj.transform;
@@ -141,7 +141,7 @@ public class GlobalController : MonoBehaviour
 
         FLLFFL.lForward = (Animator anim, GameObject charaObj, int dir) => { // this is how we get chara position
             GameObject attack = Instantiate(hitBox);
-            attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackForwardValue.ToString(); // i fixed 
+            attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackForwardValue.ToString() + "Knock"; // i fixed 
             int attackDistanceFromPlayer = 2;// were gonna define in this function
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir, charaObj.transform.position.y); 
             attack.transform.parent = charaObj.transform;
@@ -152,7 +152,7 @@ public class GlobalController : MonoBehaviour
 
         FLLFFL.lBackward = (Animator anim, GameObject charaObj, int dir) => { // 
             GameObject attack = Instantiate(hitBox);
-            attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackBackValue.ToString(); // 
+            attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackBackValue.ToString() + "Knock"; // 
             int attackDistanceFromPlayer = 2;// were gonna define in this function
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir*-1, charaObj.transform.position.y); 
             attack.transform.parent = charaObj.transform;
@@ -163,7 +163,7 @@ public class GlobalController : MonoBehaviour
         };
         FLLFFL.lUp = (Animator anim, GameObject charaObj) => { // 
             GameObject attack = Instantiate(hitBox);
-            attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackUpValue.ToString(); // 
+            attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackUpValue.ToString() + "Knock"; // 
             int attackDistanceFromPlayer = 4;// were gonna define in this function
             attack.transform.localPosition = new Vector2(charaObj.transform.position.x, charaObj.transform.position.y+attackDistanceFromPlayer); 
             attack.transform.parent = charaObj.transform;
