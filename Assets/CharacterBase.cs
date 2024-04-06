@@ -21,6 +21,12 @@ public class CharacterBase
     public float heavyAttackDownValue;
     public float heavyAttackForwardValue;
     public float heavyAttackBackValue;
+    // air light
+    public float lightAttackForwardAirValue;
+    public float lightAttackDownAirValue;
+    // air heavy
+    public float heavyAttackForwardAirValue;
+    public float heavyAttackDownAirValue;
 
     public Action Attack = () => {
         
@@ -63,16 +69,16 @@ public class CharacterBase
         
     };
     // a means Aerial Input Attack
-    public Action laForward = () => {
+    public Action<Animator, GameObject, int> laForward = (Animator anim, GameObject charaObj, int dir) => {
         
     };
-    public Action laDown = () => {
+    public Action<Animator, GameObject, int> laDown = (Animator anim, GameObject charaObj, int dir) => {
         
     };
-    public Action haForward = () => {
+    public Action<Animator, GameObject, int> haForward = (Animator anim, GameObject charaObj, int dir) => {
         
     };
-    public Action haDown = () => {
+    public Action<Animator, GameObject, int> haDown = (Animator anim, GameObject charaObj, int dir) => {
         
     };
     public Action saForward = () => {

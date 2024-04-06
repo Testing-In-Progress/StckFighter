@@ -197,6 +197,7 @@ public class GameController : MonoBehaviour
                 slider.value = Mathf.Lerp(slider.value, (player.health), lerpSpeed);
             }
             else{
+                Debug.Log("Dead");
                 SceneManager.LoadScene("MainMenu");
             }
         }

@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.handzlikchris.fastscriptreload": {
+      "version": "https://github.com/handzlikchris/FastScriptReload.git?path=Assets",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "ba8a4162b7f58cf1154b117358277687186beb96"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.3",
       "depth": 1,
@@ -141,15 +148,6 @@
         "com.unity.2d.tilemap.extras": "3.1.1",
         "com.unity.2d.aseprite": "1.0.0"
       }
-    },
-    "com.unity.ide.rider": {
-      "version": "3.0.28",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.ext.nunit": "1.0.6"
-      },
-      "url": "https://packages.unity.com"
     },
     "com.unity.mathematics": {
       "version": "1.2.6",
