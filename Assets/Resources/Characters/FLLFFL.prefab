@@ -211,11 +211,14 @@ MonoBehaviour:
   lookUp: 0
   onGround: 0
   canMove: 0
+  knocked: 0
   dash: 0
   canDash: 0
   isDashing: 0
   isAirDashing: 0
   hasAirDashed: 0
+  attacking: 0
+  isLockedIn: 0
   enemyPositionOnLeft: 0
   sprint: 0
   shield: 0
@@ -233,7 +236,6 @@ MonoBehaviour:
   airDashDelayTime: 0
   dashRefreshTime: 0
   groundDashDelay: 0
-  canAttack: 0
   isAttacking: 0
   DashAttack: 0
   JumpAttack: 0
