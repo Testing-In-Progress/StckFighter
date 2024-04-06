@@ -33,23 +33,23 @@ public class CharacterBase
     public Action<Animator, GameObject, int> lBackward = (Animator anim, GameObject charaObj, int dir) => {
         
     };
-    public Action<Animator, GameObject> lUp = (Animator anim, GameObject charaObj) => {
+    public Action<Animator, GameObject, int> lUp = (Animator anim, GameObject charaObj, int dir) => {
         
     };
-    public Action<Animator, GameObject> lDown = (Animator anim, GameObject charaObj) => {
+    public Action<Animator, GameObject, int> lDown = (Animator anim, GameObject charaObj, int dir) => {
         
     };
     // h means Heavy Attack
     public Action<Animator, GameObject, int> hForward = (Animator anim, GameObject charaObj, int dir) => {
         
     };
-    public Action hBackward = () => {
+    public Action<Animator, GameObject, int> hBackward = (Animator anim, GameObject charaObj, int dir) => {
         
     };
-    public Action<Animator, GameObject> hUp = (Animator anim, GameObject charaObj) => {
+    public Action<Animator, GameObject, int> hUp = (Animator anim, GameObject charaObj, int dir) => {
         
     };
-    public Action<Animator, GameObject> hDown = (Animator anim, GameObject charaObj) => {
+    public Action<Animator, GameObject, int> hDown = (Animator anim, GameObject charaObj, int dir) => {
         
     };
     // s means Special Attack
