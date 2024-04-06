@@ -63,6 +63,8 @@ public class PlayerController : MonoBehaviour
     public bool willBlock;
     public bool block;
 
+    public bool hitstun;
+
     public float backDashDistance;
     public float forwardDashDistance;
     public float backDashInitialSpeed;
@@ -150,6 +152,7 @@ public class PlayerController : MonoBehaviour
 
         willBlock = true;
         block = false;
+        hitstun = false;
 
         dash = false;
         sprint = false;
@@ -624,9 +627,19 @@ public class PlayerController : MonoBehaviour
    
         if (knocked) {
             
-        } else if (attacking || block) {
+        } else if (onGround && block) {
             characterRB.velocity = new Vector2(0, 0);
             characterRB.gravityScale = 0f;
+            
+        } else if (onGround && attacking) {
+            characterRB.velocity = new Vector2(0, 0);
+            characterRB.gravityScale = 0f;
+        } else if (onGround == false && block) {
+            characterRB.velocity = new Vector2(airDirection * walkSpeed, characterRB.velocity.y); 
+            characterRB.gravityScale = yAccel;
+        } else if (onGround == false && attacking) {
+            characterRB.velocity = new Vector2(airDirection * walkSpeed, characterRB.velocity.y); 
+            characterRB.gravityScale = yAccel;
         } else if (isDashing == false && canMove == true){
             characterRB.gravityScale = yAccel;
             characterRB.velocity = new Vector2(xDirection * xVelocity, characterRB.velocity.y);
