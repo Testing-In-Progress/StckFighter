@@ -54,6 +54,8 @@ public class PlayerController : MonoBehaviour
     public bool isDashing;
     public bool isAirDashing;
     public bool hasAirDashed;
+    public bool attacking;
+    public bool isLockedIn;
     public bool enemyPositionOnLeft;
     public bool sprint;
     public bool shield;
@@ -75,7 +77,6 @@ public class PlayerController : MonoBehaviour
     public bool groundDashDelay;
 
     //Attack
-    public bool canAttack;
     public bool isAttacking;
     public float DashAttack;
     public float JumpAttack;
@@ -143,11 +144,12 @@ public class PlayerController : MonoBehaviour
         onGround = false;
         canMove = true;
         knocked = false;
-        canAttack = true;
 
         dash = false;
         sprint = false;
         shield = false;
+        attacking = false;
+        isLockedIn = false;
 
         canDash = true;
         isDashing = false;
@@ -230,6 +232,21 @@ public class PlayerController : MonoBehaviour
         camera.localPosition = originalPos;
     }
 
+    public float getAnimLength(string name) {
+        AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
+        AnimationClip idle = clips[0];
+        foreach(AnimationClip clip in clips)
+        {
+            if (clip.name == "idle") {
+                idle = clip;
+            }
+            if (clip.name == name) {
+                return clip.length;
+            }
+        }
+        return idle.length;
+    }
+
     void Update(){
         anim.SetInteger("xDirection", xDirection);
         anim.SetBool("crouch", crouch);
@@ -240,6 +257,8 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("grounddashdelay", groundDashDelay);
         anim.SetBool("isairdashing", isAirDashing);
         anim.SetBool("hasairdashed", hasAirDashed);
+        anim.SetBool("attacking", attacking);
+        anim.SetBool("isLockedIn", isLockedIn);
         anim.SetFloat("verticalspeed", yVelocity);
         anim.SetInteger("airdirection", airDirection);
 
@@ -250,9 +269,9 @@ public class PlayerController : MonoBehaviour
         }
 
         if (enemyPositionOnLeft ) {
-            spriteRenderer.flipX = true;
+            transform.localScale = new Vector2(-1, transform.localScale.y);
         } else {
-            spriteRenderer.flipX = false;
+            transform.localScale = new Vector2(1, transform.localScale.y);
         }
         
         Collider2D[] colliders = Physics2D.OverlapBoxAll(feet.bounds.center, feet.bounds.size, 0f);
@@ -340,36 +359,66 @@ public class PlayerController : MonoBehaviour
             shield = false;
         }
         
-        if (getInput(lightCode, "Down") && canAttack) { // be sure to clear
-            if (up) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
+        if (getInput(lightCode, "Down") && (attacking == false) && (isLockedIn == false)) { // be sure to clear
+            string animSuffix = onGround ? "" : "_air";
+            if (up && onGround) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
+                anim.SetBool("up", true);
+                anim.SetBool("down", false);
                 Debug.Log("GOING UP");// it seems that up isnt working
+                anim.SetTrigger("light");
+                attacking = true;
+                Invoke("refreshAttackCooldown", getAnimLength("light_up"));
                 selectedCharacter.lUp(anim, gameObject);// test lets have it debug .log 
                 // Shake camera a little
                 StartCoroutine(shakeCamera(0.2f, 0.2f)); // 1 second, 1 intensity
-                canAttack = false;
-                Invoke("attackBuffer", 0.5f);
+
+            } if (down) {
+                anim.SetBool("down", true);
+                anim.SetTrigger("light");
+                attacking = true;
+                Invoke("refreshAttackCooldown", getAnimLength("light_down" + animSuffix));
+                selectedCharacter.lDown(anim, gameObject);// test lets have it debug .log 
+                // Shake camera a little
+                StartCoroutine(shakeCamera(0.2f, 0.2f)); // 1 second, 1 intensity
             } else if (enemyPositionOnLeft) {
+                Debug.Log("eps");
                 // no aman bruh just hold W(up for orange) and attack its not wroking, weird
-                if (right) {
-                    selectedCharacter.lForward(anim, gameObject, 1);
-                    canAttack = false;
-                    Invoke("attackBuffer", 0.5f);
+                if (right && onGround) {
+                    anim.SetBool("forward", false);
+                    attacking = true;
+                    Invoke("refreshAttackCooldown", getAnimLength("light_back"));
+                    anim.SetTrigger("light");
+                    Debug.Log("light_forward" + animSuffix);
+                    Debug.Log(getAnimLength("light_forward" + animSuffix));
+                    selectedCharacter.lBackward(anim, gameObject, 1);
                 } else {
+                    anim.SetBool("forward", true);
+                    attacking = true;
+                    Invoke("refreshAttackCooldown", getAnimLength("light_forward" + animSuffix));
+                    anim.SetTrigger("light");
+                    Debug.Log("light_forward" + animSuffix);
+                    Debug.Log(getAnimLength("light_forward" + animSuffix));
                     selectedCharacter.lForward(anim, gameObject, -1);
-                    canAttack = false;
-                    Invoke("attackBuffer", 0.5f);
                 }
                  // spelled wrong
                 
             } else if (enemyPositionOnLeft == false) {
-                if (left) {
-                    selectedCharacter.lForward(anim, gameObject, -1);
-                    canAttack = false;
-                    Invoke("attackBuffer", 0.5f);
+                if (left && onGround) {
+                    anim.SetBool("forward", false);
+                    attacking = true;
+                    Invoke("refreshAttackCooldown", getAnimLength("light_back"));
+                    anim.SetTrigger("light");
+                    Debug.Log("light_forward" + animSuffix);
+                    Debug.Log(getAnimLength("light_forward" + animSuffix));
+                    selectedCharacter.lBackward(anim, gameObject, -1);
                 } else {
+                    anim.SetBool("forward", true);
+                    attacking = true;
+                    Invoke("refreshAttackCooldown", getAnimLength("light_forward" + animSuffix));
+                    anim.SetTrigger("light");
+                    Debug.Log("light_forward" + animSuffix);
+                    Debug.Log(getAnimLength("light_forward" + animSuffix));
                     selectedCharacter.lForward(anim, gameObject, 1);
-                    canAttack = false;
-                    Invoke("attackBuffer", 0.5f);
                 }
                 // lets go to globalcotrooller
                 //selectedCharacter.lBackward(anim, charaObj); 
@@ -381,39 +430,59 @@ public class PlayerController : MonoBehaviour
             
         }
 
-        if (getInput(heavyCode, "Down") && canAttack) { // be sure to clear
-            if (up) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
-
+        if (getInput(heavyCode, "Down") && (attacking == false) && (isLockedIn == false)) { // be sure to clear
+            string animSuffix = onGround ? "" : "_air";
+            if (up && onGround) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
+                anim.SetBool("up", true);
+                anim.SetBool("down", false);
+                Debug.Log("GOING UP");// it seems that up isnt working
+                anim.SetTrigger("heavy");
+                attacking = true;
+                Invoke("refreshAttackCooldown", getAnimLength("heavy_up"));
                 Debug.Log("GOING UP");// it seems that up isnt working
                 selectedCharacter.hUp(anim, gameObject);// test lets have it debug .log 
                 // Shake camera a little
                 StartCoroutine(shakeCamera(0.2f, 0.2f)); // 1 second, 1 intensity
-                canAttack = false;
-                Invoke("attackBuffer", 0.5f);
+            } else if (down) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
+                anim.SetBool("down", true);
+                Debug.Log("GOING UP");// it seems that up isnt working
+                anim.SetTrigger("heavy");
+                attacking = true;
+                Invoke("refreshAttackCooldown", getAnimLength("heavy_down" + animSuffix));
+                Debug.Log("GOING UP");// it seems that up isnt working
+                selectedCharacter.hDown(anim, gameObject);// test lets have it debug .log 
+                // Shake camera a little
+                StartCoroutine(shakeCamera(0.2f, 0.2f)); // 1 second, 1 intensity
             } else if (enemyPositionOnLeft) {
-                anim.SetBool("forward", true);
                 // no aman bruh just hold W(up for orange) and attack its not wroking, weird
-                if (right) {
+                if (right && onGround) {
+                    anim.SetBool("forward", false);
+                    attacking = true;
+                    Invoke("refreshAttackCooldown", getAnimLength("light_back"));
+                    anim.SetTrigger("heavy");
                     selectedCharacter.hForward(anim, gameObject, 1);
-                    canAttack = false;
-                    Invoke("attackBuffer", 0.5f);
                 } else {
+                    anim.SetBool("forward", true);
+                    attacking = true;
+                    Invoke("refreshAttackCooldown", getAnimLength("light_forward" + animSuffix));
+                    anim.SetTrigger("heavy");
                     selectedCharacter.hForward(anim, gameObject, -1);
-                    canAttack = false;
-                    Invoke("attackBuffer", 0.5f);
                 }
                  // spelled wrong
                 
             } else if (enemyPositionOnLeft == false) {
-                anim.SetBool("forward", true);
-                if (left) {
+                if (left && onGround) {
+                    anim.SetBool("forward", false);
+                    attacking = true;
+                    Invoke("refreshAttackCooldown", getAnimLength("heavy_back"));
+                    anim.SetTrigger("heavy");
                     selectedCharacter.hForward(anim, gameObject, -1);
-                    canAttack = false;
-                    Invoke("attackBuffer", 0.5f);
                 } else {
+                    anim.SetBool("forward", true);
+                    attacking = true;
+                    Invoke("refreshAttackCooldown", getAnimLength("heavy_forward" + animSuffix));
+                    anim.SetTrigger("heavy");
                     selectedCharacter.hForward(anim, gameObject, 1);
-                    canAttack = false;
-                    Invoke("attackBuffer", 0.5f);
                 }
                 // lets go to globalcotrooller
                 //selectedCharacter.lBackward(anim, charaObj); 
@@ -520,6 +589,9 @@ public class PlayerController : MonoBehaviour
    
         if (knocked) {
             
+        } else if (attacking) {
+            characterRB.velocity = new Vector2(0, 0);
+            characterRB.gravityScale = 0f;
         } else if (isDashing == false && canMove == true){
             characterRB.gravityScale = yAccel;
             characterRB.velocity = new Vector2(xDirection * xVelocity, characterRB.velocity.y);
@@ -617,10 +689,6 @@ public class PlayerController : MonoBehaviour
             canMove = false;
         }
     }*/
-
-    public void attackBuffer() {
-        canAttack = true;
-    }
     public void jumpBuffer(){
         onGround = true; 
     }
@@ -714,6 +782,9 @@ public class PlayerController : MonoBehaviour
     }
     public void refreshKnockCooldown() {
         knocked = false;
+    }
+    public void refreshAttackCooldown() {
+        attacking = false;
     }
 }
         

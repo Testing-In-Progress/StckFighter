@@ -36,7 +36,7 @@ public class CharacterBase
     public Action<Animator, GameObject> lUp = (Animator anim, GameObject charaObj) => {
         
     };
-    public Action lDown = () => {
+    public Action<Animator, GameObject> lDown = (Animator anim, GameObject charaObj) => {
         
     };
     // h means Heavy Attack
@@ -49,7 +49,7 @@ public class CharacterBase
     public Action<Animator, GameObject> hUp = (Animator anim, GameObject charaObj) => {
         
     };
-    public Action hDown = () => {
+    public Action<Animator, GameObject> hDown = (Animator anim, GameObject charaObj) => {
         
     };
     // s means Special Attack

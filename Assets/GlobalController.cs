@@ -79,41 +79,35 @@ public class GlobalController : MonoBehaviour
             Debug.Log(playerData.health);
         };
         Andre.lForward = (Animator anim, GameObject charaObj, int dir) => { // this is how we get chara position
-            GameObject attack = Instantiate(hitBox);
-            attack.name = charaObj.name + "Hit" + Andre.lightAttackForwardValue.ToString() + "Knock" + "X" + (20*(dir)).ToString() + "Y" + (20).ToString() + "T" + "0.8"; // i fixed 
-            int attackDistanceFromPlayer = 2;// were gonna define in this function
-            attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir, charaObj.transform.position.y); 
-            attack.transform.parent = charaObj.transform;
+            GameObject attack = charaObj.transform.GetChild(1).gameObject;
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackForwardValue.ToString() + "Knock" + "X" + (10*(dir)).ToString() + "Y" + (0).ToString() + "T" + "0.8";// + "Anim"; // i fixed 
             Debug.Log("lForward from " + charaObj.name);
-            Destroy(attack, 0.25f); //  fixed, run
             
         };
         Andre.hForward = (Animator anim, GameObject charaObj, int dir) => { // this is how we get chara position
-            anim.SetTrigger("heavy");
             charaObj.transform.GetChild(1).name = charaObj.name + "Hit" + Andre.heavyAttackForwardValue.ToString() + "Knock"; // i fixed 
-            Debug.Log("lForward from " + charaObj.name);
+            Debug.Log("hForward from " + charaObj.name);
             
         };
 
         Andre.lBackward = (Animator anim, GameObject charaObj, int dir) => { // 
-            GameObject attack = Instantiate(hitBox);
+            GameObject attack = charaObj.transform.GetChild(0).gameObject;
             attack.name = charaObj.name + "Hit" + Andre.lightAttackBackValue.ToString() + "Knock"; // 
-            int attackDistanceFromPlayer = 2;// were gonna define in this function
-            attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir*-1, charaObj.transform.position.y); 
-            attack.transform.parent = charaObj.transform;
             Debug.Log("lBackward from " + charaObj.name);
-            Destroy(attack, 0.25f); //  go to characterbase
             // aman i changed the bool to an int so we can just multiply to change te direction of attack
             // ok 
         };
         Andre.lUp = (Animator anim, GameObject charaObj) => { // 
-            GameObject attack = Instantiate(hitBox);
+            GameObject attack = charaObj.transform.GetChild(0).gameObject;
             attack.name = charaObj.name + "Hit" + Andre.lightAttackUpValue.ToString() + "Knock"; // 
-            int attackDistanceFromPlayer = 4;// now i think we should add the 
-            attack.transform.localPosition = new Vector2(charaObj.transform.position.x, charaObj.transform.position.y+attackDistanceFromPlayer); 
-            attack.transform.parent = charaObj.transform;
-            Debug.Log("lBackward from " + charaObj.name);
-            Destroy(attack, 0.25f); //  go to characterbase
+            Debug.Log("lUp from " + charaObj.name);
+            // aman i changed the bool to an int so we can just multiply to change te direction of attack
+            // ok 
+        }; // lets got to playercontroller
+        Andre.lDown = (Animator anim, GameObject charaObj) => { // 
+            GameObject attack = charaObj.transform.GetChild(0).gameObject;
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackDownValue.ToString() + "Knock"; // 
+            Debug.Log("lDown from " + charaObj.name);
             // aman i changed the bool to an int so we can just multiply to change te direction of attack
             // ok 
         }; // lets got to playercontroller
@@ -140,35 +134,30 @@ public class GlobalController : MonoBehaviour
         };
 
         FLLFFL.lForward = (Animator anim, GameObject charaObj, int dir) => { // this is how we get chara position
-            GameObject attack = Instantiate(hitBox);
+            GameObject attack = charaObj.transform.GetChild(0).gameObject;
             attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackForwardValue.ToString() + "Knock"; // i fixed 
-            int attackDistanceFromPlayer = 2;// were gonna define in this function
-            attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir, charaObj.transform.position.y); 
-            attack.transform.parent = charaObj.transform;
             Debug.Log("lForward from " + charaObj.name);
-            Destroy(attack, 0.7f); //  fixed, run
             
         };
 
         FLLFFL.lBackward = (Animator anim, GameObject charaObj, int dir) => { // 
-            GameObject attack = Instantiate(hitBox);
+            GameObject attack = charaObj.transform.GetChild(0).gameObject;
             attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackBackValue.ToString() + "Knock"; // 
-            int attackDistanceFromPlayer = 2;// were gonna define in this function
-            attack.transform.localPosition = new Vector2(charaObj.transform.position.x + attackDistanceFromPlayer*dir*-1, charaObj.transform.position.y); 
-            attack.transform.parent = charaObj.transform;
             Debug.Log("lBackward from " + charaObj.name);
-            Destroy(attack, 2); //  go to characterbase
             // aman i changed the bool to an int so we can just multiply to change te direction of attack
             // it runs when u press up and attack
         };
         FLLFFL.lUp = (Animator anim, GameObject charaObj) => { // 
-            GameObject attack = Instantiate(hitBox);
+            GameObject attack = charaObj.transform.GetChild(0).gameObject;
             attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackUpValue.ToString() + "Knock"; // 
-            int attackDistanceFromPlayer = 4;// were gonna define in this function
-            attack.transform.localPosition = new Vector2(charaObj.transform.position.x, charaObj.transform.position.y+attackDistanceFromPlayer); 
-            attack.transform.parent = charaObj.transform;
             Debug.Log("lBackward from " + charaObj.name);
-            Destroy(attack, 2); //  go to characterbase
+            // aman i changed the bool to an int so we can just multiply to change te direction of attack
+            // ok 
+        }; // lets got to playercontroller
+        FLLFFL.lDown = (Animator anim, GameObject charaObj) => { // 
+            GameObject attack = charaObj.transform.GetChild(0).gameObject;
+            attack.name = charaObj.name + "Hit" + FLLFFL.lightAttackDownValue.ToString() + "Knock"; //
+            Debug.Log("lBackward from " + charaObj.name);
             // aman i changed the bool to an int so we can just multiply to change te direction of attack
             // ok 
         }; // lets got to playercontroller
