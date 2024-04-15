@@ -853,36 +853,56 @@ public class MainMenuUIController : MonoBehaviour
         if (captureKeyInput) {
             for (int i = 0; i < 7; i++)
                     {
-                        //if (i == 1) {
-                        //    continue;
-                        //}
                         if (Input.GetAxis("Joy" + i + "X") > 0.9) {
-                            Debug.Log(Input.GetAxis("Joy" + i + "X"));
-                            updateControls("Joy" + i + "X" + "Right");
-                            captureKeyInput = false;
-                            if (Input.GetJoystickNames().Length > 0) {
-                                Debug.Log(Input.GetJoystickNames()[i] + "X is moved");
-                            }
+                             Debug.Log(Input.GetAxis("Joy" + i + "X"));
+                             Debug.Log( "Joy" + i + "X");
+                             if (i == 1) {
+                             } else {
+                                Debug.Log(Input.GetAxis("Joy" + i + "X"));
+                                updateControls("Joy" + i + "X" + "Right");
+                                captureKeyInput = false;
+                                if (Input.GetJoystickNames().Length > 0) {
+                                    Debug.Log(Input.GetJoystickNames()[i] + "X is moved");
+                                }   
+                             }
                         } else if (Input.GetAxis("Joy" + i + "X") < -0.9) {
-                            updateControls("Joy" + i + "X" + "Left");
-                            captureKeyInput = false;
-                            if (Input.GetJoystickNames().Length > 0) {
-                                Debug.Log(Input.GetJoystickNames()[i] + "X is moved");
+                             Debug.Log(Input.GetAxis("Joy" + i + "X"));
+                             Debug.Log("Joy" + i + "X");
+                            if (i == 1) {
+                                
+                            } else {
+                                updateControls("Joy" + i + "X" + "Left");
+                                captureKeyInput = false;
+                                if (Input.GetJoystickNames().Length > 0) {
+                                    Debug.Log(Input.GetJoystickNames()[i] + "X is moved");
+                                }
                             }
                         } 
                         else if (Input.GetAxis("Joy" + i + "Y") > 0.9)
                         {
-                            updateControls("Joy" + i + "Y" + "Up");
-                            captureKeyInput = false;
-                            if (Input.GetJoystickNames().Length > 0) {
-                                Debug.Log(Input.GetJoystickNames()[i] + "Y is moved");
+                             Debug.Log(Input.GetAxis("Joy" + i + "Y"));
+                             Debug.Log("Joy" + i + "Y");
+                            if (i == 2) {
+                            
+                            } else {
+                                updateControls("Joy" + i + "Y" + "Up");
+                                captureKeyInput = false;
+                                if (Input.GetJoystickNames().Length > 0) {
+                                    Debug.Log(Input.GetJoystickNames()[i] + "Y is moved");
+                                }
                             }
                         } else if (Input.GetAxis("Joy" + i + "Y") < -0.9)
                         {
-                            updateControls("Joy" + i + "Y" + "Down");
-                            captureKeyInput = false;
-                            if (Input.GetJoystickNames().Length > 0) {
-                                Debug.Log(Input.GetJoystickNames()[i] + "Y is moved");
+                             Debug.Log(Input.GetAxis("Joy" + i + "Y"));
+                             Debug.Log("Joy" + i + "Y");
+                            if (i == 2) {
+                            
+                            } else {
+                                updateControls("Joy" + i + "Y" + "Down");
+                                captureKeyInput = false;
+                                if (Input.GetJoystickNames().Length > 0) {
+                                    Debug.Log(Input.GetJoystickNames()[i] + "Y is moved");
+                                }
                             }
                         }
                     }

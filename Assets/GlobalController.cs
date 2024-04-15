@@ -56,7 +56,7 @@ public class GlobalController : MonoBehaviour
         // heavy
         Andre.heavyAttackUpValue = 5;
         Andre.heavyAttackDownValue = 5;
-        Andre.heavyAttackForwardValue = 20;
+        Andre.heavyAttackForwardValue = 3;
         Andre.heavyAttackBackValue = 5;
         // air light
         Andre.lightAttackForwardAirValue = 5;
@@ -93,30 +93,30 @@ public class GlobalController : MonoBehaviour
         };
         Andre.lBackward = (Animator anim, GameObject charaObj, int dir) => { // 
             GameObject attack = charaObj.transform.GetChild(1).gameObject;
-            attack.name = charaObj.name + "Hit" + Andre.lightAttackBackValue.ToString() + "Knock" + "X" + (10*(dir)).ToString() + "Y" + (0).ToString() + "T" + "0.8" + "PWR"; // 
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackBackValue.ToString() + "Knock" + "X" + (30*(dir)).ToString() + "Y" + (0).ToString() + "T" + "0.8" + "PWR"; // 
             Debug.Log("lBackward from " + charaObj.name);
             // aman i changed the bool to an int so we can just multiply to change te direction of attack
             // ok 
         };
         Andre.lUp = (Animator anim, GameObject charaObj, int dir) => { // 
             GameObject attack = charaObj.transform.GetChild(1).gameObject;
-            attack.name = charaObj.name + "Hit" + Andre.lightAttackUpValue.ToString() + "Knock" + "X" + (10*(dir)).ToString() + "Y" + (0).ToString() + "T" + "0.8" + "PWR"; // 
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackUpValue.ToString() + "Knock" + "X" + (10*(dir)).ToString() + "Y" + (10).ToString() + "T" + "0.8" + "PWR"; // 
             Debug.Log("lUp from " + charaObj.name);
             // aman i changed the bool to an int so we can just multiply to change te direction of attack
             // ok 
         }; // lets got to playercontroller
         Andre.lDown = (Animator anim, GameObject charaObj, int dir) => { // 
             GameObject attack = charaObj.transform.GetChild(1).gameObject;
-            attack.name = charaObj.name + "Hit" + Andre.lightAttackDownValue.ToString() + "Knock" + "X" + (10*(dir)).ToString() + "Y" + (0).ToString() + "T" + "0.8" + "PWR"; // 
+            attack.name = charaObj.name + "Hit" + Andre.lightAttackDownValue.ToString() + "Knock" + "X" + (10*(dir)).ToString() + "Y" + (30).ToString() + "T" + "0.8" + "PWR"; // 
             Debug.Log("lDown from " + charaObj.name);
             // aman i changed the bool to an int so we can just multiply to change te direction of attack
             // ok 
         }; // lets got to playercontroller
 
         Andre.hForward = (Animator anim, GameObject charaObj, int dir) => { // this is how we get chara position
-            charaObj.transform.GetChild(1).gameObject.name = charaObj.name + "Hit" + Andre.heavyAttackForwardValue.ToString() + "Knock" + "X" + (10*(dir)).ToString() + "Y" + (0).ToString() + "T" + "0.8" + "PWR" + "1";; // i fixed 
+            charaObj.transform.GetChild(1).gameObject.name = charaObj.name + "Hit" + Andre.heavyAttackForwardValue.ToString() + "Knock" + "X" + (20*(dir)).ToString() + "Y" + (10).ToString() + "T" + "0.8" + "PWR" + "1";; // i fixed 
             Debug.Log("hForward from " + charaObj.name);
-            charaObj.transform.GetChild(2).name = charaObj.name + "Hit" + Andre.heavyAttackForwardValue.ToString() + "Knock" + "X" + (10*(dir)).ToString() + "Y" + (0).ToString() + "T" + "0.8" + "PWR" + "1";; // i fixed 
+            charaObj.transform.GetChild(2).name = charaObj.name + "Hit" + Andre.heavyAttackForwardValue.ToString() + "Knock" + "X" + (20*(dir)).ToString() + "Y" + (10).ToString() + "T" + "0.8" + "PWR" + "1";; // i fixed 
             Debug.Log("hForward from " + charaObj.name);
             charaObj.transform.GetChild(3).name = charaObj.name + "Hit" + Andre.heavyAttackForwardValue.ToString() + "Knock" + "X" + (10*(dir)).ToString() + "Y" + (0).ToString() + "T" + "0.8" + "PWR" + "1";; // i fixed 
             Debug.Log("hForward from " + charaObj.name);
@@ -169,12 +169,18 @@ public class GlobalController : MonoBehaviour
         FLLFFL.lightAttackDownValue = 5;
         FLLFFL.lightAttackForwardValue = 5;
         FLLFFL.lightAttackBackValue = 5;
+
+        FLLFFL.heavyAttackForwardValue = 7;
+        FLLFFL.heavyAttackBackValue = 9;
+        FLLFFL.heavyAttackUpValue = 9;
+        FLLFFL.heavyAttackDownValue = 11;
+        
         // air light
         FLLFFL.lightAttackForwardAirValue = 5;
-        FLLFFL.lightAttackDownAirValue = 5;
+        FLLFFL.lightAttackDownAirValue = 7;
         // air heavy
-        FLLFFL.heavyAttackForwardAirValue = 5;
-        FLLFFL.heavyAttackDownAirValue = 5;
+        FLLFFL.heavyAttackForwardAirValue = 7;
+        FLLFFL.heavyAttackDownAirValue = 7;
         FLLFFL.Attack = () => {
             Debug.Log("FLLFFL has attacked");
         };
