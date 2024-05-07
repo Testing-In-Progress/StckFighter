@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     public bool down;
     public bool jump;
     public bool crouch; 
+    public bool backward;
     public bool lookUp;
     public bool onGround;
     public bool canMove;
@@ -146,6 +147,7 @@ public class PlayerController : MonoBehaviour
         down = false;
         jump = false;
         crouch = false; 
+        backward = false;
         onGround = false;
         canMove = true;
         knocked = false;
@@ -288,6 +290,17 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector2(1, transform.localScale.y);
         }
         
+        if (enemyPositionOnLeft == true && right == true && left == false){
+            backward = true;
+        }
+        else if (enemyPositionOnLeft == false && right == false && left == true){
+            backward = true;
+        }
+        else{
+            backward = false;
+        }
+
+
         Collider2D[] colliders = Physics2D.OverlapBoxAll(feet.bounds.center, feet.bounds.size, 0f);
         onGround = false; 
         foreach (Collider2D collider in colliders)
