@@ -175,7 +175,7 @@ public class GameController : MonoBehaviour
         SetSpecialBarFiller();
 
         // Ignore collisions between players
-        for (int x = 0; x < charaObjects.Count; x++)
+        /**for (int x = 0; x < charaObjects.Count; x++)
         {
             // Loop through subsequent numbers to form combinations
             for (int j = x + 1; j < charaObjects.Count; j++)
@@ -185,7 +185,7 @@ public class GameController : MonoBehaviour
                 Debug.Log(charaObjects[j].GetComponent<BoxCollider2D>());
                 Physics2D.IgnoreCollision(charaObjects[x].GetComponent<BoxCollider2D>(), charaObjects[j].GetComponent<BoxCollider2D>());
             }
-        }
+        }*/
     }
 
     void SetHealthBarFiller()
