@@ -44,7 +44,6 @@ public class PlayerController : MonoBehaviour
     public bool down;
     public bool jump;
     public bool crouch; 
-    public bool lookUp;
     public bool onGround;
     public bool canMove;
     public bool knocked;
@@ -58,7 +57,7 @@ public class PlayerController : MonoBehaviour
     public bool isLockedIn;
     public bool enemyPositionOnLeft;
     public bool sprint;
-    public bool shield;
+
 
     public bool willBlock;
     public bool block;
@@ -88,6 +87,13 @@ public class PlayerController : MonoBehaviour
     public bool blockStand;
     public bool blockCrouch;
     public bool blockAir;
+    public bool isBlocking;
+    public bool isBlockRecovering;
+    public bool hitstunVulnerable;
+    public bool hitstunHigh;
+    public bool hitstunMid;
+    public bool hitstunLow;
+    public bool hitstunAir;
 
 
 
@@ -155,7 +161,6 @@ public class PlayerController : MonoBehaviour
 
         dash = false;
         sprint = false;
-        shield = false;
         attacking = false;
         isLockedIn = false;
 
@@ -184,7 +189,16 @@ public class PlayerController : MonoBehaviour
         blockStand = false;
         blockAir = false;
         blockCrouch = false;
+        isBlocking = false;
+        isBlockRecovering = false;
 
+        hitstunVulnerable = false;
+        hitstunHigh = false;
+        hitstunMid = false;
+        hitstunLow = false;
+        hitstunAir = false;
+
+        
     }
 
     bool getInput(string inputString, string add="") {    // 01234
@@ -393,11 +407,9 @@ public class PlayerController : MonoBehaviour
         }
         if (getInput(dashCode) && xDirection != 0){
             sprint = true;
-            shield = false;
         }
         else{
             sprint = false;
-            shield = false;
         }
 
         if (dash == false && sprint == false && attacking == false && left == false && right == false) {
@@ -577,15 +589,12 @@ public class PlayerController : MonoBehaviour
 
         if (up == true && down == false){
             crouch = false;
-            lookUp = true;
         }
         else if (up == false && down == true && onGround){
             crouch = true;
-            lookUp = false;
         }
         else{
             crouch = false;
-            lookUp = false;
         }
 
         if (up == false && getInput(downCode, "Down") && onGround) {
@@ -614,19 +623,6 @@ public class PlayerController : MonoBehaviour
             dashFunction();
         }
 
-        if (left == true && enemyPositionOnLeft == false){
-            shield = true;
-        }
-        else if (right == true && enemyPositionOnLeft == true){
-            shield = true;
-        }
-        else if (getInput(dashCode) && xDirection == 0){
-            sprint = false;
-            shield = true;
-        }
-        else{
-            shield = false;
-        }
         if (hasAirDashed == true && onGround == true){
                 Invoke("refreshDashCooldown", dashRefreshTime);
                 refreshMoveCooldown();
