@@ -44,7 +44,6 @@ public class PlayerController : MonoBehaviour
     public bool down;
     public bool jump;
     public bool crouch; 
-    public bool backward;
     public bool lookUp;
     public bool onGround;
     public bool canMove;
@@ -84,13 +83,12 @@ public class PlayerController : MonoBehaviour
 
     //Attack
     public bool isAttacking;
-    public float DashAttack;
-    public float JumpAttack;
-    public float SlamAttack;
-    //public float ChargeAttack
-    public float ComboAttack;
-    public float AirBorneAttack;
-    public float simpleAttack;
+
+    public bool backward;
+    public bool blockStand;
+    public bool blockCrouch;
+    public bool blockAir;
+
 
 
     void Start()
@@ -147,7 +145,6 @@ public class PlayerController : MonoBehaviour
         down = false;
         jump = false;
         crouch = false; 
-        backward = false;
         onGround = false;
         canMove = true;
         knocked = false;
@@ -183,16 +180,10 @@ public class PlayerController : MonoBehaviour
 
         dashRefreshTime = 0.25f;
 
-      /*  isAttacking = False;
-        DashAttack = 10f;
-        JumpAttack = 15f;
-        SlamAttack = 20f;
-        ComboAttack = 30f;
-        AirborneAttack = 15f;
-        //ChargeAttack = 30f;
-*/
-
-
+        backward = false;
+        blockStand = false;
+        blockAir = false;
+        blockCrouch = false;
 
     }
 
@@ -299,6 +290,29 @@ public class PlayerController : MonoBehaviour
         else{
             backward = false;
         }
+
+        if (backward && onGround && crouch == false){
+            blockStand = true; 
+            blockCrouch = false;
+            blockAir = false;
+        }
+        else if (backward && onGround && crouch){
+            blockStand = false; 
+            blockCrouch = true;
+            blockAir = false;
+        }
+        else if (backward && onGround == false && crouch == false){
+            blockStand = false; 
+            blockCrouch = false;
+            blockAir = true;
+        }
+        else{
+            blockStand = false; 
+            blockCrouch = false;
+            blockAir = false;
+        }
+
+
 
 
         Collider2D[] colliders = Physics2D.OverlapBoxAll(feet.bounds.center, feet.bounds.size, 0f);
