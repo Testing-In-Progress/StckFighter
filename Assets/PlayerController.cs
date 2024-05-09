@@ -649,12 +649,10 @@ public class PlayerController : MonoBehaviour
         if (knocked) {
             
         } else if (onGround && block) {
-            characterRB.velocity = new Vector2(0, 0);
-            characterRB.gravityScale = 0f;
+            canMove = false;
             
         } else if (onGround && attacking) {
-            characterRB.velocity = new Vector2(0, 0);
-            characterRB.gravityScale = 0f;
+            canMove = false;
         } else if (onGround == false && block) {
             characterRB.velocity = new Vector2(airDirection * walkSpeed, characterRB.velocity.y); 
             characterRB.gravityScale = yAccel;
@@ -723,34 +721,30 @@ public class PlayerController : MonoBehaviour
                 if (blockAir || blockCrouch || blockStand) {
                     if (other.gameObject.name.Split("Knock")[1] != "") {
                         string knockString = other.gameObject.name.Split("Knock")[1].Split("PWR")[0];
-                        Debug.Log(knockString);
                         int knockAmountX = Int32.Parse(knockString.Split("X")[1].Split("Y")[0]);
-                        Debug.Log(knockAmountX);
                         int knockAmountY = Int32.Parse(knockString.Split("Y")[1].Split("T")[0]);
-                        Debug.Log(knockAmountY);
-                        Debug.Log(other.gameObject.name);
-                        Debug.Log(other.gameObject.name.Split("PWR")[1]);
                         float knockTime = float.Parse(knockString.Split("T")[1]);
                         
                         string ATKString = other.gameObject.name.Split("PWR")[1];
                         /// if the power level is 1, ie heavy, it will go thru block
                         if (ATKString != "") {
-                            if (ATKString == "0") {
-                                block = true;
-                                otherPData.special += 5;
-                            } if (ATKString == "1") {
-                                block = false;
-                                selectedCharacter.hitGround(anim, gameObject, playerData, attackAmount);
-                                knocked = true;
+                            if (ATKString == "2") {
                                 otherPData.special += 10;
-                                Invoke("refreshKnockCooldown", knockTime);
-                                characterRB.velocity = new Vector2(knockAmountX, knockAmountY);
+                                // add normal knockback when special is implemented
                             }
-                        } else {
-                            block = true; /// animation variable
                         }
+                        CancelInvoke("refreshIsBlocking");
+                        isBlocking = true;
+                        block = true;
+                        string animString = blockStand ? "block_stand" : blockCrouch ? "block_crouch" : "block_air";
+                        anim.Play("Base Layer."+animString, 0, 0.0f);
+                        float animTime = getAnimLength(animString);
+                        Invoke("refreshIsBlocking", animTime);
+                        /// Ethan do recovery thingy
                         // Apply force
-                        
+                        knocked = true;
+                        Invoke("refreshKnockCooldown", knockTime);
+                        characterRB.velocity = new Vector2(knockAmountX, knockAmountY);
                     }
                 } else {
                     /// otherwise, you will be hit normally
@@ -800,9 +794,6 @@ public class PlayerController : MonoBehaviour
                 Debug.Log(other.gameObject.name.Split("Hit")[0] );
                 Debug.Log(playerData.name);
                 Debug.Log(attackAmount);
-                string animString = blockStand ? "block_stand" : blockCrouch ? "block_crouch" : "block_air";
-                float animTime = getAnimLength(animString);
-                Invoke("refreshBlock", animTime);
             }
 
         }
@@ -926,7 +917,8 @@ public class PlayerController : MonoBehaviour
     public void refreshAttackCooldown() {
         attacking = false;
     }
-    public void refreshBlock() {
+    public void refreshIsBlocking() {
+        isBlocking = false;
         block = false;
     }
 }
