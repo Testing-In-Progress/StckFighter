@@ -740,7 +740,7 @@ public class PlayerController : MonoBehaviour
                         anim.Play("Base Layer."+animString, 0, 0.0f);
                         float animTime = getAnimLength(animString);
                         Invoke("refreshIsBlocking", animTime);
-                        /// Ethan do recovery thingy
+                        /// Ethan do recovery thingn
                         // Apply force
                         knocked = true;
                         Invoke("refreshKnockCooldown", knockTime);
