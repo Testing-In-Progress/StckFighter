@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour
     public bool sprint;
 
 
-    public bool willBlock;
     public bool block;
 
     public bool hitstun;
@@ -155,7 +154,6 @@ public class PlayerController : MonoBehaviour
         canMove = true;
         knocked = false;
 
-        willBlock = true;
         block = false;
         hitstun = false;
 
@@ -320,7 +318,7 @@ public class PlayerController : MonoBehaviour
             blockCrouch = false;
             blockAir = true;
         }
-        else{
+        else {
             blockStand = false; 
             blockCrouch = false;
             blockAir = false;
@@ -412,11 +410,6 @@ public class PlayerController : MonoBehaviour
             sprint = false;
         }
 
-        if (dash == false && sprint == false && attacking == false && left == false && right == false) {
-            willBlock = true;
-        } else {
-            willBlock = false;
-        }
         
         if (getInput(lightCode, "Down") && (attacking == false) && (isLockedIn == false)) { // be sure to clear
             string animSuffix = onGround ? "" : "_air";
@@ -726,8 +719,8 @@ public class PlayerController : MonoBehaviour
                 Debug.Log(other.gameObject.name.Split("Hit")[0] );
                 Debug.Log(playerData.name);
                 Debug.Log(attackAmount);
-                /// willBlock means that you are in a state of being able to block
-                if (willBlock) {
+                /// blockAir || blockCrouch || blockStand means that you are in a state of being able to block
+                if (blockAir || blockCrouch || blockStand) {
                     if (other.gameObject.name.Split("Knock")[1] != "") {
                         string knockString = other.gameObject.name.Split("Knock")[1].Split("PWR")[0];
                         Debug.Log(knockString);
@@ -754,7 +747,7 @@ public class PlayerController : MonoBehaviour
                                 characterRB.velocity = new Vector2(knockAmountX, knockAmountY);
                             }
                         } else {
-                            block = true;
+                            block = true; /// animation variable
                         }
                         // Apply force
                         
@@ -807,9 +800,9 @@ public class PlayerController : MonoBehaviour
                 Debug.Log(other.gameObject.name.Split("Hit")[0] );
                 Debug.Log(playerData.name);
                 Debug.Log(attackAmount);
-                if (willBlock) {
-                    Invoke("refreshBlock", 1f); // 
-                }
+                string animString = blockStand ? "block_stand" : blockCrouch ? "block_crouch" : "block_air";
+                float animTime = getAnimLength(animString);
+                Invoke("refreshBlock", animTime);
             }
 
         }

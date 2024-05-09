@@ -163,7 +163,6 @@ MonoBehaviour:
   down: 0
   jump: 0
   crouch: 0
-  lookUp: 0
   onGround: 0
   canMove: 0
   knocked: 0
@@ -176,7 +175,6 @@ MonoBehaviour:
   isLockedIn: 0
   enemyPositionOnLeft: 0
   sprint: 0
-  shield: 0
   willBlock: 0
   block: 0
   hitstun: 0
@@ -195,12 +193,17 @@ MonoBehaviour:
   dashRefreshTime: 0
   groundDashDelay: 0
   isAttacking: 0
-  DashAttack: 0
-  JumpAttack: 0
-  SlamAttack: 0
-  ComboAttack: 0
-  AirBorneAttack: 0
-  simpleAttack: 0
+  backward: 0
+  blockStand: 0
+  blockCrouch: 0
+  blockAir: 0
+  isBlocking: 0
+  isBlockRecovering: 0
+  hitstunVulnerable: 0
+  hitstunHigh: 0
+  hitstunMid: 0
+  hitstunLow: 0
+  hitstunAir: 0
 --- !u!222 &8236087668434708946
 CanvasRenderer:
   m_ObjectHideFlags: 0
