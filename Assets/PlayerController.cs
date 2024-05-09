@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
     public GlobalController game;
-    
+
     public string charaName;
     public CharacterBase selectedCharacter;
     public Transform opponent;
@@ -468,10 +468,15 @@ public class PlayerController : MonoBehaviour
                 
             } else if (enemyPositionOnLeft == false) {
                 if (left && onGround) {
+                    /// character.[attack] basically spawns the hitbox based on direction facing
                     selectedCharacter.lBackward(anim, gameObject, 1);
+                    /// anim.setbool is set so the animator can transition automatically
                     anim.SetBool("forward", false);
+                    /// attacking is set to true so that you cant do other attacks while this one is going on
                     attacking = true;
+                    /// "refreshAttackCooldown" sets attacking to false after the animation time is done
                     Invoke("refreshAttackCooldown", getAnimLength("light_back"));
+                    /// actually triggers the animation
                     anim.SetTrigger("light");
                     Debug.Log("light_forward" + animSuffix);
                     Debug.Log(getAnimLength("light_forward" + animSuffix));
@@ -721,6 +726,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log(other.gameObject.name.Split("Hit")[0] );
                 Debug.Log(playerData.name);
                 Debug.Log(attackAmount);
+                /// willBlock means that you are in a state of being able to block
                 if (willBlock) {
                     if (other.gameObject.name.Split("Knock")[1] != "") {
                         string knockString = other.gameObject.name.Split("Knock")[1].Split("PWR")[0];
@@ -734,6 +740,7 @@ public class PlayerController : MonoBehaviour
                         float knockTime = float.Parse(knockString.Split("T")[1]);
                         
                         string ATKString = other.gameObject.name.Split("PWR")[1];
+                        /// if the power level is 1, ie heavy, it will go thru block
                         if (ATKString != "") {
                             if (ATKString == "0") {
                                 block = true;
@@ -753,6 +760,8 @@ public class PlayerController : MonoBehaviour
                         
                     }
                 } else {
+                    /// otherwise, you will be hit normally
+                    /// this is also where stunning happens
                     selectedCharacter.hitGround(anim, gameObject, playerData, attackAmount);   
                     // Shake camera a LOT
                     //StartCoroutine(shakeCamera(0.5f, 0.5f)); // 1 second, 1 intensity
