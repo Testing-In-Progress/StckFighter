@@ -94,6 +94,18 @@ public class PlayerController : MonoBehaviour
     public bool hitstunLow;
     public bool hitstunAir;
 
+    public bool canInput;
+
+    public string leftCode;
+    public string rightCode;
+    public string upCode;
+    public string downCode;
+    public string jumpCode;
+    public string dashCode;
+    public string lightCode;
+    public string heavyCode;
+    public string specialCode;
+
 
 
     void Start()
@@ -196,10 +208,24 @@ public class PlayerController : MonoBehaviour
         hitstunLow = false;
         hitstunAir = false;
 
+        canInput = true;
+
+        leftCode = playerData.controllerType.left;
+        rightCode = playerData.controllerType.right;
+        upCode = playerData.controllerType.up; //this should be w
+        downCode = playerData.controllerType.down;
+        jumpCode = playerData.controllerType.jump;
+        dashCode = playerData.controllerType.dash;
+        lightCode = playerData.controllerType.light;
+        heavyCode = playerData.controllerType.heavy;
+        specialCode = playerData.controllerType.special;
         
     }
 
     bool getInput(string inputString, string add="") {    // 01234
+        if (canInput == false && inputString != downCode) {
+            return false;
+        }
         if (inputString.Contains("Joy") && !inputString.Contains("stick")) { // Key0XLeft
             string axisName = inputString.Substring(0, 5);
             if (inputString.Split(axisName)[1] == "Left" || inputString.Split(axisName)[1] == "Down") {
@@ -262,6 +288,13 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update(){
+        if (block) {
+            canInput = false;
+        } else {
+            canInput = true;
+        }
+
+        anim.SetBool("can_input", canInput);
         anim.SetInteger("xDirection", xDirection);
         anim.SetBool("crouch", crouch);
         anim.SetBool("sprint", sprint);
@@ -334,6 +367,7 @@ public class PlayerController : MonoBehaviour
             if (collider.CompareTag("ground"))
             {
                 onGround = true;
+                anim.SetBool("block_air", false);
                 break; // If you only want to handle the first collider with the tag
             }
         }
@@ -350,15 +384,16 @@ public class PlayerController : MonoBehaviour
         initialSpeedY = Mathf.Sqrt(2f * yAccel * maxHeight);
         backDashTime = backDashDistance / backDashInitialSpeed;
         forwardDashTime = forwardDashDistance / forwardDashInitialSpeed;
-        string leftCode = playerData.controllerType.left;
-        string rightCode = playerData.controllerType.right;
-        string upCode = playerData.controllerType.up; //this should be w
-        string downCode = playerData.controllerType.down;
-        string jumpCode = playerData.controllerType.jump;
-        string dashCode = playerData.controllerType.dash;
-        string lightCode = playerData.controllerType.light;
-        string heavyCode = playerData.controllerType.heavy;
-        string specialCode = playerData.controllerType.special;
+
+        //string leftCode = playerData.controllerType.left;
+        //string rightCode = playerData.controllerType.right;
+        //string upCode = playerData.controllerType.up; //this should be w
+        //string downCode = playerData.controllerType.down;
+        //string jumpCode = playerData.controllerType.jump;
+        //string dashCode = playerData.controllerType.dash;
+        //string lightCode = playerData.controllerType.light;
+        //string heavyCode = playerData.controllerType.heavy;
+        //string specialCode = playerData.controllerType.special;
 
         // To detect what direction or input the player is doing
         if (getInput(leftCode)) {
@@ -415,10 +450,10 @@ public class PlayerController : MonoBehaviour
             string animSuffix = onGround ? "" : "_air";
             if (up && onGround) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
                 Debug.Log("GOING UP");// it seems that up isnt working
-                attacking = true;
-                Invoke("refreshAttackCooldown", getAnimLength("light_up"));
                 selectedCharacter.lUp(anim, gameObject, enemyPositionOnLeft ? -1 : 1);// test lets have it debug .log 
                 anim.SetTrigger("light");
+                attacking = true;
+                Invoke("refreshAttackCooldown", getAnimLength("light_up"));
                 // Shake camera a little
                 //StartCoroutine(shakeCamera(0.2f, 0.2f)); // 1 second, 1 intensity
 
@@ -738,12 +773,15 @@ public class PlayerController : MonoBehaviour
                         block = true;
                         string animString = blockStand ? "block_stand" : blockCrouch ? "block_crouch" : "block_air";
                         anim.Play("Base Layer."+animString, 0, 0.0f);
-                        float animTime = getAnimLength(animString);
-                        Invoke("refreshIsBlocking", animTime);
+                        //float animTime = getAnimLength(animString);
+                        float blockTime = 0.25f;
+                        Invoke("refreshIsBlocking", blockTime);
+                        anim.SetBool(animString, true);
+                        Invoke(animString, blockTime);
                         /// Ethan do recovery thingn
                         // Apply force
                         knocked = true;
-                        Invoke("refreshKnockCooldown", knockTime);
+                        Invoke("refreshKnockCooldown", blockTime);
                         characterRB.velocity = new Vector2(knockAmountX, knockAmountY);
                     }
                 } else {
@@ -920,6 +958,15 @@ public class PlayerController : MonoBehaviour
     public void refreshIsBlocking() {
         isBlocking = false;
         block = false;
+    }
+    public void block_stand( ){
+        anim.SetBool("block_stand", false);
+    }
+    public void block_crouch( ){
+        anim.SetBool("block_crouch", false);
+    }
+    public void block_air( ){
+        anim.SetBool("block_air", false);
     }
 }
         
