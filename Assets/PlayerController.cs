@@ -447,6 +447,9 @@ public class PlayerController : MonoBehaviour
 
         
         if (getInput(lightCode, "Down") && (attacking == false) && (isLockedIn == false)) { // be sure to clear
+            if (onGround) {
+                characterRB.velocity = new Vector2(0, 0);
+            }
             string animSuffix = onGround ? "" : "_air";
             if (up && onGround) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
                 Debug.Log("GOING UP");// it seems that up isnt working
@@ -532,6 +535,9 @@ public class PlayerController : MonoBehaviour
         }
 
         if (getInput(heavyCode, "Down") && (attacking == false) && (isLockedIn == false)) { // be sure to clear
+            if (onGround) {
+                characterRB.velocity = new Vector2(0, 0);
+            }
             string animSuffix = onGround ? "" : "_air";
             if (up && onGround) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
                 selectedCharacter.hUp(anim, gameObject, enemyPositionOnLeft ? -1 : 1);// test lets have it debug .log 
@@ -782,7 +788,7 @@ public class PlayerController : MonoBehaviour
                         // Apply force
                         knocked = true;
                         Invoke("refreshKnockCooldown", blockTime);
-                        characterRB.velocity = new Vector2(knockAmountX, knockAmountY);
+                        characterRB.velocity = new Vector2(knockAmountX, 0);
                     }
                 } else {
                     /// otherwise, you will be hit normally
@@ -968,5 +974,6 @@ public class PlayerController : MonoBehaviour
     public void block_air( ){
         anim.SetBool("block_air", false);
     }
+    
 }
         

@@ -120,7 +120,7 @@ public class GlobalController : MonoBehaviour
             Debug.Log("hForward from " + charaObj.name);
             charaObj.transform.GetChild(3).name = charaObj.name + "Hit" + Andre.heavyAttackForwardValue.ToString() + "Knock" + "X" + (10*(dir)).ToString() + "Y" + (0).ToString() + "T" + "0.8" + "PWR" + "1";; // i fixed 
             Debug.Log("hForward from " + charaObj.name);
-            
+
         };
         Andre.hBackward = (Animator anim, GameObject charaObj, int dir) => { // this is how we get chara position
             charaObj.transform.GetChild(1).gameObject.name = charaObj.name + "Hit" + Andre.heavyAttackBackValue.ToString() + "Knock" + "X" + (10*(dir)).ToString() + "Y" + (0).ToString() + "T" + "0.8" + "PWR" + "1";; // i fixed 
