@@ -306,6 +306,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("hasairdashed", hasAirDashed);
         anim.SetBool("attacking", attacking);
         anim.SetBool("isLockedIn", isLockedIn);
+        anim.SetBool("isBlockRecovering", isBlockRecovering);
         anim.SetFloat("verticalspeed", yVelocity);
         anim.SetInteger("airdirection", airDirection);
 
@@ -778,13 +779,17 @@ public class PlayerController : MonoBehaviour
                         isBlocking = true;
                         block = true;
                         string animString = blockStand ? "block_stand" : blockCrouch ? "block_crouch" : "block_air";
-                        anim.Play("Base Layer."+animString, 0, 0.0f);
+                        anim.Play("Base Layer." + animString, 0, 0.0f);
                         //float animTime = getAnimLength(animString);
                         float blockTime = 0.25f;
                         Invoke("refreshIsBlocking", blockTime);
                         anim.SetBool(animString, true);
                         Invoke(animString, blockTime);
                         /// Ethan do recovery thingn
+                        string blockRecoverString = animString + "_recover";
+                        anim.SetBool(blockRecoverString, true);
+                        isBlockRecovering = true;
+                        Invoke(blockRecoverString, getAnimLength(blockRecoverString));
                         // Apply force
                         knocked = true;
                         Invoke("refreshKnockCooldown", blockTime);
@@ -973,6 +978,18 @@ public class PlayerController : MonoBehaviour
     }
     public void block_air( ){
         anim.SetBool("block_air", false);
+    }
+    public void block_stand_recover( ){
+        anim.SetBool("block_stand_recover", false);
+        isBlockRecovering = false;
+    }
+    public void block_crouch_recover( ){
+        anim.SetBool("block_crouch_recover", false);
+        isBlockRecovering = false;
+    }
+    public void block_air_recover( ){
+        anim.SetBool("block_air_recover", false);
+        isBlockRecovering = false;
     }
     
 }
