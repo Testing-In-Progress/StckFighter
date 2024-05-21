@@ -14,6 +14,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: block_crouch_recover
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: onground
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4479776989573534153}
   m_Solo: 0
@@ -326,6 +329,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: block_air_recover
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: onground
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5679287345616228436}
@@ -1485,7 +1491,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 0}
   - m_Name: heavy
     m_Type: 9
@@ -2518,6 +2524,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: block_stand_recover
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: onground
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6495133651662345297}
