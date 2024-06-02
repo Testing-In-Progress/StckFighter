@@ -106,6 +106,9 @@ public class PlayerController : MonoBehaviour
     public string heavyCode;
     public string specialCode;
 
+    public float jumpFunctionBufferTime;
+    public bool isJumpBuffering;
+
 
 
     void Start()
@@ -219,6 +222,9 @@ public class PlayerController : MonoBehaviour
         lightCode = playerData.controllerType.light;
         heavyCode = playerData.controllerType.heavy;
         specialCode = playerData.controllerType.special;
+
+        jumpFunctionBufferTime = 0.125f;
+        isJumpBuffering = false;
         
     }
 
@@ -627,14 +633,19 @@ public class PlayerController : MonoBehaviour
             xDirection = 0;
         }
 
-        if (up == true && down == false){
-            crouch = false;
-        }
-        else if (up == false && down == true && onGround){
-            crouch = true;
+        if (isJumpBuffering == false){
+            if (up == true && down == false){
+                crouch = false;
+            }
+            else if (up == false && down == true && onGround){
+                crouch = true;
+            }
+            else{
+                crouch = false;
+            }
         }
         else{
-            crouch = false;
+            crouch = true;
         }
 
         if (up == false && getInput(downCode, "Down") && onGround) {
@@ -656,7 +667,8 @@ public class PlayerController : MonoBehaviour
         }
 
         if (jump == true && onGround == true){
-            jumpFunction();//right here
+            jumpFunctionBuffer();
+            isJumpBuffering = true;
         }
 
         if (dash == true && canDash == true && isDashing == false && xDirection != 0){
@@ -872,9 +884,14 @@ public class PlayerController : MonoBehaviour
     public void jumpBuffer(){
         onGround = true; 
     }
+    
+    public void jumpFunctionBuffer(){
+        Invoke("jumpFunction", jumpFunctionBufferTime);
+    }
     public void jumpFunction(){
         airDirection = xDirection;
         characterRB.velocity = new Vector2(characterRB.velocity.x, initialSpeedY);
+        isJumpBuffering = false;
     }
     public void dashFunction(){
         canDash = false;
