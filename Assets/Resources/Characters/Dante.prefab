@@ -296,6 +296,8 @@ MonoBehaviour:
   opponent: {fileID: 2568059790158973162, guid: be6c2061168895240b35cec418c2b811, type: 3}
   characterRB: {fileID: 2703648274752094817}
   feet: {fileID: 2626126039976298166}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
   walkSpeed: 0
   crouchSpeed: 0
   sprintMultiplier: 0
@@ -313,30 +315,58 @@ MonoBehaviour:
   down: 0
   jump: 0
   crouch: 0
-  lookUp: 0
   onGround: 0
   canMove: 0
+  knocked: 0
   dash: 0
   canDash: 0
   isDashing: 0
   isAirDashing: 0
   hasAirDashed: 0
+  attacking: 0
+  isLockedIn: 0
   enemyPositionOnLeft: 0
   sprint: 0
-  shield: 0
+  block: 0
+  hitstun: 0
   backDashDistance: 0
   forwardDashDistance: 0
   backDashInitialSpeed: 0
   forwardDashInitialSpeed: 0
   backDashTime: 0
   forwardDashTime: 0
+  groundDashDelayTime: 0
   groundForwardDash: 0
   groundBackDash: 0
   airForwardDash: 0
   airBackDash: 0
-  jumpBufferTime: 0
   airDashDelayTime: 0
   dashRefreshTime: 0
+  groundDashDelay: 0
+  isAttacking: 0
+  backward: 0
+  blockStand: 0
+  blockCrouch: 0
+  blockAir: 0
+  isBlocking: 0
+  isBlockRecovering: 0
+  hitstunVulnerable: 0
+  hitstunHigh: 0
+  hitstunMid: 0
+  hitstunLow: 0
+  hitstunAir: 0
+  canInput: 0
+  leftCode: 
+  rightCode: 
+  upCode: 
+  downCode: 
+  jumpCode: 
+  dashCode: 
+  lightCode: 
+  heavyCode: 
+  specialCode: 
+  jumpFunctionBufferTime: 0
+  isJumpBuffering: 0
 --- !u!222 &8777591098013121357
 CanvasRenderer:
   m_ObjectHideFlags: 0
