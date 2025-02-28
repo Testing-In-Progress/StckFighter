@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     public float maxHeight;
     public float initialSpeedY;
     public float yVelocity;
+    public float dragAccel;
 
     
     public int xDirection;
@@ -108,6 +109,9 @@ public class PlayerController : MonoBehaviour
 
     public float jumpFunctionBufferTime;
     public bool isJumpBuffering;
+
+    public bool doubleTapBuffer;
+    public bool doubleTap;
 
 
 
@@ -225,7 +229,9 @@ public class PlayerController : MonoBehaviour
 
         jumpFunctionBufferTime = 0.125f;
         isJumpBuffering = false;
-        
+
+        doubleTapBuffer = false;
+        doubleTap = false;
     }
 
     bool getInput(string inputString, string add="") {    // 01234
@@ -408,12 +414,31 @@ public class PlayerController : MonoBehaviour
         } else {
             left = false;
         }
-        
+
         if (getInput(rightCode)) {
             right = true;
         }
         else{
             right = false;
+        }
+
+        if (getInput(leftCode, "Down"))
+        {
+            if (doubleTapBuffer == false)
+            {
+                doubleTapBuffer = true;
+                Invoke("doubleTapCancel", 0.25f);
+            }
+            else
+            {
+                doubleTapBuffer = false;
+                doubleTap = true;
+            }
+        }
+        
+        if (getInput(rightCode, "Down"))
+        {
+
         }
 
         if (getInput(upCode)) {
@@ -439,17 +464,9 @@ public class PlayerController : MonoBehaviour
             // Debug Special, reset special
             playerData.special = 0;
         }
-        if (getInput(dashCode, "Down")) {
+        if (doubleTap == true)
+        {
             dash = true;
-        }
-        else{
-            dash = false;
-        }
-        if (getInput(dashCode) && xDirection != 0){
-            sprint = true;
-        }
-        else{
-            sprint = false;
         }
 
         
@@ -636,18 +653,21 @@ public class PlayerController : MonoBehaviour
         if (isJumpBuffering == false){
             if (up == true && down == false){
                 crouch = false;
+                canDash = true;
             }
             else if (up == false && down == true && onGround){
                 crouch = true;
+                canDash = false;
             }
             else{
                 crouch = false;
+                canDash = true;
             }
         }
         else{
             crouch = true;
         }
-
+       
         if (up == false && getInput(downCode, "Down") && onGround) {
             // Special Debug, when crouching special will go up
             playerData.special += 33.33f;
@@ -1008,6 +1028,11 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("block_air_recover", false);
         isBlockRecovering = false;
     }
-    
+    public void doubleTapCancel()
+    {
+        doubleTapBuffer = false;
+        doubleTap = false;
+        dash = false;
+    }
 }
         
