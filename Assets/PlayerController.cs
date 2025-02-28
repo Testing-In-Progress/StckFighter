@@ -469,6 +469,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("sigma sigam");
             }
         }
+        
         if (doubleTapLeft == true && enemyPositionOnLeft == true)
         {
             CancelInvoke("doubleTapCancelLeft");
@@ -732,6 +733,8 @@ public class PlayerController : MonoBehaviour
 
         if (jump == true && onGround == true){
             jumpFunctionBuffer();
+            doubleTapLeft = false;
+            doubleTapRight = false;
             isJumpBuffering = true;
         }
 
@@ -954,7 +957,12 @@ public class PlayerController : MonoBehaviour
     }
     public void jumpFunction(){
         airDirection = xDirection;
-        characterRB.velocity = new Vector2(characterRB.velocity.x, initialSpeedY);
+        if (sprint == false){
+            characterRB.velocity = new Vector2(characterRB.velocity.x, initialSpeedY);
+        }
+        else {
+            characterRB.velocity = new Vector2(characterRB.velocity.x * sprintMultiplier, initialSpeedY);
+        }
         isJumpBuffering = false;
     }
     public void dashFunction(){
