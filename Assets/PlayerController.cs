@@ -110,8 +110,11 @@ public class PlayerController : MonoBehaviour
     public float jumpFunctionBufferTime;
     public bool isJumpBuffering;
 
-    public bool doubleTapBuffer;
-    public bool doubleTap;
+    public bool doubleTapBufferLeft;
+    public bool doubleTapLeft;
+    public bool doubleTapBufferRight;
+    public bool doubleTapRight;
+
 
 
 
@@ -230,8 +233,10 @@ public class PlayerController : MonoBehaviour
         jumpFunctionBufferTime = 0.125f;
         isJumpBuffering = false;
 
-        doubleTapBuffer = false;
-        doubleTap = false;
+        doubleTapBufferLeft = false;
+        doubleTapLeft = false;
+        doubleTapBufferRight = false;
+        doubleTapRight = false;
     }
 
     bool getInput(string inputString, string add="") {    // 01234
@@ -424,21 +429,63 @@ public class PlayerController : MonoBehaviour
 
         if (getInput(leftCode, "Down"))
         {
-            if (doubleTapBuffer == false)
+            if (doubleTapBufferLeft == false)
             {
-                doubleTapBuffer = true;
-                Invoke("doubleTapCancel", 0.25f);
+                doubleTapBufferRight = false;
+                doubleTapBufferLeft = true;
+                Invoke("doubleTapCancelLeft", 0.25f);
             }
             else
             {
-                doubleTapBuffer = false;
-                doubleTap = true;
+                doubleTapBufferLeft = false;
+                doubleTapLeft = true;
             }
         }
-        
         if (getInput(rightCode, "Down"))
         {
-
+            if (doubleTapBufferRight == false)
+            {
+                doubleTapBufferLeft = false;
+                doubleTapBufferRight = true;
+                Invoke("doubleTapCancelRight", 0.25f);
+            }
+            else
+            {
+                doubleTapBufferRight = false;
+                doubleTapRight = true;
+            }
+        }
+        if (getInput(leftCode, "Up")){
+            if (doubleTapLeft == true){
+                doubleTapLeft = false;
+                sprint = false;
+                Debug.Log("sigma sigam");
+            }
+        }
+        if (getInput(rightCode, "Up")){
+            if (doubleTapRight == true){
+                doubleTapRight = false;
+                sprint = false;
+                Debug.Log("sigma sigam");
+            }
+        }
+        if (doubleTapLeft == true && enemyPositionOnLeft == true)
+        {
+            CancelInvoke("doubleTapCancelLeft");
+            sprint = true;
+        }
+        else if (doubleTapLeft == true && enemyPositionOnLeft == false)
+        {
+            dash = true;
+        }
+        else if (doubleTapRight == true && enemyPositionOnLeft == true)
+        {
+            dash = true;
+        }
+        else if (doubleTapRight == true && enemyPositionOnLeft == false)
+        {
+            CancelInvoke("doubleTapCancelRight");
+            sprint = true;
         }
 
         if (getInput(upCode)) {
@@ -464,10 +511,7 @@ public class PlayerController : MonoBehaviour
             // Debug Special, reset special
             playerData.special = 0;
         }
-        if (doubleTap == true)
-        {
-            dash = true;
-        }
+        
 
         
         if (getInput(lightCode, "Down") && (attacking == false) && (isLockedIn == false)) { // be sure to clear
@@ -1028,10 +1072,16 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("block_air_recover", false);
         isBlockRecovering = false;
     }
-    public void doubleTapCancel()
+    public void doubleTapCancelLeft()
     {
-        doubleTapBuffer = false;
-        doubleTap = false;
+        doubleTapBufferLeft = false;
+        doubleTapLeft = false;
+        dash = false;
+    }
+    public void doubleTapCancelRight()
+    {
+        doubleTapBufferRight = false;
+        doubleTapRight = false;
         dash = false;
     }
 }
