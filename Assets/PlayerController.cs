@@ -194,8 +194,8 @@ public class PlayerController : MonoBehaviour
         forwardDashInitialSpeed = 100f;
         backDashDistance = 3f;
         forwardDashDistance = 6f;
-        airDashDelayTime = 0.25f;
-        groundDashDelayTime = 0.1f;
+        airDashDelayTime = 0f;
+        groundDashDelayTime = 0f;
 
         groundForwardDash = false;
         groundBackDash = false;
@@ -429,31 +429,36 @@ public class PlayerController : MonoBehaviour
 
         if (getInput(leftCode, "Down"))
         {
-            if (doubleTapBufferLeft == false)
-            {
-                doubleTapBufferRight = false;
-                doubleTapBufferLeft = true;
-                Invoke("doubleTapCancelLeft", 0.25f);
-            }
-            else
-            {
-                doubleTapBufferLeft = false;
-                doubleTapLeft = true;
+            if (hasAirDashed == false){
+                if (doubleTapBufferLeft == false)
+                {
+                    doubleTapBufferRight = false;
+                    doubleTapBufferLeft = true;
+                    Invoke("doubleTapCancelLeft", 0.25f);
+                }
+                else
+                {
+                    doubleTapBufferLeft = false;
+                    doubleTapLeft = true;
+                }
             }
         }
         if (getInput(rightCode, "Down"))
         {
-            if (doubleTapBufferRight == false)
-            {
-                doubleTapBufferLeft = false;
-                doubleTapBufferRight = true;
-                Invoke("doubleTapCancelRight", 0.25f);
+            if (hasAirDashed == false){
+                if (doubleTapBufferRight == false)
+                {
+                    doubleTapBufferLeft = false;
+                    doubleTapBufferRight = true;
+                    Invoke("doubleTapCancelRight", 0.25f);
+                }
+                else
+                {
+                    doubleTapBufferRight = false;
+                    doubleTapRight = true;
+                }
             }
-            else
-            {
-                doubleTapBufferRight = false;
-                doubleTapRight = true;
-            }
+            
         }
         if (getInput(leftCode, "Up")){
             if (doubleTapLeft == true){
@@ -710,7 +715,8 @@ public class PlayerController : MonoBehaviour
             }
         }
         else{
-            crouch = true;
+            //crouch = true; animation, not actual crouch
+
         }
        
         if (up == false && getInput(downCode, "Down") && onGround) {
@@ -735,6 +741,7 @@ public class PlayerController : MonoBehaviour
             jumpFunctionBuffer();
             doubleTapLeft = false;
             doubleTapRight = false;
+            sprint = false;
             isJumpBuffering = true;
         }
 
