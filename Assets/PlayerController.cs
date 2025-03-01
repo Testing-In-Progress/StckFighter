@@ -763,6 +763,11 @@ public class PlayerController : MonoBehaviour
             refreshMoveCooldown();
         }
 
+        if (isDashing == true){
+            canDash = false;
+        }
+        
+
         //Attack
 
         
@@ -810,7 +815,7 @@ public class PlayerController : MonoBehaviour
             Invoke("stopDash", backDashTime);
         }
         else if (isDashing == true && airForwardDash == true){
-            Invoke("airDashStart", airDashDelayTime);
+            Invoke("airDashStart", airDashDelayTime * 5f);
         }
         else if (isDashing == true && airBackDash == true){
             Invoke("airDashStart", airDashDelayTime);
@@ -1003,13 +1008,13 @@ public class PlayerController : MonoBehaviour
             //forward air
             dashDirection = -1;
             airDirection = -1;
-            airBackDash = true;
+            airForwardDash = true;
         }
         else if (xDirection == 1 && onGround == false && enemyPositionOnLeft == false){
             //forward air
             dashDirection = 1;
             airDirection = 1;
-            airBackDash = true;
+            airForwardDash = true;
 
         }
         else if (xDirection == 1 && onGround == false && enemyPositionOnLeft == true){
@@ -1050,7 +1055,11 @@ public class PlayerController : MonoBehaviour
 
         }
         else if (airForwardDash == true){
-            
+            airBackDash = false;
+            isDashing = false;
+            isAirDashing = false;
+            characterRB.velocity = new Vector2(dashDirection * xVelocity, characterRB.velocity.y);
+            hasAirDashed = true;
         }
     }
     public void airDashStart(){
