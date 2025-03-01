@@ -11,7 +11,7 @@ public class CharacterBase
     public float sprintMultiplier;
     public float yAccel;
     public float maxHeight;
-    public float dragAccel;
+    
     // light
     public float lightAttackUpValue;
     public float lightAttackDownValue;

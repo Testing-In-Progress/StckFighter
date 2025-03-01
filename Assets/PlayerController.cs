@@ -31,8 +31,6 @@ public class PlayerController : MonoBehaviour
     public float maxHeight;
     public float initialSpeedY;
     public float yVelocity;
-    public float dragAccel;
-
     
     public int xDirection;
     public int dashDirection;
@@ -58,7 +56,6 @@ public class PlayerController : MonoBehaviour
     public bool isLockedIn;
     public bool enemyPositionOnLeft;
     public bool sprint;
-
 
     public bool block;
 
@@ -110,8 +107,14 @@ public class PlayerController : MonoBehaviour
     public float jumpFunctionBufferTime;
     public bool isJumpBuffering;
 
-    public bool doubleTapBuffer;
-    public bool doubleTap;
+    public bool doubleTapBufferLeft;
+    public bool doubleTapLeft;
+    public bool doubleTapBufferRight;
+    public bool doubleTapRight;
+
+    public float dragAccel;
+    public bool isSliding;
+
 
 
 
@@ -191,8 +194,8 @@ public class PlayerController : MonoBehaviour
         forwardDashInitialSpeed = 100f;
         backDashDistance = 3f;
         forwardDashDistance = 6f;
-        airDashDelayTime = 0.25f;
-        groundDashDelayTime = 0.1f;
+        airDashDelayTime = 0.03f;
+        groundDashDelayTime = 0.03f;
 
         groundForwardDash = false;
         groundBackDash = false;
@@ -227,11 +230,16 @@ public class PlayerController : MonoBehaviour
         heavyCode = playerData.controllerType.heavy;
         specialCode = playerData.controllerType.special;
 
-        jumpFunctionBufferTime = 0.125f;
+        jumpFunctionBufferTime = 0.03f;
         isJumpBuffering = false;
 
-        doubleTapBuffer = false;
-        doubleTap = false;
+        doubleTapBufferLeft = false;
+        doubleTapLeft = false;
+        doubleTapBufferRight = false;
+        doubleTapRight = false;
+
+        dragAccel = 0.5f;
+        isSliding = false;
     }
 
     bool getInput(string inputString, string add="") {    // 01234
@@ -424,21 +432,67 @@ public class PlayerController : MonoBehaviour
 
         if (getInput(leftCode, "Down"))
         {
-            if (doubleTapBuffer == false)
-            {
-                doubleTapBuffer = true;
-                Invoke("doubleTapCancel", 0.25f);
+            if (hasAirDashed == false){
+                if (doubleTapBufferLeft == false)
+                {
+                    doubleTapBufferRight = false;
+                    doubleTapBufferLeft = true;
+                    Invoke("doubleTapCancelLeft", 0.25f);
+                }
+                else
+                {
+                    doubleTapBufferLeft = false;
+                    doubleTapLeft = true;
+                }
             }
-            else
-            {
-                doubleTapBuffer = false;
-                doubleTap = true;
+        }
+        if (getInput(rightCode, "Down"))
+        {
+            if (hasAirDashed == false){
+                if (doubleTapBufferRight == false)
+                {
+                    doubleTapBufferLeft = false;
+                    doubleTapBufferRight = true;
+                    Invoke("doubleTapCancelRight", 0.25f);
+                }
+                else
+                {
+                    doubleTapBufferRight = false;
+                    doubleTapRight = true;
+                }
+            }
+            
+        }
+        if (getInput(leftCode, "Up")){
+            if (doubleTapLeft == true){
+                doubleTapLeft = false;
+                sprint = false;
+            }
+        }
+        if (getInput(rightCode, "Up")){
+            if (doubleTapRight == true){
+                doubleTapRight = false;
+                sprint = false;
             }
         }
         
-        if (getInput(rightCode, "Down"))
+        if (doubleTapLeft == true && enemyPositionOnLeft == true)
         {
-
+            CancelInvoke("doubleTapCancelLeft");
+            sprint = true;
+        }
+        else if (doubleTapLeft == true && enemyPositionOnLeft == false)
+        {
+            dash = true;
+        }
+        else if (doubleTapRight == true && enemyPositionOnLeft == true)
+        {
+            dash = true;
+        }
+        else if (doubleTapRight == true && enemyPositionOnLeft == false)
+        {
+            CancelInvoke("doubleTapCancelRight");
+            sprint = true;
         }
 
         if (getInput(upCode)) {
@@ -464,10 +518,7 @@ public class PlayerController : MonoBehaviour
             // Debug Special, reset special
             playerData.special = 0;
         }
-        if (doubleTap == true)
-        {
-            dash = true;
-        }
+        
 
         
         if (getInput(lightCode, "Down") && (attacking == false) && (isLockedIn == false)) { // be sure to clear
@@ -665,7 +716,8 @@ public class PlayerController : MonoBehaviour
             }
         }
         else{
-            crouch = true;
+            //crouch = true; set animation
+
         }
        
         if (up == false && getInput(downCode, "Down") && onGround) {
@@ -688,6 +740,9 @@ public class PlayerController : MonoBehaviour
 
         if (jump == true && onGround == true){
             jumpFunctionBuffer();
+            doubleTapLeft = false;
+            doubleTapRight = false;
+            sprint = false;
             isJumpBuffering = true;
         }
 
@@ -708,10 +763,14 @@ public class PlayerController : MonoBehaviour
             refreshMoveCooldown();
         }
 
+        if (isDashing == true){
+            canDash = false;
+        }
+        
+
         //Attack
 
         
-
 
 
 
@@ -756,7 +815,7 @@ public class PlayerController : MonoBehaviour
             Invoke("stopDash", backDashTime);
         }
         else if (isDashing == true && airForwardDash == true){
-            Invoke("airDashStart", airDashDelayTime);
+            Invoke("airDashStart", airDashDelayTime * 5f);
         }
         else if (isDashing == true && airBackDash == true){
             Invoke("airDashStart", airDashDelayTime);
@@ -910,21 +969,28 @@ public class PlayerController : MonoBehaviour
     }
     public void jumpFunction(){
         airDirection = xDirection;
-        characterRB.velocity = new Vector2(characterRB.velocity.x, initialSpeedY);
+        if (sprint == false){
+            characterRB.velocity = new Vector2(characterRB.velocity.x, initialSpeedY);
+        }
+        else {
+            characterRB.velocity = new Vector2(characterRB.velocity.x * sprintMultiplier, initialSpeedY);
+        }
         isJumpBuffering = false;
     }
     public void dashFunction(){
         canDash = false;
         isDashing = true;
         if (xDirection == -1 && onGround == true && enemyPositionOnLeft == true){
-            canDash = true;
-            isDashing = false;
-
+            //forward ground
+            dashDirection = -1;
+            groundDashDelay = true;
+            Invoke("groundDashStart", groundDashDelayTime);
         }
         else if (xDirection == 1 && onGround == true && enemyPositionOnLeft == false){
-            canDash = true;
-            isDashing = false;
-
+            //forward ground
+            dashDirection = 1;
+            groundDashDelay = true;
+            Invoke("groundDashStart", groundDashDelayTime);
         }
         else if (xDirection == 1 && onGround == true && enemyPositionOnLeft == true){
             //backward ground
@@ -937,17 +1003,18 @@ public class PlayerController : MonoBehaviour
             dashDirection = -1;
             groundDashDelay = true;
             Invoke("groundDashStart", groundDashDelayTime);
-            
-
         }
         else if (xDirection == -1 && onGround == false && enemyPositionOnLeft == true){
-            canDash = true;
-            isDashing = false;
-
+            //forward air
+            dashDirection = -1;
+            airDirection = -1;
+            airForwardDash = true;
         }
         else if (xDirection == 1 && onGround == false && enemyPositionOnLeft == false){
-            canDash = true;
-            isDashing = false;
+            //forward air
+            dashDirection = 1;
+            airDirection = 1;
+            airForwardDash = true;
 
         }
         else if (xDirection == 1 && onGround == false && enemyPositionOnLeft == true){
@@ -973,10 +1040,21 @@ public class PlayerController : MonoBehaviour
         if (groundBackDash == true){
             groundBackDash = false;
             isDashing = false;
+            characterRB.velocity = new Vector2(xDirection * xVelocity, characterRB.velocity.y);
             Invoke("refreshMoveCooldown", dashRefreshTime);
             Invoke("refreshDashCooldown", dashRefreshTime);
         }
         else if (airBackDash == true){
+            airBackDash = false;
+            isDashing = false;
+            isAirDashing = false;
+            characterRB.velocity = new Vector2(dashDirection * xVelocity, characterRB.velocity.y);
+            hasAirDashed = true;
+        }
+        else if (groundForwardDash == true){
+
+        }
+        else if (airForwardDash == true){
             airBackDash = false;
             isDashing = false;
             isAirDashing = false;
@@ -1028,10 +1106,16 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("block_air_recover", false);
         isBlockRecovering = false;
     }
-    public void doubleTapCancel()
+    public void doubleTapCancelLeft()
     {
-        doubleTapBuffer = false;
-        doubleTap = false;
+        doubleTapBufferLeft = false;
+        doubleTapLeft = false;
+        dash = false;
+    }
+    public void doubleTapCancelRight()
+    {
+        doubleTapBufferRight = false;
+        doubleTapRight = false;
         dash = false;
     }
 }
