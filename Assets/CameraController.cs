@@ -15,6 +15,8 @@ public class CameraController : MonoBehaviour
     bool playersLoaded;
 
     List<GameObject> playerObjects;
+    GameObject leftBorder;
+    GameObject rightBorder;
 
     public Vector2 bounds;
 
@@ -104,6 +106,9 @@ public class CameraController : MonoBehaviour
         Debug.Log(game.map);
 
         bounds = new Vector2(0,0);
+        // set left and right border to the children of this object with the names lefborder and rightborder
+        leftBorder = gameObject.transform.Find("leftBorder").gameObject;
+        rightBorder = gameObject.transform.Find("rightBorder").gameObject;
     }
 
     // Update is called once per frame
@@ -146,13 +151,27 @@ public class CameraController : MonoBehaviour
             float distance = Mathf.Clamp(Math.Abs(bounds.y-bounds.x), minDistance, maxDistance);
             //Debug.Log(distance);
 
-            float newOrthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, distance-guider, Time.deltaTime * zoomSpeed);
-            //Debug.Log(newOrthographicSize);
-            GetComponent<Camera>().orthographicSize = newOrthographicSize;
+            bool aPlayerJumping = false;
+            foreach (GameObject playerObject in playerObjects) {
+                if (playerObject.GetComponent<PlayerController>().onGround == false) {
+                    aPlayerJumping = true;
+                }
+            }
+            if (aPlayerJumping) {
+                float newOrthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, distance-guider, Time.deltaTime * zoomSpeed);
+                //Debug.Log(distance);
+                GetComponent<Camera>().orthographicSize = newOrthographicSize;
+            } else {
+                float newOrthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize, minDistance-guider, Time.deltaTime * zoomSpeed);
+                //Debug.Log(minDistance);
+                GetComponent<Camera>().orthographicSize = newOrthographicSize;
+            }
             
             gameObject.transform.position = new Vector3(
                 Mathf.Clamp((bounds.x + bounds.y)/2,leftLimit,rightLimit), bottomLimit + GetComponent<Camera>().orthographicSize, gameObject.transform.position.z);
-
+            // set the leftborder and rightborder to the current bounds of the camera
+            leftBorder.transform.position = new Vector3(bounds.x, leftBorder.transform.position.y, leftBorder.transform.position.z);
+            rightBorder.transform.position = new Vector3(bounds.y, gameObject.transform.position.y, rightBorder.transform.position.z);
             /*gameObject.transform.position = Vector3(Mathf.Clamp(gameObject.transform.position.x,leftLimit, rightLimit), 
             (Mathf.Clamp(gameObject.transform.position.y,topLimit, bottomLimit), transform.position.z));*/
         }
