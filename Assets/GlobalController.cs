@@ -49,7 +49,7 @@ public class GlobalController : MonoBehaviour
         Andre.sprintMultiplier = 2.7f;
         Andre.maxHeight = 80f;
         Andre.yAccel = 18f;
-        Andre.dragAccel = 0.5f;
+        
         Andre.lightAttackUpValue = 5;
         Andre.lightAttackDownValue = 5;
         Andre.lightAttackForwardValue = 5;
@@ -165,7 +165,7 @@ public class GlobalController : MonoBehaviour
         FLLFFL.walkSpeed = 7.5f;
         FLLFFL.sprintMultiplier = 3f;
         FLLFFL.yAccel = 12f;
-        FLLFFL.dragAccel = 0.3f;
+        
         FLLFFL.maxHeight = 100f;
         FLLFFL.lightAttackUpValue = 5;
         FLLFFL.lightAttackDownValue = 5;
