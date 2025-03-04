@@ -162,7 +162,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f9ebeffc16873c74abe07255e8e392ad, type: 3}
-  m_Color: {r: 1, g: 0.51778734, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -287,6 +287,12 @@ MonoBehaviour:
   specialCode: 
   jumpFunctionBufferTime: 0
   isJumpBuffering: 0
+  doubleTapBufferLeft: 0
+  doubleTapLeft: 0
+  doubleTapBufferRight: 0
+  doubleTapRight: 0
+  dragAccel: 0
+  isSliding: 0
 --- !u!222 &8777591098013121357
 CanvasRenderer:
   m_ObjectHideFlags: 0

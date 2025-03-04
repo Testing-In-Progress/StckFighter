@@ -1040,7 +1040,6 @@ public class PlayerController : MonoBehaviour
         if (groundBackDash == true){
             groundBackDash = false;
             isDashing = false;
-            characterRB.velocity = new Vector2(xDirection * xVelocity, characterRB.velocity.y);
             Invoke("refreshMoveCooldown", dashRefreshTime);
             Invoke("refreshDashCooldown", dashRefreshTime);
         }
