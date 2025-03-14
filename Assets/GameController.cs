@@ -49,7 +49,7 @@ public class GameController : MonoBehaviour
         Debug.Log(mapWidth);
         float startingPoint = map.transform.position.x - (mapWidth/2);
         Debug.Log(startingPoint);
-        float segmentSize = mapWidth/count;
+        float segmentSize = mapWidth/count/2;
 
         Debug.Log(segmentSize);
         float finalPos = startingPoint + segmentSize*index + segmentSize/2;

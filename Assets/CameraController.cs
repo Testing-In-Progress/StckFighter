@@ -170,8 +170,8 @@ public class CameraController : MonoBehaviour
             gameObject.transform.position = new Vector3(
                 Mathf.Clamp((bounds.x + bounds.y)/2,leftLimit,rightLimit), bottomLimit + GetComponent<Camera>().orthographicSize, gameObject.transform.position.z);
             // set the leftborder and rightborder to the current bounds of the camera
-            leftBorder.transform.position = new Vector3(bounds.x, leftBorder.transform.position.y, leftBorder.transform.position.z);
-            rightBorder.transform.position = new Vector3(bounds.y, gameObject.transform.position.y, rightBorder.transform.position.z);
+            //leftBorder.transform.position = new Vector3(bounds.x, leftBorder.transform.position.y, leftBorder.transform.position.z);
+            //rightBorder.transform.position = new Vector3(bounds.y, gameObject.transform.position.y, rightBorder.transform.position.z);
             /*gameObject.transform.position = Vector3(Mathf.Clamp(gameObject.transform.position.x,leftLimit, rightLimit), 
             (Mathf.Clamp(gameObject.transform.position.y,topLimit, bottomLimit), transform.position.z));*/
         }
