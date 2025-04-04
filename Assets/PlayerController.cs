@@ -401,7 +401,7 @@ public class PlayerController : MonoBehaviour
         }
         
         
-        yVelocity = characterRB.velocity.y;
+        yVelocity = characterRB.linearVelocity.y;
         initialSpeedY = Mathf.Sqrt(2f * yAccel * maxHeight);
         backDashTime = backDashDistance / backDashInitialSpeed;
         forwardDashTime = forwardDashDistance / forwardDashInitialSpeed;
@@ -523,7 +523,7 @@ public class PlayerController : MonoBehaviour
         
         if (getInput(lightCode, "Down") && (attacking == false) && (isLockedIn == false)) { // be sure to clear
             if (onGround) {
-                characterRB.velocity = new Vector2(0, 0);
+                characterRB.linearVelocity = new Vector2(0, 0);
             }
             string animSuffix = onGround ? "" : "_air";
             if (up && onGround) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
@@ -611,7 +611,7 @@ public class PlayerController : MonoBehaviour
 
         if (getInput(heavyCode, "Down") && (attacking == false) && (isLockedIn == false)) { // be sure to clear
             if (onGround) {
-                characterRB.velocity = new Vector2(0, 0);
+                characterRB.linearVelocity = new Vector2(0, 0);
             }
             string animSuffix = onGround ? "" : "_air";
             if (up && onGround) { // it doesnt work for gree chara because we havent defiend lUp for falfafl, only andre in globalcotnrller(Works no)
@@ -787,31 +787,31 @@ public class PlayerController : MonoBehaviour
         } else if (onGround && attacking) {
             canMove = false;
         } else if (onGround == false && block) {
-            characterRB.velocity = new Vector2(airDirection * walkSpeed, characterRB.velocity.y); 
+            characterRB.linearVelocity = new Vector2(airDirection * walkSpeed, characterRB.linearVelocity.y); 
             characterRB.gravityScale = yAccel;
         } else if (onGround == false && attacking) {
-            characterRB.velocity = new Vector2(airDirection * walkSpeed, characterRB.velocity.y); 
+            characterRB.linearVelocity = new Vector2(airDirection * walkSpeed, characterRB.linearVelocity.y); 
             characterRB.gravityScale = yAccel;
         } else if (isDashing == false && canMove == true){
             characterRB.gravityScale = yAccel;
-            characterRB.velocity = new Vector2(xDirection * xVelocity, characterRB.velocity.y);
+            characterRB.linearVelocity = new Vector2(xDirection * xVelocity, characterRB.linearVelocity.y);
         }
         else if (isDashing == false && canMove == false){
             characterRB.gravityScale = yAccel;
-            characterRB.velocity = new Vector2(airDirection * walkSpeed, characterRB.velocity.y); 
+            characterRB.linearVelocity = new Vector2(airDirection * walkSpeed, characterRB.linearVelocity.y); 
         }
         else {
-            characterRB.velocity = new Vector2(0, 0);
+            characterRB.linearVelocity = new Vector2(0, 0);
             characterRB.gravityScale = 0f;
         }
 
         if (isDashing == true && groundForwardDash == true){
-            characterRB.velocity = new Vector2(dashDirection * forwardDashInitialSpeed, 0);
+            characterRB.linearVelocity = new Vector2(dashDirection * forwardDashInitialSpeed, 0);
             Invoke("stopDash", forwardDashTime);
 
         }
         else if (isDashing == true && groundBackDash == true){
-            characterRB.velocity = new Vector2(dashDirection * backDashInitialSpeed, 0);
+            characterRB.linearVelocity = new Vector2(dashDirection * backDashInitialSpeed, 0);
             Invoke("stopDash", backDashTime);
         }
         else if (isDashing == true && airForwardDash == true){
@@ -822,11 +822,11 @@ public class PlayerController : MonoBehaviour
         }
 
         if (isAirDashing == true && airForwardDash == true){
-            characterRB.velocity = new Vector2(dashDirection * forwardDashInitialSpeed, 0);
+            characterRB.linearVelocity = new Vector2(dashDirection * forwardDashInitialSpeed, 0);
             Invoke("stopDash", forwardDashTime);
         }
         else if (isAirDashing == true && airBackDash == true){
-            characterRB.velocity = new Vector2(dashDirection * backDashInitialSpeed, 0);
+            characterRB.linearVelocity = new Vector2(dashDirection * backDashInitialSpeed, 0);
             Invoke("stopDash", backDashTime);
         }
 
@@ -884,7 +884,7 @@ public class PlayerController : MonoBehaviour
                         // Apply force
                         knocked = true;
                         Invoke("refreshKnockCooldown", blockTime);
-                        characterRB.velocity = new Vector2(knockAmountX, 0);
+                        characterRB.linearVelocity = new Vector2(knockAmountX, 0);
                     }
                 } else {
                     /// otherwise, you will be hit normally
@@ -911,7 +911,7 @@ public class PlayerController : MonoBehaviour
                         // Apply force
                         knocked = true;
                         Invoke("refreshKnockCooldown", knockTime);
-                        characterRB.velocity = new Vector2(knockAmountX, knockAmountY);
+                        characterRB.linearVelocity = new Vector2(knockAmountX, knockAmountY);
                     }
                 }
             }
@@ -970,10 +970,10 @@ public class PlayerController : MonoBehaviour
     public void jumpFunction(){
         airDirection = xDirection;
         if (sprint == false){
-            characterRB.velocity = new Vector2(characterRB.velocity.x, initialSpeedY);
+            characterRB.linearVelocity = new Vector2(characterRB.linearVelocity.x, initialSpeedY);
         }
         else {
-            characterRB.velocity = new Vector2(characterRB.velocity.x * sprintMultiplier, initialSpeedY);
+            characterRB.linearVelocity = new Vector2(characterRB.linearVelocity.x * sprintMultiplier, initialSpeedY);
         }
         isJumpBuffering = false;
     }
@@ -1047,7 +1047,7 @@ public class PlayerController : MonoBehaviour
             airBackDash = false;
             isDashing = false;
             isAirDashing = false;
-            characterRB.velocity = new Vector2(dashDirection * xVelocity, characterRB.velocity.y);
+            characterRB.linearVelocity = new Vector2(dashDirection * xVelocity, characterRB.linearVelocity.y);
             hasAirDashed = true;
         }
         else if (groundForwardDash == true){
@@ -1057,7 +1057,7 @@ public class PlayerController : MonoBehaviour
             airBackDash = false;
             isDashing = false;
             isAirDashing = false;
-            characterRB.velocity = new Vector2(dashDirection * xVelocity, characterRB.velocity.y);
+            characterRB.linearVelocity = new Vector2(dashDirection * xVelocity, characterRB.linearVelocity.y);
             hasAirDashed = true;
         }
     }
